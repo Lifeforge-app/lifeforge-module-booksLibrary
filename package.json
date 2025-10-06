@@ -1,0 +1,14 @@
+{
+  "name": "books-library",
+  "version": "dev. 25w41",
+  "description": "Your personal library, no overdue fees.",
+  "scripts": {
+    "types": "cd client && bun tsc && cd ../server && bun tsc"
+  },
+  "dependencies": {
+    "epub-wordcount": "^2.1.3",
+    "epub2": "^3.0.2",
+    "nodemailer": "^7.0.7"
+  },
+  "devDependencies": {}
+}
