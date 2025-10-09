@@ -14,7 +14,6 @@ const list = forgeController
       .sort(['name'])
       .execute()
   )
-  .enableAIToolCall()
 
 const create = forgeController
   .mutation()

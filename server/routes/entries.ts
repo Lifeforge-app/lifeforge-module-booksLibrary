@@ -165,7 +165,6 @@ const list = forgeController
       }
     }
   )
-  .enableAIToolCall()
 
 const getEpubThumbnail = (epubInstance: EPub): Promise<File | undefined> => {
   return new Promise((resolve, reject) => {
