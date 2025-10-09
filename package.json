@@ -12,5 +12,7 @@
     "nodemailer": "^7.0.9",
     "pdf-page-counter": "^1.0.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/nodemailer": "^7.0.2"
+  }
 }
