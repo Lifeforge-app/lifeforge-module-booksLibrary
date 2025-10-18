@@ -1,8 +1,8 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { useQueryClient } from '@tanstack/react-query'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { Outlet } from 'react-router'
 import { toast } from 'react-toastify'
+import { Outlet } from 'shared'
 import { type SocketEvent, useSocketContext as useSocket } from 'shared'
 import type { InferOutput } from 'shared'
 

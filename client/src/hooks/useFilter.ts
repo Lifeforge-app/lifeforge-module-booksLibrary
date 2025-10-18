@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   parseAsBoolean,
   parseAsInteger,
@@ -5,8 +6,7 @@ import {
   parseAsStringEnum,
   useQueryState,
   useQueryStates
-} from 'nuqs'
-import { useEffect, useState } from 'react'
+} from 'shared'
 
 export default function useFilter() {
   const [searchQuery, setSearchQuery] = useQueryState(
