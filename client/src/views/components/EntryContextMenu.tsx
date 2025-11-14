@@ -163,7 +163,7 @@ export default function EntryContextMenu({
       />
       <ContextMenuItem
         disabled={downloadLoading}
-        icon={downloadLoading ? 'svg-spinners:180-ring' : 'tabler:download'}
+        icon={downloadLoading ? 'svg-spinners:ring-resize' : 'tabler:download'}
         label="Download"
         onClick={handleDownload}
       />

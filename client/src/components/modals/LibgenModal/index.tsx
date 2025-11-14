@@ -164,7 +164,7 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                       return (
                         <Icon
                           className="text-bg-500 size-5"
-                          icon="svg-spinners:180-ring"
+                          icon="svg-spinners:ring-resize"
                         />
                       )
                     }
@@ -180,7 +180,7 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                       />
                     )
                   })()}
-                  <span className="font-medium whitespace-nowrap">
+                  <span className="whitespace-nowrap font-medium">
                     {PROVIDERS.find(value => value === provider) ?? 'Unknown'}
                   </span>
                 </div>
@@ -205,7 +205,7 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                   })()}
                   icon={
                     providerOnlineStatuses[value] === 'loading'
-                      ? 'svg-spinners:180-ring'
+                      ? 'svg-spinners:ring-resize'
                       : undefined
                   }
                   label={value}

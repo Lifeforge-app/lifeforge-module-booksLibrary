@@ -35,7 +35,7 @@ function AddToLibraryButton({
 
   const icon = useMemo(() => {
     if (targetProcess) {
-      return 'svg-spinners:180-ring'
+      return 'svg-spinners:ring-resize'
     }
 
     if (false) {
