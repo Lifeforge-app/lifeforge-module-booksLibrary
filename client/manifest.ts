@@ -6,7 +6,7 @@ export default {
   icon: 'tabler:books',
   provider: lazy(() => import('@/providers/BooksLibraryProvider')),
   routes: {
-    '': lazy(() => import('@'))
+    '/': lazy(() => import('@'))
   },
   category: 'Storage'
 } satisfies ModuleConfig
