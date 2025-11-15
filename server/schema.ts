@@ -525,7 +525,7 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_wEbd',
+          id: '_clone_EMHV',
           max: 0,
           min: 0,
           name: 'name',
@@ -588,7 +588,7 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_JVKg',
+          id: '_clone_MMhf',
           max: 0,
           min: 0,
           name: 'name',
@@ -602,7 +602,7 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_6jmz',
+          id: '_clone_LlbK',
           max: 0,
           min: 0,
           name: 'icon',
@@ -665,7 +665,7 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_7dgT',
+          id: '_clone_8hII',
           max: 0,
           min: 0,
           name: 'name',
@@ -679,7 +679,7 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_37s0',
+          id: '_clone_ttNn',
           max: 0,
           min: 0,
           name: 'icon',
