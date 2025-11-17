@@ -4,7 +4,12 @@ import z from 'zod'
 
 const list = forgeController
   .query()
-  .description('Get all languages for the books library')
+  .description({
+    en: 'Get all book languages',
+    ms: 'Dapatkan semua bahasa buku',
+    'zh-CN': '获取所有书籍语言',
+    'zh-TW': '獲取所有書籍語言'
+  })
   .input({})
   .callback(({ pb }) =>
     pb.getFullList.collection('books_library__languages_aggregated').execute()
@@ -12,7 +17,12 @@ const list = forgeController
 
 const create = forgeController
   .mutation()
-  .description('Create a new language for the books library')
+  .description({
+    en: 'Create a new book language',
+    ms: 'Cipta bahasa buku baharu',
+    'zh-CN': '创建新的书籍语言',
+    'zh-TW': '創建新的書籍語言'
+  })
   .input({
     body: SCHEMAS.books_library.languages.schema
   })
@@ -23,7 +33,12 @@ const create = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update an existing language for the books library')
+  .description({
+    en: 'Update an existing book language',
+    ms: 'Kemas kini bahasa buku sedia ada',
+    'zh-CN': '更新现有的书籍语言',
+    'zh-TW': '更新現有的書籍語言'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -39,7 +54,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete an existing language for the books library')
+  .description({
+    en: 'Delete a book language',
+    ms: 'Padam bahasa buku',
+    'zh-CN': '删除书籍语言',
+    'zh-TW': '刪除書籍語言'
+  })
   .input({
     query: z.object({
       id: z.string()

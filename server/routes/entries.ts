@@ -17,20 +17,14 @@ import z from 'zod'
 
 const list = forgeController
   .query()
-  .description(
-    `Get all entries in the books library. 
-    
-    If the user asks to get a book from a specific collection, do not call this tool directly with the name of the collection, call the tool to retrieve the collection ID first, then pass the collection ID to the query.
-
-    If the user ask about read status, the mapping is: {
-      '1': 'read',
-      '2': 'reading',
-      '3': 'unread'
-    }
-
-    If the user ask about book name, straight up use the query field in the query input.
-    `
-  )
+  .description({
+    en: 'Get all book entries. If the user asks for books from a specific collection, retrieve the collection ID first. Read status mapping: 1=read, 2=reading, 3=unread. Use query field for book name searches.',
+    ms: 'Dapatkan semua entri buku. Jika pengguna meminta buku dari koleksi tertentu, dapatkan ID koleksi terlebih dahulu. Pemetaan status bacaan: 1=dibaca, 2=sedang dibaca, 3=belum dibaca. Gunakan medan pertanyaan untuk carian nama buku.',
+    'zh-CN':
+      '获取所有书籍条目。如果用户要求从特定集合获取书籍，请先检索集合ID。阅读状态映射：1=已读，2=阅读中，3=未读。使用查询字段进行书名搜索。',
+    'zh-TW':
+      '獲取所有書籍條目。如果使用者要求從特定集合獲取書籍，請先檢索集合ID。閱讀狀態映射：1=已讀，2=閱讀中，3=未讀。使用查詢欄位進行書名搜尋。'
+  })
   .input({
     query: z.object({
       page: z
@@ -195,7 +189,12 @@ const getEpubThumbnail = (epubInstance: EPub): Promise<File | undefined> => {
 
 const upload = forgeController
   .mutation()
-  .description('Upload a new entry to the books library')
+  .description({
+    en: 'Upload a new book to the library',
+    ms: 'Muat naik buku baharu ke perpustakaan',
+    'zh-CN': '上传新书到图书馆',
+    'zh-TW': '上傳新書到圖書館'
+  })
   .input({
     body: SCHEMAS.books_library.entries.schema
       .pick({
@@ -277,7 +276,12 @@ const update = forgeController
         collection: z.string().optional()
       })
   })
-  .description('Update an existing entry in the books library')
+  .description({
+    en: 'Update an existing book entry',
+    ms: 'Kemas kini entri buku sedia ada',
+    'zh-CN': '更新现有的书籍条目',
+    'zh-TW': '更新現有的書籍條目'
+  })
   .existenceCheck('query', {
     id: 'books_library__entries'
   })
@@ -291,7 +295,12 @@ const update = forgeController
 
 const toggleFavouriteStatus = forgeController
   .mutation()
-  .description('Toggle the favourite status of an entry in the books library')
+  .description({
+    en: 'Toggle book favorite status',
+    ms: 'Togol status kegemaran buku',
+    'zh-CN': '切换书籍收藏状态',
+    'zh-TW': '切換書籍收藏狀態'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -317,7 +326,12 @@ const toggleFavouriteStatus = forgeController
 
 const toggleReadStatus = forgeController
   .mutation()
-  .description('Toggle the read status of an entry in the books library')
+  .description({
+    en: 'Toggle book read status',
+    ms: 'Togol status bacaan buku',
+    'zh-CN': '切换书籍阅读状态',
+    'zh-TW': '切換書籍閱讀狀態'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -357,7 +371,12 @@ const toggleReadStatus = forgeController
 
 const sendToKindle = forgeController
   .mutation()
-  .description('Send an entry to a Kindle email address')
+  .description({
+    en: 'Send book to Kindle email',
+    ms: 'Hantar buku ke e-mel Kindle',
+    'zh-CN': '发送书籍到Kindle邮箱',
+    'zh-TW': '發送書籍到Kindle郵箱'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -451,7 +470,12 @@ const sendToKindle = forgeController
 
 const getEpubMetadata = forgeController
   .mutation()
-  .description('Get metadata for an EPUB file')
+  .description({
+    en: 'Get EPUB file metadata',
+    ms: 'Dapatkan metadata fail EPUB',
+    'zh-CN': '获取EPUB文件元数据',
+    'zh-TW': '獲取EPUB檔案元數據'
+  })
   .input({})
   .media({
     document: {
@@ -485,7 +509,12 @@ const getEpubMetadata = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete an existing entry in the books library')
+  .description({
+    en: 'Delete a book entry',
+    ms: 'Padam entri buku',
+    'zh-CN': '删除书籍条目',
+    'zh-TW': '刪除書籍條目'
+  })
   .input({
     query: z.object({
       id: z.string()

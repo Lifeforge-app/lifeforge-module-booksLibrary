@@ -2,7 +2,12 @@ import { forgeController, forgeRouter } from '@functions/routes'
 
 const list = forgeController
   .query()
-  .description('Get all file types for the books library')
+  .description({
+    en: 'Get all book file types',
+    ms: 'Dapatkan semua jenis fail buku',
+    'zh-CN': '获取所有书籍文件类型',
+    'zh-TW': '獲取所有書籍檔案類型'
+  })
   .input({})
   .callback(({ pb }) =>
     pb.getFullList

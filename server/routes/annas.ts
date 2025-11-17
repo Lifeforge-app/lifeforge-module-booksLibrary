@@ -19,7 +19,12 @@ interface BookResult {
 
 export const search = forgeController
   .query()
-  .description("Search for books in Anna's Archive")
+  .description({
+    en: "Search books in Anna's Archive",
+    ms: "Cari buku dalam Anna's Archive",
+    'zh-CN': "在Anna's Archive中搜索书籍",
+    'zh-TW': "在Anna's Archive中搜尋書籍"
+  })
   .noAuth()
   .input({
     query: z.object({

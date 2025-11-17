@@ -22,7 +22,12 @@ interface IBooksLibraryLibgenSearchResult {
 
 const getStatus = forgeController
   .query()
-  .description('Get libgen service status')
+  .description({
+    en: 'Get Libgen service status',
+    ms: 'Dapatkan status perkhidmatan Libgen',
+    'zh-CN': '获取Libgen服务状态',
+    'zh-TW': '獲取Libgen服務狀態'
+  })
   .input({})
   .callback(async () => {
     const status = await fetch('https://libgen.is/', {
@@ -43,7 +48,12 @@ const getStatus = forgeController
 
 const searchBooks = forgeController
   .query()
-  .description('Search books in libgen')
+  .description({
+    en: 'Search books in Libgen',
+    ms: 'Cari buku dalam Libgen',
+    'zh-CN': '在Libgen中搜索书籍',
+    'zh-TW': '在Libgen中搜尋書籍'
+  })
   .input({
     query: z.object({
       provider: z.string(),
@@ -97,7 +107,12 @@ const searchBooks = forgeController
 
 const getBookDetails = forgeController
   .query()
-  .description('Get book details from libgen')
+  .description({
+    en: 'Get book details from Libgen',
+    ms: 'Dapatkan butiran buku dari Libgen',
+    'zh-CN': '从Libgen获取书籍详情',
+    'zh-TW': '從Libgen獲取書籍詳情'
+  })
   .input({
     query: z.object({
       md5: z.string()
@@ -129,7 +144,12 @@ const getBookDetails = forgeController
 
 const getLocalLibraryData = forgeController
   .query()
-  .description('Get local library data for a book')
+  .description({
+    en: 'Get local library data for a book',
+    ms: 'Dapatkan data perpustakaan tempatan untuk buku',
+    'zh-CN': '获取书籍的本地图书馆数据',
+    'zh-TW': '獲取書籍的本地圖書館資料'
+  })
   .input({
     query: z.object({
       provider: z.string(),
@@ -162,7 +182,12 @@ const getLocalLibraryData = forgeController
 
 const addToLibrary = forgeController
   .mutation()
-  .description('Add a book to the library from libgen')
+  .description({
+    en: 'Add a book from Libgen to library',
+    ms: 'Tambahkan buku dari Libgen ke perpustakaan',
+    'zh-CN': '从Libgen添加书籍到图书馆',
+    'zh-TW': '從Libgen新增書籍到圖書館'
+  })
   .input({
     query: z.object({
       md5: z.string()

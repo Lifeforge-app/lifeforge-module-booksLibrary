@@ -4,9 +4,14 @@ import z from 'zod'
 
 const list = forgeController
   .query()
-  .description(
-    'Get all collections for the books library. If the user ask to list a book in specific collection, call this tool first to get the collection ID.'
-  )
+  .description({
+    en: 'Get all book collections. If the user asks to list books in a specific collection, call this tool first to get the collection ID.',
+    ms: 'Dapatkan semua koleksi buku. Jika pengguna meminta untuk menyenaraikan buku dalam koleksi tertentu, panggil alat ini terlebih dahulu untuk mendapatkan ID koleksi.',
+    'zh-CN':
+      '获取所有书籍集合。如果用户要求列出特定集合中的书籍，请先调用此工具获取集合ID。',
+    'zh-TW':
+      '獲取所有書籍集合。如果使用者要求列出特定集合中的書籍，請先呼叫此工具獲取集合ID。'
+  })
   .input({})
   .callback(({ pb }) =>
     pb.getFullList
@@ -17,7 +22,12 @@ const list = forgeController
 
 const create = forgeController
   .mutation()
-  .description('Create a new collection for the books library')
+  .description({
+    en: 'Create a new book collection',
+    ms: 'Cipta koleksi buku baharu',
+    'zh-CN': '创建新的书籍集合',
+    'zh-TW': '創建新的書籍集合'
+  })
   .input({
     body: SCHEMAS.books_library.collections.schema
   })
@@ -28,7 +38,12 @@ const create = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update an existing collection for the books library')
+  .description({
+    en: 'Update an existing book collection',
+    ms: 'Kemas kini koleksi buku sedia ada',
+    'zh-CN': '更新现有的书籍集合',
+    'zh-TW': '更新現有的書籍集合'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -48,7 +63,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete an existing collection for the books library')
+  .description({
+    en: 'Delete a book collection',
+    ms: 'Padam koleksi buku',
+    'zh-CN': '删除书籍集合',
+    'zh-TW': '刪除書籍集合'
+  })
   .input({
     query: z.object({
       id: z.string()
