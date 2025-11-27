@@ -20,6 +20,8 @@
     "nodemailer": "^7.0.9",
     "pdf-page-counter": "^1.0.3",
     "pretty-bytes": "^7.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-i18next": "^15.1.1",
     "react-toastify": "^11.0.5",
     "shared": "workspace:*",
@@ -29,6 +31,8 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@types/nodemailer": "^7.0.2"
+    "@types/nodemailer": "^7.0.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3"
   }
 }

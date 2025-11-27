@@ -71,9 +71,12 @@ function Header({ itemCount }: { itemCount: number }) {
           }
         }}
         setValues={{
-          collection: value => updateFilter('collection', value || null),
-          fileType: value => updateFilter('fileType', value || null),
-          language: value => updateFilter('language', value || null)
+          collection: value =>
+            updateFilter('collection', (value || null) as string | null),
+          fileType: value =>
+            updateFilter('fileType', (value || null) as string | null),
+          language: value =>
+            updateFilter('language', (value || null) as string | null)
         }}
         values={{
           collection: collection ?? '',
