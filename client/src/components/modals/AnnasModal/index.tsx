@@ -181,7 +181,11 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
                   className="mb-4"
                   currentPage={currentPage}
                   totalPages={data.totalPages || 1}
-                  onPageChange={handlePageChange}
+                  onPageChange={page =>
+                    handlePageChange(
+                      typeof page === 'number' ? page : page(currentPage)
+                    )
+                  }
                 />
                 <ul className="space-y-3">
                   {data.results.map(book => (
@@ -192,7 +196,11 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
                   className="mt-4"
                   currentPage={currentPage}
                   totalPages={data.totalPages || 1}
-                  onPageChange={handlePageChange}
+                  onPageChange={page =>
+                    handlePageChange(
+                      typeof page === 'number' ? page : page(currentPage)
+                    )
+                  }
                 />
               </>
             )

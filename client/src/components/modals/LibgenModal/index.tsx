@@ -180,7 +180,7 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                       />
                     )
                   })()}
-                  <span className="whitespace-nowrap font-medium">
+                  <span className="font-medium whitespace-nowrap">
                     {PROVIDERS.find(value => value === provider) ?? 'Unknown'}
                   </span>
                 </div>
@@ -296,7 +296,9 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                       currentPage={data.page}
                       totalPages={totalPages}
                       onPageChange={page => {
-                        triggerFetch(page).catch(console.error)
+                        triggerFetch(
+                          typeof page === 'number' ? page : page(data.page)
+                        ).catch(console.error)
                       }}
                     />
                     <ul className="space-y-3">
@@ -314,7 +316,9 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                       currentPage={data.page}
                       totalPages={totalPages}
                       onPageChange={page => {
-                        triggerFetch(page).catch(console.error)
+                        triggerFetch(
+                          typeof page === 'number' ? page : page(data.page)
+                        ).catch(console.error)
                       }}
                     />
                   </>
