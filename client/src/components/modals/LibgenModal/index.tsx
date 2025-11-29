@@ -186,10 +186,10 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                 </div>
               }
               className="relative w-full sm:w-auto"
-              setValue={value => {
+              value={provider}
+              onChange={value => {
                 setProvider(value)
               }}
-              value={provider}
             >
               {PROVIDERS.map(value => (
                 <ListboxOption
@@ -228,8 +228,8 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
               className="component-bg-lighter-with-hover"
               namespace="apps.booksLibrary"
               searchTarget="Libgen Book"
-              setValue={setSearchQuery}
               value={searchQuery}
+              onChange={setSearchQuery}
               onKeyUp={e => {
                 if (e.key === 'Enter') {
                   triggerFetch()
@@ -261,8 +261,10 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                 return (
                   <EmptyStateScreen
                     icon="tabler:cloud-off"
-                    name="libgenOffline"
-                    namespace="apps.booksLibrary"
+                    message={{
+                      id: 'libgenOffline',
+                      namespace: 'apps.booksLibrary'
+                    }}
                   />
                 )
               }
@@ -272,8 +274,10 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                   return (
                     <EmptyStateScreen
                       icon="tabler:books-off"
-                      name="libgenResult"
-                      namespace="apps.booksLibrary"
+                      message={{
+                        id: 'libgenResult',
+                        namespace: 'apps.booksLibrary'
+                      }}
                     />
                   )
                 }
@@ -293,7 +297,7 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                     </div>
                     <Pagination
                       className="mb-4"
-                      currentPage={data.page}
+                      page={data.page}
                       totalPages={totalPages}
                       onPageChange={page => {
                         triggerFetch(
@@ -313,7 +317,7 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
                     </ul>
                     <Pagination
                       className="mt-4"
-                      currentPage={data.page}
+                      page={data.page}
                       totalPages={totalPages}
                       onPageChange={page => {
                         triggerFetch(
@@ -328,8 +332,10 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
               return (
                 <EmptyStateScreen
                   icon="tabler:book"
-                  name="libgen"
-                  namespace="apps.booksLibrary"
+                  message={{
+                    id: 'libgen',
+                    namespace: 'apps.booksLibrary'
+                  }}
                 />
               )
             })()}

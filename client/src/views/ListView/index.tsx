@@ -1,7 +1,7 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
-import { ItemWrapper, Scrollbar } from 'lifeforge-ui'
+import { Card, Scrollbar } from 'lifeforge-ui'
 
 import {
   type BooksLibraryEntry,
@@ -25,7 +25,7 @@ function ListView({ books }: { books: BooksLibraryEntry[] }) {
         {Object.entries(processes).map(
           ([key, value]) =>
             value && (
-              <ItemWrapper
+              <Card
                 key={key}
                 as="li"
                 className="flex flex-col gap-3 sm:flex-row"
@@ -73,7 +73,7 @@ function ListView({ books }: { books: BooksLibraryEntry[] }) {
                   </div>
                   <BookMeta item={value.data!} />
                 </div>
-              </ItemWrapper>
+              </Card>
             )
         )}
         {books.map(item => (

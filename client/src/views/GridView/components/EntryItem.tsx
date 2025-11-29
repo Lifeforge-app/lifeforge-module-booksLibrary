@@ -1,7 +1,7 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
-import { ContextMenu, ItemWrapper } from 'lifeforge-ui'
+import { ContextMenu, Card } from 'lifeforge-ui'
 
 import { type BooksLibraryEntry } from '../../../providers/BooksLibraryProvider'
 import BookMeta from '../../components/BookMeta'
@@ -14,7 +14,7 @@ function EntryItem({ item }: { item: BooksLibraryEntry }) {
   )
 
   return (
-    <ItemWrapper key={item.id} as="li">
+    <Card key={item.id} as="li">
       <a
         className="absolute inset-0 z-10 size-full rounded-lg"
         href={
@@ -83,7 +83,7 @@ function EntryItem({ item }: { item: BooksLibraryEntry }) {
           <BookMeta isGridView item={item} />
         </div>
       </div>
-    </ItemWrapper>
+    </Card>
   )
 }
 

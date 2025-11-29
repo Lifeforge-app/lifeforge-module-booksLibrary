@@ -1,7 +1,7 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
-import { ItemWrapper, Scrollbar } from 'lifeforge-ui'
+import { Card, Scrollbar } from 'lifeforge-ui'
 
 import {
   type BooksLibraryEntry,
@@ -25,7 +25,7 @@ function GridView({ books }: { books: BooksLibraryEntry[] }) {
         {Object.entries(processes).map(
           ([key, value]) =>
             value && (
-              <ItemWrapper key={key} as="li">
+              <Card key={key} as="li">
                 <div className="flex-center bg-bg-50/50 dark:bg-bg-900/70 absolute top-0 left-0 size-full rounded-lg p-8 text-center font-medium">
                   Downloading... {value.progress!.percentage}
                   <br />
@@ -69,7 +69,7 @@ function GridView({ books }: { books: BooksLibraryEntry[] }) {
                 <div className="mt-auto w-full min-w-0">
                   <BookMeta isGridView item={value.data!} />
                 </div>
-              </ItemWrapper>
+              </Card>
             )
         )}
         {books.map(item => (

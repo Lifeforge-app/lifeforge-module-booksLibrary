@@ -61,8 +61,8 @@ function ContentContainer({
               label="Kindle Email"
               namespace="apps.booksLibrary"
               placeholder="johndoe@kindle.com"
-              setValue={setKindleEmail}
               value={kindleEmail}
+              onChange={setKindleEmail}
               onKeyDown={handleKeyDown}
             />
             <Button
@@ -81,8 +81,10 @@ function ContentContainer({
           <div className="py-8">
             <EmptyStateScreen
               icon="tabler:send-off"
-              name="noSMTPKeys"
-              namespace="apps.booksLibrary"
+              message={{
+                id: 'noSMTPKeys',
+                namespace: 'apps.booksLibrary'
+              }}
             />
           </div>
         )

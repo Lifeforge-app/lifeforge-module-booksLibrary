@@ -139,17 +139,17 @@ function BooksLibrary() {
             <SearchInput
               namespace="apps.booksLibrary"
               searchTarget="book"
-              setValue={setSearchQuery}
               value={searchQuery}
+              onChange={setSearchQuery}
             />
             <ViewModeSelector
               className="hidden md:flex"
+              currentMode={view}
               options={[
                 { value: 'list', icon: 'uil:list-ul' },
                 { value: 'grid', icon: 'uil:apps' }
               ]}
-              setViewMode={setView}
-              viewMode={view}
+              onModeChange={setView}
             />
           </div>
           <WithQuery query={dataQuery}>
@@ -162,8 +162,10 @@ function BooksLibrary() {
                         return (
                           <EmptyStateScreen
                             icon="tabler:search-off"
-                            name="result"
-                            namespace="apps.booksLibrary"
+                            message={{
+                              id: 'result',
+                              namespace: 'apps.booksLibrary'
+                            }}
                           />
                         )
                       }
@@ -171,8 +173,10 @@ function BooksLibrary() {
                       return (
                         <EmptyStateScreen
                           icon="tabler:books-off"
-                          name="book"
-                          namespace="apps.booksLibrary"
+                          message={{
+                            id: 'book',
+                            namespace: 'apps.booksLibrary'
+                          }}
                         />
                       )
                     }
@@ -183,7 +187,7 @@ function BooksLibrary() {
                       <>
                         <Pagination
                           className="mb-6"
-                          currentPage={page}
+                          page={page}
                           totalPages={entries.totalPages}
                           onPageChange={setPage}
                         />

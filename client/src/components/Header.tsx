@@ -1,6 +1,6 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
-import { Button, HeaderFilter, useModuleSidebarState } from 'lifeforge-ui'
+import { Button, TagsFilter, useModuleSidebarState } from 'lifeforge-ui'
 
 import useFilter from '../hooks/useFilter'
 
@@ -53,8 +53,8 @@ function Header({ itemCount }: { itemCount: number }) {
           }}
         />
       </div>
-      <HeaderFilter
-        items={{
+      <TagsFilter
+        availableFilters={{
           collection: {
             data: collectionsQuery.data ?? []
           },
@@ -70,18 +70,18 @@ function Header({ itemCount }: { itemCount: number }) {
             data: languagesQuery.data ?? []
           }
         }}
-        setValues={{
+        values={{
+          collection: collection ?? '',
+          fileType: fileType ?? '',
+          language: language ?? ''
+        }}
+        onChange={{
           collection: value =>
             updateFilter('collection', (value || null) as string | null),
           fileType: value =>
             updateFilter('fileType', (value || null) as string | null),
           language: value =>
             updateFilter('language', (value || null) as string | null)
-        }}
-        values={{
-          collection: collection ?? '',
-          fileType: fileType ?? '',
-          language: language ?? ''
         }}
       />
     </div>

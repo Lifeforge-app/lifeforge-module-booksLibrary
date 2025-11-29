@@ -97,8 +97,8 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
           className="component-bg-lighter-with-hover"
           namespace="apps.booksLibrary"
           searchTarget="libgenBook"
-          setValue={setSearchQuery}
           value={searchQuery}
+          onChange={setSearchQuery}
           onKeyUp={e => {
             if (e.key === 'Enter') {
               handleSearch()
@@ -156,8 +156,10 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
               return (
                 <EmptyStateScreen
                   icon="tabler:books-off"
-                  name="annasResult"
-                  namespace="apps.booksLibrary"
+                  message={{
+                    id: 'annasResult',
+                    namespace: 'apps.booksLibrary'
+                  }}
                 />
               )
             }
@@ -179,7 +181,7 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
                 </div>
                 <Pagination
                   className="mb-4"
-                  currentPage={currentPage}
+                  page={currentPage}
                   totalPages={data.totalPages || 1}
                   onPageChange={page =>
                     handlePageChange(
@@ -194,7 +196,7 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
                 </ul>
                 <Pagination
                   className="mt-4"
-                  currentPage={currentPage}
+                  page={currentPage}
                   totalPages={data.totalPages || 1}
                   onPageChange={page =>
                     handlePageChange(
@@ -209,8 +211,10 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
           return (
             <EmptyStateScreen
               icon="tabler:archive"
-              name="annas"
-              namespace="apps.booksLibrary"
+              message={{
+                id: 'annas',
+                namespace: 'apps.booksLibrary'
+              }}
             />
           )
         })()}
