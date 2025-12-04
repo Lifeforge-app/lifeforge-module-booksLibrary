@@ -56,18 +56,28 @@ function Header({ itemCount }: { itemCount: number }) {
       <TagsFilter
         availableFilters={{
           collection: {
-            data: collectionsQuery.data ?? []
+            data:
+              collectionsQuery.data?.map(collection => ({
+                id: collection.id,
+                label: collection.name,
+                icon: 'tabler:books'
+              })) ?? []
           },
           fileType: {
             data:
               fileTypesQuery.data?.map(e => ({
                 id: e.id,
-                name: e.name,
+                label: e.name,
                 icon: 'tabler:file-text'
               })) ?? []
           },
           language: {
-            data: languagesQuery.data ?? []
+            data:
+              languagesQuery.data?.map(language => ({
+                id: language.id,
+                label: language.name,
+                icon: 'tabler:language'
+              })) ?? []
           }
         }}
         values={{
