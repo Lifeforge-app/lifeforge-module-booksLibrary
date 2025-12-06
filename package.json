@@ -16,6 +16,7 @@
     "human-number": "^2.0.6",
     "jsdom": "^27.0.0",
     "lifeforge-ui": "workspace:*",
+    "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "nodemailer": "^7.0.9",
     "pdf-page-counter": "^1.0.3",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@types/human-number": "^1.0.2",
+    "@types/lodash": "^4.17.21",
     "@types/nodemailer": "^7.0.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
