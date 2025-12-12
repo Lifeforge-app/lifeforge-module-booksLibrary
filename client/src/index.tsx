@@ -1,6 +1,5 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
-import { useDebounce } from '@uidotdev/usehooks'
 import {
   Button,
   ContextMenu,
@@ -44,8 +43,6 @@ function BooksLibrary() {
     setSearchQuery
   } = useFilter()
 
-  const debouncedSearchQuery = useDebounce(searchQuery.trim(), 300)
-
   const [view, setView] = useState<'list' | 'grid'>('list')
 
   const dataQuery = useQuery(
@@ -57,7 +54,7 @@ function BooksLibrary() {
         favourite: (favourite.toString() as 'true' | 'false') || undefined,
         fileType: fileType || undefined,
         readStatus: readStatus || undefined,
-        query: debouncedSearchQuery.trim() || undefined
+        query: searchQuery.trim() || undefined
       })
       .queryOptions()
   )
@@ -137,6 +134,7 @@ function BooksLibrary() {
           <Header itemCount={dataQuery.data?.totalItems || 0} />
           <div className="mt-4 mb-6 flex items-center gap-2">
             <SearchInput
+              debounceMs={300}
               namespace="apps.booksLibrary"
               searchTarget="book"
               value={searchQuery}
