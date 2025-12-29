@@ -7,7 +7,6 @@ const booksLibrarySchemas = {
       icon: z.string()
     }),
     raw: {
-      id: 'r05dwc1jac7ni3e',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -19,7 +18,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -33,7 +31,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'ldga1yg2',
           max: 0,
           min: 0,
           name: 'name',
@@ -47,7 +44,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'arxsnfd5',
           max: 0,
           min: 0,
           name: 'icon',
@@ -71,7 +67,6 @@ const booksLibrarySchemas = {
       icon: z.string()
     }),
     raw: {
-      id: 'a4ffvrmdg7n66l2',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -83,7 +78,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -97,7 +91,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'hbgwaemo',
           max: 0,
           min: 0,
           name: 'name',
@@ -111,7 +104,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'qhfzwyom',
           max: 0,
           min: 0,
           name: 'icon',
@@ -154,7 +146,6 @@ const booksLibrarySchemas = {
       updated: z.string()
     }),
     raw: {
-      id: 'zv8feknufn8yw0n',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -166,7 +157,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -180,7 +170,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'ukidtfoq',
           max: 0,
           min: 0,
           name: 'title',
@@ -194,7 +183,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'rptosz2n',
           max: 0,
           min: 0,
           name: 'authors',
@@ -208,7 +196,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'k5medval',
           max: 0,
           min: 0,
           name: 'md5',
@@ -221,7 +208,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'gx0sk78p',
           max: null,
           min: null,
           name: 'year_published',
@@ -234,7 +220,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '42i6wnzo',
           max: 0,
           min: 0,
           name: 'publisher',
@@ -247,9 +232,8 @@ const booksLibrarySchemas = {
         },
         {
           cascadeDelete: false,
-          collectionId: 'a4ffvrmdg7n66l2',
+          collectionId: 'books_library__languages',
           hidden: false,
-          id: 'lokysikf',
           maxSelect: 2147483647,
           minSelect: 0,
           name: 'languages',
@@ -260,9 +244,8 @@ const booksLibrarySchemas = {
         },
         {
           cascadeDelete: false,
-          collectionId: 'r05dwc1jac7ni3e',
+          collectionId: 'books_library__collections',
           hidden: false,
-          id: 'xdwoaiti',
           maxSelect: 1,
           minSelect: 0,
           name: 'collection',
@@ -274,7 +257,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'makmsjfq',
           max: 0,
           min: 0,
           name: 'extension',
@@ -288,7 +270,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'tqdosxzr',
           max: 0,
           min: 0,
           name: 'edition',
@@ -301,7 +282,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: '50bxd1lm',
           max: null,
           min: null,
           name: 'size',
@@ -313,7 +293,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'number4182174026',
           max: null,
           min: null,
           name: 'word_count',
@@ -325,7 +304,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'number3814243252',
           max: null,
           min: null,
           name: 'page_count',
@@ -338,7 +316,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'alvrl7w4',
           max: 0,
           min: 0,
           name: 'isbn',
@@ -351,7 +328,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: '9bglnvjc',
           maxSelect: 1,
           maxSize: 524288000000,
           mimeTypes: null,
@@ -365,7 +341,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'v79sfyz5',
           maxSelect: 1,
           maxSize: 524288000,
           mimeTypes: [],
@@ -379,7 +354,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'vkssqowy',
           name: 'is_favourite',
           presentable: false,
           required: false,
@@ -388,7 +362,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'date3759224764',
           max: '',
           min: '',
           name: 'time_started',
@@ -399,7 +372,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'date3932177532',
           max: '',
           min: '',
           name: 'time_finished',
@@ -410,7 +382,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'select4209111981',
           maxSelect: 1,
           name: 'read_status',
           presentable: false,
@@ -421,7 +392,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'autodate2990389176',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -431,7 +401,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'autodate3332085495',
           name: 'updated',
           onCreate: true,
           onUpdate: true,
@@ -449,7 +418,6 @@ const booksLibrarySchemas = {
       name: z.string()
     }),
     raw: {
-      id: '1azyegll48u5lm6',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -461,7 +429,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -475,7 +442,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'm2quzx2c',
           max: 0,
           min: 0,
           name: 'name',
@@ -499,7 +465,6 @@ const booksLibrarySchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_1576322879',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -511,7 +476,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -525,7 +489,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_qUPW',
           max: 0,
           min: 0,
           name: 'name',
@@ -538,7 +501,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
@@ -562,7 +524,6 @@ const booksLibrarySchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_1981306955',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -574,7 +535,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -588,7 +548,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_RIMw',
           max: 0,
           min: 0,
           name: 'name',
@@ -602,7 +561,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_97WC',
           max: 0,
           min: 0,
           name: 'icon',
@@ -615,7 +573,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
@@ -639,7 +596,6 @@ const booksLibrarySchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_3761643712',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -651,7 +607,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -665,7 +620,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_IKdQ',
           max: 0,
           min: 0,
           name: 'name',
@@ -679,7 +633,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_zCAU',
           max: 0,
           min: 0,
           name: 'icon',
@@ -692,7 +645,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
@@ -717,7 +669,6 @@ const booksLibrarySchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_1213628790',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -729,7 +680,6 @@ const booksLibrarySchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -742,7 +692,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'json1579384326',
           maxSize: 1,
           name: 'name',
           presentable: false,
@@ -752,7 +701,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'json1704208859',
           maxSize: 1,
           name: 'icon',
           presentable: false,
@@ -762,7 +710,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'json1716930793',
           maxSize: 1,
           name: 'color',
           presentable: false,
@@ -772,7 +719,6 @@ const booksLibrarySchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
