@@ -10,7 +10,7 @@ const list = forgeController
   })
   .input({})
   .callback(({ pb }) =>
-    pb.getFullList.collection('books_library__read_status_aggregated').execute()
+    pb.getFullList.collection('booksLibrary__read_status_aggregated').execute()
   )
 
 export default forgeRouter({ list })

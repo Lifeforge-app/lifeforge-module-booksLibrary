@@ -1,5 +1,3 @@
-import { PBService } from '@functions/database'
-import { updateTaskInPool } from '@functions/socketio/taskPool'
 import { SCHEMAS } from '@schema'
 import { countWords } from 'epub-wordcount'
 import fs from 'fs'
@@ -8,13 +6,16 @@ import pdfPageCounter from 'pdf-page-counter'
 import { Server } from 'socket.io'
 import z from 'zod'
 
+import { PBService } from '@functions/database'
+import { updateTaskInPool } from '@functions/socketio/taskPool'
+
 export const processDownloadedFiles = async (
   pb: PBService,
   io: Server,
   taskId: string,
   md5: string,
   metadata: Omit<
-    z.infer<typeof SCHEMAS.books_library.entries.schema>,
+    z.infer<typeof SCHEMAS.booksLibrary.entries.schema>,
     | 'thumbnail'
     | 'file'
     | 'is_favourite'
@@ -70,7 +71,7 @@ export const processDownloadedFiles = async (
     }
 
     await pb.create
-      .collection('books_library__entries')
+      .collection('booksLibrary__entries')
       .data({
         ...metadata,
         md5

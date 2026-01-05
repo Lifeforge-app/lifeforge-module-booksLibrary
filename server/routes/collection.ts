@@ -1,6 +1,7 @@
-import { forgeController, forgeRouter } from '@functions/routes'
 import { SCHEMAS } from '@schema'
 import z from 'zod'
+
+import { forgeController, forgeRouter } from '@functions/routes'
 
 const list = forgeController
   .query()
@@ -15,7 +16,7 @@ const list = forgeController
   .input({})
   .callback(({ pb }) =>
     pb.getFullList
-      .collection('books_library__collections_aggregated')
+      .collection('booksLibrary__collections_aggregated')
       .sort(['name'])
       .execute()
   )
@@ -29,11 +30,11 @@ const create = forgeController
     'zh-TW': '創建新的書籍集合'
   })
   .input({
-    body: SCHEMAS.books_library.collections.schema
+    body: SCHEMAS.booksLibrary.collections.schema
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
-    pb.create.collection('books_library__collections').data(body).execute()
+    pb.create.collection('booksLibrary__collections').data(body).execute()
   )
 
 const update = forgeController
@@ -48,14 +49,14 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.books_library.collections.schema
+    body: SCHEMAS.booksLibrary.collections.schema
   })
   .existenceCheck('query', {
-    id: 'books_library__collections'
+    id: 'booksLibrary__collections'
   })
   .callback(({ pb, query: { id }, body }) =>
     pb.update
-      .collection('books_library__collections')
+      .collection('booksLibrary__collections')
       .id(id)
       .data(body)
       .execute()
@@ -75,11 +76,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'books_library__collections'
+    id: 'booksLibrary__collections'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('books_library__collections').id(id).execute()
+    pb.delete.collection('booksLibrary__collections').id(id).execute()
   )
 
 export default forgeRouter({

@@ -1,10 +1,4 @@
 /* eslint-disable padding-line-between-statements */
-import { getAPIKey } from '@functions/database'
-import getMedia from '@functions/external/media'
-import { forgeController, forgeRouter } from '@functions/routes'
-import { ClientError } from '@functions/routes/utils/response'
-import { addToTaskPool, updateTaskInPool } from '@functions/socketio/taskPool'
-import convertPDFToImage from '@functions/utils/convertPDFToImage'
 import { SCHEMAS } from '@schema'
 import { EPub } from 'epub2'
 import { countWords } from 'epub-wordcount'
@@ -14,6 +8,13 @@ import mailer from 'nodemailer'
 // @ts-expect-error - No types available
 import pdfPageCounter from 'pdf-page-counter'
 import z from 'zod'
+
+import { getAPIKey } from '@functions/database'
+import getMedia from '@functions/external/media'
+import { forgeController, forgeRouter } from '@functions/routes'
+import { ClientError } from '@functions/routes/utils/response'
+import { addToTaskPool, updateTaskInPool } from '@functions/socketio/taskPool'
+import convertPDFToImage from '@functions/utils/convertPDFToImage'
 
 const list = forgeController
   .query()
@@ -43,9 +44,9 @@ const list = forgeController
     })
   })
   .existenceCheck('query', {
-    collection: '[books_library__collections]',
-    language: '[books_library__languages]',
-    fileType: '[books_library__file_types]'
+    collection: '[booksLibrary__collections]',
+    language: '[booksLibrary__languages]',
+    fileType: '[booksLibrary__file_types]'
   })
   .callback(
     async ({
@@ -64,13 +65,13 @@ const list = forgeController
 
       const fileTypeRecord = fileType
         ? await pb.getOne
-            .collection('books_library__file_types')
+            .collection('booksLibrary__file_types')
             .id(fileType)
             .execute()
         : undefined
 
       const results = await pb.getFullList
-        .collection('books_library__entries')
+        .collection('booksLibrary__entries')
         .filter([
           collection
             ? {
@@ -196,7 +197,7 @@ const upload = forgeController
     'zh-TW': '上傳新書到圖書館'
   })
   .input({
-    body: SCHEMAS.books_library.entries.schema
+    body: SCHEMAS.booksLibrary.entries.schema
       .pick({
         title: true,
         authors: true,
@@ -238,7 +239,7 @@ const upload = forgeController
     }
 
     await pb.create
-      .collection('books_library__entries')
+      .collection('booksLibrary__entries')
       .data({
         ...body,
         ...(await getMedia('file', file)),
@@ -262,7 +263,7 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.books_library.entries.schema
+    body: SCHEMAS.booksLibrary.entries.schema
       .pick({
         title: true,
         authors: true,
@@ -283,14 +284,14 @@ const update = forgeController
     'zh-TW': '更新現有的書籍條目'
   })
   .existenceCheck('query', {
-    id: 'books_library__entries'
+    id: 'booksLibrary__entries'
   })
   .existenceCheck('body', {
-    collection: '[books_library__collections]',
-    languages: '[books_library__languages]'
+    collection: '[booksLibrary__collections]',
+    languages: '[booksLibrary__languages]'
   })
   .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('books_library__entries').id(id).data(body).execute()
+    pb.update.collection('booksLibrary__entries').id(id).data(body).execute()
   )
 
 const toggleFavouriteStatus = forgeController
@@ -307,16 +308,16 @@ const toggleFavouriteStatus = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'books_library__entries'
+    id: 'booksLibrary__entries'
   })
   .callback(async ({ pb, query: { id } }) => {
     const book = await pb.getOne
-      .collection('books_library__entries')
+      .collection('booksLibrary__entries')
       .id(id)
       .execute()
 
     return await pb.update
-      .collection('books_library__entries')
+      .collection('booksLibrary__entries')
       .id(id)
       .data({
         is_favourite: !book.is_favourite
@@ -338,16 +339,16 @@ const toggleReadStatus = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'books_library__entries'
+    id: 'booksLibrary__entries'
   })
   .callback(async ({ pb, query: { id } }) => {
     const book = await pb.getOne
-      .collection('books_library__entries')
+      .collection('booksLibrary__entries')
       .id(id)
       .execute()
 
     return await pb.update
-      .collection('books_library__entries')
+      .collection('booksLibrary__entries')
       .id(id)
       .data({
         read_status: {
@@ -386,7 +387,7 @@ const sendToKindle = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'books_library__entries'
+    id: 'booksLibrary__entries'
   })
   .statusCode(202)
   .callback(async ({ pb, io, query: { id }, body: { target } }) => {
@@ -424,7 +425,7 @@ const sendToKindle = forgeController
 
     ;(async () => {
       const entry = await pb.getOne
-        .collection('books_library__entries')
+        .collection('booksLibrary__entries')
         .id(id)
         .execute()
 
@@ -521,11 +522,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'books_library__entries'
+    id: 'booksLibrary__entries'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('books_library__entries').id(id).execute()
+    pb.delete.collection('booksLibrary__entries').id(id).execute()
   )
 
 export default forgeRouter({

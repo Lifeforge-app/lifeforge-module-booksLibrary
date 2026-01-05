@@ -1,6 +1,7 @@
-import { forgeController, forgeRouter } from '@functions/routes'
 import { SCHEMAS } from '@schema'
 import z from 'zod'
+
+import { forgeController, forgeRouter } from '@functions/routes'
 
 const list = forgeController
   .query()
@@ -12,7 +13,7 @@ const list = forgeController
   })
   .input({})
   .callback(({ pb }) =>
-    pb.getFullList.collection('books_library__languages_aggregated').execute()
+    pb.getFullList.collection('booksLibrary__languages_aggregated').execute()
   )
 
 const create = forgeController
@@ -24,11 +25,11 @@ const create = forgeController
     'zh-TW': '創建新的書籍語言'
   })
   .input({
-    body: SCHEMAS.books_library.languages.schema
+    body: SCHEMAS.booksLibrary.languages.schema
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
-    pb.create.collection('books_library__languages').data(body).execute()
+    pb.create.collection('booksLibrary__languages').data(body).execute()
   )
 
 const update = forgeController
@@ -43,13 +44,13 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.books_library.languages.schema
+    body: SCHEMAS.booksLibrary.languages.schema
   })
   .existenceCheck('query', {
-    id: 'books_library__languages'
+    id: 'booksLibrary__languages'
   })
   .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('books_library__languages').id(id).data(body).execute()
+    pb.update.collection('booksLibrary__languages').id(id).data(body).execute()
   )
 
 const remove = forgeController
@@ -66,11 +67,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'books_library__languages'
+    id: 'booksLibrary__languages'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('books_library__languages').id(id).execute()
+    pb.delete.collection('booksLibrary__languages').id(id).execute()
   )
 
 export default forgeRouter({

@@ -11,7 +11,7 @@ const list = forgeController
   .input({})
   .callback(({ pb }) =>
     pb.getFullList
-      .collection('books_library__file_types_aggregated')
+      .collection('booksLibrary__file_types_aggregated')
       .sort(['name'])
       .execute()
   )
