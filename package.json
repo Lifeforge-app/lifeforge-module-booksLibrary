@@ -1,7 +1,7 @@
 {
   "name": "@lifeforge/lifeforge--books-library",
   "displayName": "Books Library",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Your personal library, no overdue fees.",
   "repository": {
     "type": "git",
