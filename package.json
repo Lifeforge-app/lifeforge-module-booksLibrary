@@ -1,7 +1,12 @@
 {
-  "name": "books-library",
-  "version": "dev. 25w41",
+  "name": "@lifeforge/lifeforge--books-library",
+  "displayName": "Books Library",
+  "version": "0.0.1",
   "description": "Your personal library, no overdue fees.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifeforge-app/lifeforge-module-booksLibrary.git"
+  },
   "scripts": {
     "types": "cd client && bun tsc"
   },
@@ -38,5 +43,18 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/tinycolor2": "^1.4.6"
+  },
+  "author": "Melvin Chia <melvinchia623600@gmail.com>",
+  "exports": {
+    "./server": "./server/index.ts",
+    "./manifest": {
+      "types": "./manifest.d.ts",
+      "default": "./manifest.ts"
+    },
+    "./server/schema": "./server/schema.ts"
+  },
+  "lifeforge": {
+    "icon": "tabler:books",
+    "category": "Storage"
   }
 }
