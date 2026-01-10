@@ -1,9 +1,10 @@
-import ModifyModal from '@/components/modals/ModifyModal'
 import type { UseQueryResult } from '@tanstack/react-query'
 import { SidebarTitle, WithQuery } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import ModifyModal from '@/components/modals/ModifyModal'
 
 import SidebarItem from './SidebarItem'
 
@@ -22,7 +23,7 @@ function SidebarSection({
   dataQuery: UseQueryResult<any[]>
   useNamespace?: boolean
 }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.booksLibrary')
 

@@ -18,7 +18,7 @@ function AddToLibraryButton({
 }) {
   const md5 = book.md5
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.booksLibrary')
 

@@ -10,7 +10,7 @@ function SearchResultItem({
 }: {
   book: AnnasSearchResult['results'][number]
 }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const [bookmarkedBooks, setBookmarkedBooks] = useLocalStorage<
     AnnasSearchResult['results'][number][]

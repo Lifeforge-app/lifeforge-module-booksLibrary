@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import {
@@ -18,6 +17,8 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { type InferOutput, usePromiseLoading } from 'shared'
 
+import forgeAPI from '@/utils/forgeAPI'
+
 import Details from './components/Details'
 import SearchResultItem from './components/SearchResultItem'
 
@@ -35,7 +36,7 @@ export type LibgenSearchResult = InferOutput<
 >
 
 function LibgenModal({ onClose }: { onClose: () => void }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const [provider, setProvider] =
     useState<(typeof PROVIDERS)[number]>('libgen.is')

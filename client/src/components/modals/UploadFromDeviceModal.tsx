@@ -1,12 +1,13 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { Button, FileInput, ModalHeader, useModalStore } from 'lifeforge-ui'
 import { useState } from 'react'
 import { usePromiseLoading } from 'shared'
 
+import forgeAPI from '@/utils/forgeAPI'
+
 import AddToLibraryModal from './AddToLibraryModal'
 
 function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const [file, setFile] = useState<File | string | null>(null)
 

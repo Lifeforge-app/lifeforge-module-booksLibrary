@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import {
   Button,
@@ -17,19 +16,22 @@ import { useModalStore } from 'lifeforge-ui'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import forgeAPI from '@/utils/forgeAPI'
+
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import AnnasModal from './components/modals/AnnasModal'
 import LibgenModal from './components/modals/LibgenModal'
 import UploadFromDeviceModal from './components/modals/UploadFromDeviceModal'
 import useFilter from './hooks/useFilter'
+import './index.css'
 import GridView from './views/GridView'
 import ListView from './views/ListView'
 
 function BooksLibrary() {
   const { t } = useTranslation('apps.booksLibrary')
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const {
     page,

@@ -1,11 +1,12 @@
-import ModifyModal from '@/components/modals/ModifyModal'
-import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ConfirmationModal, ContextMenuItem, SidebarItem } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
+
+import ModifyModal from '@/components/modals/ModifyModal'
+import useFilter from '@/hooks/useFilter'
+import forgeAPI from '@/utils/forgeAPI'
 
 import {
   type BooksLibraryCollection,
@@ -28,7 +29,7 @@ function _SidebarItem({
 }) {
   const queryClient = useQueryClient()
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { updateFilter, collection, fileType, language, readStatus } =
     useFilter()

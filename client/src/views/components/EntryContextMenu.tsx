@@ -1,7 +1,3 @@
-import ModifyBookModal from '@/components/modals/ModifyBookModal'
-import SendToKindleModal from '@/components/modals/SendToKindleModal'
-import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ConfirmationModal, ContextMenuItem } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
@@ -9,12 +5,17 @@ import { useCallback, useState } from 'react'
 import { toast } from 'react-toastify'
 import { forceDown } from 'shared'
 
+import ModifyBookModal from '@/components/modals/ModifyBookModal'
+import SendToKindleModal from '@/components/modals/SendToKindleModal'
+import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
 export default function EntryContextMenu({
   item
 }: {
   item: BooksLibraryEntry
 }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const queryClient = useQueryClient()
 
