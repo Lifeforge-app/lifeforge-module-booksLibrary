@@ -1,9 +1,8 @@
-import { forgeController, forgeRouter } from '@functions/routes'
-import { addToTaskPool, updateTaskInPool } from '@functions/socketio/taskPool'
 import { spawn } from 'child_process'
 import { JSDOM } from 'jsdom'
 import z from 'zod'
 
+import forge from '../forge'
 import { processDownloadedFiles } from '../utils/download'
 import {
   getLibgenISLocalLibraryData,
@@ -20,14 +19,9 @@ interface IBooksLibraryLibgenSearchResult {
   page: number
 }
 
-const getStatus = forgeController
+export const getStatus = forge
   .query()
-  .description({
-    en: 'Get Libgen service status',
-    ms: 'Dapatkan status perkhidmatan Libgen',
-    'zh-CN': '获取Libgen服务状态',
-    'zh-TW': '獲取Libgen服務狀態'
-  })
+  .description('Get Libgen service status')
   .input({})
   .callback(async () => {
     const status = await fetch('https://libgen.is/', {
@@ -46,14 +40,9 @@ const getStatus = forgeController
     return status.ok
   })
 
-const searchBooks = forgeController
+export const searchBooks = forge
   .query()
-  .description({
-    en: 'Search books in Libgen',
-    ms: 'Cari buku dalam Libgen',
-    'zh-CN': '在Libgen中搜索书籍',
-    'zh-TW': '在Libgen中搜尋書籍'
-  })
+  .description('Search books in Libgen')
   .input({
     query: z.object({
       provider: z.string(),
@@ -105,14 +94,9 @@ const searchBooks = forgeController
     }
   })
 
-const getBookDetails = forgeController
+export const getBookDetails = forge
   .query()
-  .description({
-    en: 'Get book details from Libgen',
-    ms: 'Dapatkan butiran buku dari Libgen',
-    'zh-CN': '从Libgen获取书籍详情',
-    'zh-TW': '從Libgen獲取書籍詳情'
-  })
+  .description('Get book details from Libgen')
   .input({
     query: z.object({
       md5: z.string()
@@ -142,14 +126,9 @@ const getBookDetails = forgeController
     }
   })
 
-const getLocalLibraryData = forgeController
+export const getLocalLibraryData = forge
   .query()
-  .description({
-    en: 'Get local library data for a book',
-    ms: 'Dapatkan data perpustakaan tempatan untuk buku',
-    'zh-CN': '获取书籍的本地图书馆数据',
-    'zh-TW': '獲取書籍的本地圖書館資料'
-  })
+  .description('Get local library data for a book')
   .input({
     query: z.object({
       provider: z.string(),
@@ -180,14 +159,9 @@ const getLocalLibraryData = forgeController
     }
   })
 
-const addToLibrary = forgeController
+export const addToLibrary = forge
   .mutation()
-  .description({
-    en: 'Add a book from Libgen to library',
-    ms: 'Tambahkan buku dari Libgen ke perpustakaan',
-    'zh-CN': '从Libgen添加书籍到图书馆',
-    'zh-TW': '從Libgen新增書籍到圖書館'
-  })
+  .description('Add a book from Libgen to library')
   .input({
     query: z.object({
       md5: z.string()
@@ -208,10 +182,10 @@ const addToLibrary = forgeController
     })
   })
   .statusCode(202)
-  .callback(async ({ io, pb, query: { md5 }, body }) => {
+  .callback(async ({ io, pb, query: { md5 }, body, core: { tasks } }) => {
     const target = `http://libgen.li/ads.php?md5=${md5}`
 
-    const taskId = addToTaskPool(io, {
+    const taskId = tasks.add(io, {
       module: 'booksLibrary',
       description: `Adding book with title "${body.title}" to library`,
       status: 'pending',
@@ -262,7 +236,7 @@ const addToLibrary = forgeController
               const { downloaded, total, percentage, speed, ETA } =
                 matches.groups!
 
-              updateTaskInPool(io, taskId, {
+              tasks.update(io, taskId, {
                 status: 'running',
                 progress: {
                   downloaded,
@@ -285,10 +259,10 @@ const addToLibrary = forgeController
         })
 
         downloadProcess.on('close', () => {
-          processDownloadedFiles(pb, io, taskId, md5, body)
+          processDownloadedFiles(pb, io, taskId, md5, body, tasks.update)
         })
       } catch (error) {
-        updateTaskInPool(io, taskId, {
+        tasks.update(io, taskId, {
           status: 'failed',
           error: error instanceof Error ? error.message : 'Unknown error'
         })
@@ -297,11 +271,3 @@ const addToLibrary = forgeController
 
     return taskId
   })
-
-export default forgeRouter({
-  getStatus,
-  searchBooks,
-  getBookDetails,
-  getLocalLibraryData,
-  addToLibrary
-})

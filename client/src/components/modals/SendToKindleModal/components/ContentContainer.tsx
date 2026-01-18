@@ -1,10 +1,11 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { Button, EmptyStateScreen, TextInput, WithQuery } from 'lifeforge-ui'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { usePromiseLoading } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 function ContentContainer({
   bookId,
@@ -16,16 +17,14 @@ function ContentContainer({
   const { t } = useTranslation('apps.booksLibrary')
 
   const enabledQuery = useQuery(
-    forgeAPI.apiKeys.entries.checkKeys
-      .input({ keys: 'smtp-user,smtp-pass' })
-      .queryOptions()
+    forgeAPI.checkAPIKeys({ keys: 'smtp-user,smtp-pass' }).queryOptions()
   )
 
   const [kindleEmail, setKindleEmail] = useState('')
 
   const handleSubmit = useCallback(async () => {
     try {
-      await forgeAPI.booksLibrary.entries.sendToKindle
+      await forgeAPI.entries.sendToKindle
         .input({
           id: bookId
         })

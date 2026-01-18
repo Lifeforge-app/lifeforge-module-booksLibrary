@@ -1,4 +1,3 @@
-import { SCHEMAS } from '@schema'
 import { countWords } from 'epub-wordcount'
 import fs from 'fs'
 // @ts-expect-error - No types available
@@ -6,16 +5,15 @@ import pdfPageCounter from 'pdf-page-counter'
 import { Server } from 'socket.io'
 import z from 'zod'
 
-import { PBService } from '@functions/database'
-import { updateTaskInPool } from '@functions/socketio/taskPool'
+import booksLibrarySchemas from '../schema'
 
 export const processDownloadedFiles = async (
-  pb: PBService,
+  pb: any,
   io: Server,
   taskId: string,
   md5: string,
   metadata: Omit<
-    z.infer<typeof SCHEMAS.booksLibrary.entries.schema>,
+    z.infer<typeof booksLibrarySchemas.entries>,
     | 'thumbnail'
     | 'file'
     | 'is_favourite'
@@ -34,7 +32,8 @@ export const processDownloadedFiles = async (
     collection?: string
     page_count?: number
     word_count?: number
-  }
+  },
+  updateTaskInPool: any
 ): Promise<void> => {
   if (!fs.existsSync(`./medium/${md5}.${metadata.extension}`)) {
     updateTaskInPool(io, taskId, {
@@ -71,7 +70,7 @@ export const processDownloadedFiles = async (
     }
 
     await pb.create
-      .collection('booksLibrary__entries')
+      .collection('entries')
       .data({
         ...metadata,
         md5

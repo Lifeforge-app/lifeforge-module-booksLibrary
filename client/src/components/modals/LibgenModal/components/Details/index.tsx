@@ -1,16 +1,15 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { GoBackButton, WithQuery } from 'lifeforge-ui'
 import type { InferOutput } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import AddToLibraryButton from '../AddToLibraryButton'
 import DataTable from './components/DataTable'
 import TOC from './components/TOC'
 import ThumbnailAndHashes from './components/ThumbnailAndHashes'
 
-export type BookDetailProps = InferOutput<
-  typeof forgeAPI.booksLibrary.libgen.getBookDetails
->
+export type BookDetailProps = InferOutput<typeof forgeAPI.libgen.getBookDetails>
 
 function Details({
   md5,
@@ -22,7 +21,7 @@ function Details({
   provider: string
 }) {
   const booksQuery = useQuery(
-    forgeAPI.booksLibrary.libgen.getBookDetails.input({ md5 }).queryOptions({
+    forgeAPI.libgen.getBookDetails.input({ md5 }).queryOptions({
       enabled: Boolean(md5)
     })
   )

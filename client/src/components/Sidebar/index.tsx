@@ -1,7 +1,8 @@
-import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { SidebarDivider, SidebarItem, SidebarWrapper } from 'lifeforge-ui'
+
+import useFilter from '@/hooks/useFilter'
+import forgeAPI from '@/utils/forgeAPI'
 
 import SidebarSection from './components/SidebarSection'
 
@@ -9,21 +10,13 @@ function Sidebar() {
   const { updateFilter, collection, favourite, fileType, language } =
     useFilter()
 
-  const collectionsQuery = useQuery(
-    forgeAPI.booksLibrary.collections.list.queryOptions()
-  )
+  const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
 
-  const languagesQuery = useQuery(
-    forgeAPI.booksLibrary.languages.list.queryOptions()
-  )
+  const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
-  const fileTypesQuery = useQuery(
-    forgeAPI.booksLibrary.fileTypes.list.queryOptions()
-  )
+  const fileTypesQuery = useQuery(forgeAPI.fileTypes.list.queryOptions())
 
-  const readStatusQuery = useQuery(
-    forgeAPI.booksLibrary.readStatus.list.queryOptions()
-  )
+  const readStatusQuery = useQuery(forgeAPI.readStatus.list.queryOptions())
 
   return (
     <SidebarWrapper>

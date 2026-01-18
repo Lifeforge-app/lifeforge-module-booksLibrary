@@ -26,7 +26,7 @@ export default function EntryContextMenu({
   const [addToFavouritesLoading, setAddToFavouritesLoading] = useState(false)
 
   const toggleFavouriteStatusMutation = useMutation(
-    forgeAPI.booksLibrary.entries.toggleFavouriteStatus
+    forgeAPI.entries.toggleFavouriteStatus
       .input({
         id: item.id
       })
@@ -45,11 +45,11 @@ export default function EntryContextMenu({
   const handleDownload = useCallback(() => {
     setDownloadLoading(true)
     forceDown(
-      forgeAPI.media.input({
+      forgeAPI.getMedia({
         collectionId: item.collectionId,
         recordId: item.id,
         fieldId: item.file
-      }).endpoint,
+      }),
       `${item.title}.${item.extension}`
     )
       .then(() => {
@@ -59,7 +59,7 @@ export default function EntryContextMenu({
   }, [item])
 
   const readStatusChangeMutation = useMutation(
-    forgeAPI.booksLibrary.entries.toggleReadStatus
+    forgeAPI.entries.toggleReadStatus
       .input({
         id: item.id
       })
@@ -92,7 +92,7 @@ export default function EntryContextMenu({
   }, [item])
 
   const deleteMutation = useMutation(
-    forgeAPI.booksLibrary.entries.remove
+    forgeAPI.entries.remove
       .input({
         id: item.id
       })

@@ -1,9 +1,10 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import humanNumber from 'human-number'
 import prettyBytes from 'pretty-bytes'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import { type BooksLibraryEntry } from '../../providers/BooksLibraryProvider'
 
@@ -14,9 +15,7 @@ function BookMeta({
   item: BooksLibraryEntry | Record<string, any>
   isGridView?: boolean
 }) {
-  const languagesQuery = useQuery(
-    forgeAPI.booksLibrary.languages.list.queryOptions()
-  )
+  const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
   return (
     <div

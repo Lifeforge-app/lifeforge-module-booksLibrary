@@ -1,6 +1,7 @@
-import { forgeController } from '@functions/routes'
 import { JSDOM } from 'jsdom'
 import z from 'zod'
+
+import forge from '../forge'
 
 interface BookResult {
   md5: string
@@ -17,14 +18,9 @@ interface BookResult {
   filePath?: string
 }
 
-export const search = forgeController
+export const search = forge
   .query()
-  .description({
-    en: "Search books in Anna's Archive",
-    ms: "Cari buku dalam Anna's Archive",
-    'zh-CN': "在Anna's Archive中搜索书籍",
-    'zh-TW': "在Anna's Archive中搜尋書籍"
-  })
+  .description("Search books in Anna's Archive")
   .noAuth()
   .input({
     query: z.object({

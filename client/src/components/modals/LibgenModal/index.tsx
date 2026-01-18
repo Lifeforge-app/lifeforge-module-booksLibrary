@@ -31,9 +31,7 @@ const PROVIDERS = [
   'libgen.gl'
 ] as const
 
-export type LibgenSearchResult = InferOutput<
-  typeof forgeAPI.booksLibrary.libgen.searchBooks
->
+export type LibgenSearchResult = InferOutput<typeof forgeAPI.libgen.searchBooks>
 
 function LibgenModal({ onClose }: { onClose: () => void }) {
   const { open } = useModalStore()
@@ -63,9 +61,9 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
   async function checkLibgenOnlineStatus() {
     const promises = PROVIDERS.map(async endpoint => {
       try {
-        await forgeAPI.corsAnywhere
-          .input({ url: `https://${endpoint}` })
-          .query({ timeout: 5000 })
+        await forgeAPI
+          .corsAnywhere(`https://${endpoint}`)
+          .queryRaw({ timeout: 5000 })
 
         return { endpoint, ok: true }
       } catch {
@@ -108,7 +106,7 @@ function LibgenModal({ onClose }: { onClose: () => void }) {
     setHasSearched(true)
 
     try {
-      const response = await forgeAPI.booksLibrary.libgen.searchBooks
+      const response = await forgeAPI.libgen.searchBooks
         .input({
           provider,
           req: searchQuery.trim(),

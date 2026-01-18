@@ -1,7 +1,8 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
-import { ContextMenu, Card } from 'lifeforge-ui'
+import { Card, ContextMenu } from 'lifeforge-ui'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import { type BooksLibraryEntry } from '../../../providers/BooksLibraryProvider'
 import BookMeta from '../../components/BookMeta'
@@ -9,16 +10,10 @@ import EntryContextMenu from '../../components/EntryContextMenu'
 import ReadStatusChip from '../../components/ReadStatusChip'
 
 export default function EntryItem({ item }: { item: BooksLibraryEntry }) {
-  const collectionsQuery = useQuery(
-    forgeAPI.booksLibrary.collections.list.queryOptions()
-  )
+  const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
 
   return (
-    <Card
-      key={item.id}
-      as="li"
-      className="flex flex-col gap-3 sm:flex-row"
-    >
+    <Card key={item.id} as="li" className="flex flex-col gap-3 sm:flex-row">
       <div className="absolute top-4 right-3 z-20 flex">
         <ContextMenu>
           <EntryContextMenu item={item} />
@@ -26,13 +21,11 @@ export default function EntryItem({ item }: { item: BooksLibraryEntry }) {
       </div>
       <a
         className="absolute inset-0 z-10 size-full rounded-lg"
-        href={
-          forgeAPI.media.input({
-            collectionId: item.collectionId,
-            recordId: item.id,
-            fieldId: item.file
-          }).endpoint
-        }
+        href={forgeAPI.getMedia({
+          collectionId: item.collectionId,
+          recordId: item.id,
+          fieldId: item.file
+        })}
         rel="noreferrer"
         target="_blank"
       />
@@ -41,14 +34,12 @@ export default function EntryItem({ item }: { item: BooksLibraryEntry }) {
           alt=""
           className="h-full object-cover"
           loading="lazy"
-          src={
-            forgeAPI.media.input({
-              collectionId: item.collectionId,
-              recordId: item.id,
-              fieldId: item.thumbnail,
-              thumb: '200x0'
-            }).endpoint
-          }
+          src={forgeAPI.getMedia({
+            collectionId: item.collectionId,
+            recordId: item.id,
+            fieldId: item.thumbnail,
+            thumb: '200x0'
+          })}
         />
         <Icon
           className="text-bg-200 dark:text-bg-800 absolute top-1/2 left-1/2 z-[-1] size-12 -translate-x-1/2 -translate-y-1/2"

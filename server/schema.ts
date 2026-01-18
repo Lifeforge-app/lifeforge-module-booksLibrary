@@ -1,6 +1,7 @@
+import { cleanSchemas } from '@lifeforge/server-utils'
 import z from 'zod'
 
-const booksLibrarySchemas = {
+export const schemas = {
   collections: {
     schema: z.object({
       name: z.string(),
@@ -737,4 +738,4 @@ const booksLibrarySchemas = {
   }
 }
 
-export default booksLibrarySchemas
+export default cleanSchemas(schemas)

@@ -1,23 +1,18 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { Button, TagsFilter, useModuleSidebarState } from 'lifeforge-ui'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import useFilter from '../hooks/useFilter'
 
 function Header({ itemCount }: { itemCount: number }) {
   const { setIsSidebarOpen } = useModuleSidebarState()
 
-  const collectionsQuery = useQuery(
-    forgeAPI.booksLibrary.collections.list.queryOptions()
-  )
+  const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
 
-  const languagesQuery = useQuery(
-    forgeAPI.booksLibrary.languages.list.queryOptions()
-  )
+  const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
-  const fileTypesQuery = useQuery(
-    forgeAPI.booksLibrary.fileTypes.list.queryOptions()
-  )
+  const fileTypesQuery = useQuery(forgeAPI.fileTypes.list.queryOptions())
 
   const {
     searchQuery,

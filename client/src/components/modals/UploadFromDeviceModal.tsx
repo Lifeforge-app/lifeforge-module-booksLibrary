@@ -20,10 +20,9 @@ function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
       file.type === 'application/epub+zip' ||
       (file.type === 'application/zip' && file.name.endsWith('.epub'))
     ) {
-      const metadata =
-        await forgeAPI.booksLibrary.entries.getEpubMetadata.mutate({
-          document: file
-        })
+      const metadata = await forgeAPI.entries.getEpubMetadata.mutate({
+        document: file
+      })
 
       onClose()
 

@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQueryClient } from '@tanstack/react-query'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -6,20 +5,22 @@ import { Outlet } from 'shared'
 import { type SocketEvent, useSocketContext as useSocket } from 'shared'
 import type { InferOutput } from 'shared'
 
+import forgeAPI from '@/utils/forgeAPI'
+
 export type BooksLibraryEntry = InferOutput<
-  typeof forgeAPI.booksLibrary.entries.list
+  typeof forgeAPI.entries.list
 >['items'][number]
 
 export type BooksLibraryCollection = InferOutput<
-  typeof forgeAPI.booksLibrary.collections.list
+  typeof forgeAPI.collections.list
 >[number]
 
 export type BooksLibraryLanguage = InferOutput<
-  typeof forgeAPI.booksLibrary.languages.list
+  typeof forgeAPI.languages.list
 >[number]
 
 export type BooksLibraryFileType = InferOutput<
-  typeof forgeAPI.booksLibrary.fileTypes.list
+  typeof forgeAPI.fileTypes.list
 >[number]
 
 interface IBooksLibraryData {

@@ -48,7 +48,7 @@ function BooksLibrary() {
   const [view, setView] = useState<'list' | 'grid'>('list')
 
   const dataQuery = useQuery(
-    forgeAPI.booksLibrary.entries.list
+    forgeAPI.entries.list
       .input({
         page: page.toString(),
         collection: collection || undefined,

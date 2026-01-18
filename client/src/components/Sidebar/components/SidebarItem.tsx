@@ -52,7 +52,7 @@ function _SidebarItem({
   }, [item, stuff])
 
   const deleteMutation = useMutation(
-    forgeAPI.booksLibrary[stuff as 'collections' | 'languages'].remove
+    forgeAPI[stuff as 'collections' | 'languages'].remove
       .input({
         id: item.id
       })

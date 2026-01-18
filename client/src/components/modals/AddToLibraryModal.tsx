@@ -1,8 +1,9 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 import { type InferInput } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 function AddToLibraryModal({
   onClose,
@@ -16,16 +17,12 @@ function AddToLibraryModal({
 }) {
   const queryClient = useQueryClient()
 
-  const collectionsQuery = useQuery(
-    forgeAPI.booksLibrary.collections.list.queryOptions()
-  )
+  const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
 
-  const languagesQuery = useQuery(
-    forgeAPI.booksLibrary.languages.list.queryOptions()
-  )
+  const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
   const fetchedDataQuery = useQuery(
-    forgeAPI.booksLibrary.libgen.getLocalLibraryData
+    forgeAPI.libgen.getLocalLibraryData
       .input({ md5: book.md5, provider })
       .queryOptions({
         enabled: Boolean(book.md5) && provider === 'libgen.is'
@@ -34,10 +31,10 @@ function AddToLibraryModal({
 
   const mutation = useMutation(
     (provider !== 'local'
-      ? forgeAPI.booksLibrary.libgen.addToLibrary.input({
+      ? forgeAPI.libgen.addToLibrary.input({
           md5: book.md5
         })
-      : forgeAPI.booksLibrary.entries.upload
+      : forgeAPI.entries.upload
     ).mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries({
@@ -53,7 +50,7 @@ function AddToLibraryModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<typeof forgeAPI.booksLibrary.libgen.addToLibrary>['body'] & {
+    InferInput<typeof forgeAPI.libgen.addToLibrary>['body'] & {
       file: string | File | null
     }
   >({

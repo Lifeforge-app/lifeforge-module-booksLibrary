@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import {
@@ -15,11 +14,11 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { type InferOutput, usePromiseLoading } from 'shared'
 
+import forgeAPI from '@/utils/forgeAPI'
+
 import SearchResultItem from './components/SearchResultItem'
 
-export type AnnasSearchResult = InferOutput<
-  typeof forgeAPI.booksLibrary.annas.search
->
+export type AnnasSearchResult = InferOutput<typeof forgeAPI.annas.search>
 
 function AnnasModal({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation('apps.booksLibrary')
@@ -46,7 +45,7 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
     setHasSearched(true)
 
     try {
-      const response = await forgeAPI.booksLibrary.annas.search
+      const response = await forgeAPI.annas.search
         .input({
           q: searchQuery.trim(),
           page: page.toString()

@@ -1,19 +1,9 @@
-import { forgeController, forgeRouter } from '@functions/routes'
+import forge from '../forge'
 
-const list = forgeController
+export const list = forge
   .query()
-  .description({
-    en: 'Get all book file types',
-    ms: 'Dapatkan semua jenis fail buku',
-    'zh-CN': '获取所有书籍文件类型',
-    'zh-TW': '獲取所有書籍檔案類型'
-  })
+  .description('Get all book file types')
   .input({})
   .callback(({ pb }) =>
-    pb.getFullList
-      .collection('booksLibrary__file_types_aggregated')
-      .sort(['name'])
-      .execute()
+    pb.getFullList.collection('file_types_aggregated').sort(['name']).execute()
   )
-
-export default forgeRouter({ list })

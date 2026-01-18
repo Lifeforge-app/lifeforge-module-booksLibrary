@@ -1,19 +1,19 @@
-import { forgeRouter } from '@functions/routes'
+import { forgeRouter } from '@lifeforge/server-utils'
 
-import * as annasRouter from './routes/annas'
-import collectionsRouter from './routes/collection'
-import entriesRouter from './routes/entries'
-import fileTypesRouter from './routes/fileTypes'
-import languagesRouter from './routes/languages'
-import libgenRouter from './routes/libgen'
-import readStatusRouter from './routes/readStatus'
+import * as annasRoutes from './routes/annas'
+import * as collectionsRoutes from './routes/collection'
+import * as entriesRoutes from './routes/entries'
+import * as fileTypesRoutes from './routes/fileTypes'
+import * as languagesRoutes from './routes/languages'
+import * as libgenRoutes from './routes/libgen'
+import * as readStatusRoutes from './routes/readStatus'
 
 export default forgeRouter({
-  entries: entriesRouter,
-  collections: collectionsRouter,
-  languages: languagesRouter,
-  fileTypes: fileTypesRouter,
-  readStatus: readStatusRouter,
-  libgen: libgenRouter,
-  annas: annasRouter
+  entries: entriesRoutes,
+  collections: collectionsRoutes,
+  languages: languagesRoutes,
+  fileTypes: fileTypesRoutes,
+  readStatus: readStatusRoutes,
+  libgen: libgenRoutes,
+  annas: annasRoutes
 })
