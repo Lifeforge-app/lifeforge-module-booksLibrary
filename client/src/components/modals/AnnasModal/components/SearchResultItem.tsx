@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import { Button, ConfirmationModal, useModalStore } from 'lifeforge-ui'
 import { useMemo } from 'react'
+
+import { Button, ConfirmationModal, useModalStore } from '@lifeforge/ui'
 
 import type { AnnasSearchResult } from '..'
 

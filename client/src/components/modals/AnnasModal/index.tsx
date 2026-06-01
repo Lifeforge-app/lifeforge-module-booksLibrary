@@ -8,11 +8,11 @@ import {
   Pagination,
   Scrollbar,
   SearchInput
-} from 'lifeforge-ui'
+} from '@lifeforge/ui'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { type InferOutput, usePromiseLoading } from 'shared'
+import { type InferOutput, usePromiseLoading } from '@lifeforge/shared'
 
 import forgeAPI from '@/utils/forgeAPI'
 

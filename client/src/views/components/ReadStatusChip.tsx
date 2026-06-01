@@ -1,11 +1,13 @@
-import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useTranslation } from 'react-i18next'
-import { usePersonalization } from 'shared'
 import tinycolor from 'tinycolor2'
+
+import { usePersonalization } from '@lifeforge/shared'
+
+import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 
 dayjs.extend(relativeTime)
 

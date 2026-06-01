@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ConfirmationModal, ContextMenuItem } from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
+import { ConfirmationModal, ContextMenuItem } from '@lifeforge/ui'
+import { useModalStore } from '@lifeforge/ui'
 import { useCallback, useState } from 'react'
 import { toast } from 'react-toastify'
-import { forceDown } from 'shared'
+import { forceDown } from '@lifeforge/shared'
 
 import ModifyBookModal from '@/components/modals/ModifyBookModal'
 import SendToKindleModal from '@/components/modals/SendToKindleModal'

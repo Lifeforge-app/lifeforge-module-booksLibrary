@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { GoBackButton, WithQuery } from 'lifeforge-ui'
-import type { InferOutput } from 'shared'
+import { GoBackButton, WithQuery } from '@lifeforge/ui'
+import type { InferOutput } from '@lifeforge/shared'
 
 import forgeAPI from '@/utils/forgeAPI'
 

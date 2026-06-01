@@ -12,10 +12,10 @@ import {
   Scrollbar,
   SearchInput,
   useModalStore
-} from 'lifeforge-ui'
+} from '@lifeforge/ui'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { type InferOutput, usePromiseLoading } from 'shared'
+import { type InferOutput, usePromiseLoading } from '@lifeforge/shared'
 
 import forgeAPI from '@/utils/forgeAPI'
 

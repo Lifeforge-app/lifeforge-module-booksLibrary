@@ -1,8 +1,9 @@
 import type { UseQueryResult } from '@tanstack/react-query'
-import { SidebarTitle, WithQuery } from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { SidebarTitle, WithQuery } from '@lifeforge/ui'
+import { useModalStore } from '@lifeforge/ui'
 
 import ModifyModal from '@/components/modals/ModifyModal'
 

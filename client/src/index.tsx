@@ -1,4 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import {
   Button,
   ContextMenu,
@@ -11,10 +14,8 @@ import {
   SearchInput,
   ViewModeSelector,
   WithQuery
-} from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+} from '@lifeforge/ui'
+import { useModalStore } from '@lifeforge/ui'
 
 import forgeAPI from '@/utils/forgeAPI'
 

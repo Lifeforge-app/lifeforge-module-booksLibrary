@@ -1,9 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
-import { Outlet } from 'shared'
-import { type SocketEvent, useSocketContext as useSocket } from 'shared'
-import type { InferOutput } from 'shared'
+
+import { Outlet } from '@lifeforge/shared'
+import {
+  type SocketEvent,
+  useSocketContext as useSocket
+} from '@lifeforge/shared'
+import type { InferOutput } from '@lifeforge/shared'
 
 import forgeAPI from '@/utils/forgeAPI'
 

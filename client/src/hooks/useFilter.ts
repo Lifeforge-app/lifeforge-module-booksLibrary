@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import {
   parseAsBoolean,
   parseAsInteger,
@@ -6,7 +7,7 @@ import {
   parseAsStringEnum,
   useQueryState,
   useQueryStates
-} from 'shared'
+} from '@lifeforge/shared'
 
 export default function useFilter() {
   const [searchQuery, setSearchQuery] = useQueryState(

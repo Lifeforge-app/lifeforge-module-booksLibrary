@@ -1,6 +1,6 @@
-import { Button, FileInput, ModalHeader, useModalStore } from 'lifeforge-ui'
+import { Button, FileInput, ModalHeader, useModalStore } from '@lifeforge/ui'
 import { useState } from 'react'
-import { usePromiseLoading } from 'shared'
+import { usePromiseLoading } from '@lifeforge/shared'
 
 import forgeAPI from '@/utils/forgeAPI'
 
