@@ -43,7 +43,8 @@ export const list = forge
         totalPages: z.number(),
         totalItems: z.number(),
         items: z.array(schema.entries)
-      })
+      }),
+      NOT_FOUND: true
     }
   })
   .callback(

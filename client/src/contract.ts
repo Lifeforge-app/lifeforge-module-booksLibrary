@@ -245,7 +245,8 @@ export const contract = {
             "items"
           ],
           "additionalProperties": false
-        }
+        },
+        "NOT_FOUND": true
       }
     },
     "remove": {
