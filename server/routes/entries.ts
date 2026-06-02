@@ -1,5 +1,4 @@
 /* eslint-disable padding-line-between-statements */
-import { ClientError } from '@lifeforge/server-utils'
 import dayjs from 'dayjs'
 import { EPub } from 'epub2'
 import { countWords } from 'epub-wordcount'
@@ -14,31 +13,38 @@ import schema from '../schema'
 import getEpubThumbnail from '../utils/getThumbnail'
 
 export const list = forge
-  .query()
-  .description(
-    'Get all book entries. If the user asks for books from a specific collection, retrieve the collection ID first. Read status mapping: 1=read, 2=reading, 3=unread. Use query field for book name searches.'
-  )
-  .input({
-    query: z.object({
-      page: z
-        .string()
-        .transform(val => parseInt(val, 10))
-        .default(1),
-      collection: z
-        .string()
-        .optional()
-        .describe('Collection ID of the collection'),
-      language: z.string().optional(),
-      favourite: z.enum(['true', 'false']).optional(),
-      readStatus: z.enum(['1', '2', '3']).optional(),
-      fileType: z.string().optional(),
-      query: z.string().optional()
-    })
-  })
-  .existenceCheck('query', {
-    collection: '[collections]',
-    language: '[languages]',
-    fileType: '[file_types]'
+  .query({
+    description:
+      'Get all book entries. If the user asks for books from a specific collection, retrieve the collection ID first. Read status mapping: 1=read, 2=reading, 3=unread. Use query field for book name searches.',
+    input: {
+      query: z.object({
+        page: z.string().default('1'),
+        collection: z
+          .string()
+          .optional()
+          .describe('Collection ID of the collection'),
+        language: z.string().optional(),
+        favourite: z.enum(['true', 'false']).optional(),
+        readStatus: z.enum(['1', '2', '3']).optional(),
+        fileType: z.string().optional(),
+        query: z.string().optional()
+      })
+    },
+    existenceCheck: {
+      query: {
+        collection: '[collections]',
+        language: '[languages]',
+        fileType: '[file_types]'
+      }
+    },
+    output: {
+      OK: z.object({
+        page: z.number(),
+        totalPages: z.number(),
+        totalItems: z.number(),
+        items: z.array(schema.entries)
+      })
+    }
   })
   .callback(
     async ({
@@ -51,8 +57,10 @@ export const list = forge
         readStatus,
         query,
         page
-      }
+      },
+      response
     }) => {
+      const parsedPage = parseInt(page, 10)
       const PER_PAGE = 20
 
       const fileTypeRecord = fileType
@@ -109,18 +117,12 @@ export const list = forge
         ])
         .execute()
 
-      // Since we are doing custom sorting, we cannot use pagination from PocketBase due to its limitations.
-      // So we will fetch the entire list and do pagination manually.
-      return {
-        page: page,
+      return response.ok({
+        page: parsedPage,
         totalPages: Math.ceil(results.length / PER_PAGE),
         totalItems: results.length,
         items: results
           .sort((a, b) => {
-            // First sort by read status (reading -> unread -> read).
-            // If the read status is the same, sort by time started (newest first).
-            // Otherwise, sort by favourite status (favourite -> normal), then by title
-
             const readStatusOrder = {
               reading: 1,
               unread: 2,
@@ -145,35 +147,40 @@ export const list = forge
               a.title.localeCompare(b.title)
             )
           })
-          .slice((page - 1) * PER_PAGE, page * PER_PAGE)
-      }
+          .slice((parsedPage - 1) * PER_PAGE, parsedPage * PER_PAGE)
+      })
     }
   )
 
 export const upload = forge
-  .mutation()
-  .description('Upload a new book to the library')
-  .input({
-    body: schema.entries
-      .pick({
-        title: true,
-        authors: true,
-        edition: true,
-        size: true,
-        languages: true,
-        extension: true,
-        isbn: true,
-        publisher: true,
-        year_published: true
-      })
-      .extend({
-        collection: z.string().optional()
-      })
-  })
-  .media({
-    file: {
-      optional: false,
-      multiple: false
+  .mutation({
+    description: 'Upload a new book to the library',
+    input: {
+      body: schema.entries
+        .pick({
+          title: true,
+          authors: true,
+          edition: true,
+          size: true,
+          languages: true,
+          extension: true,
+          isbn: true,
+          publisher: true,
+          year_published: true
+        })
+        .extend({
+          collection: z.string().optional()
+        })
+    },
+    media: {
+      file: {
+        optional: false,
+        multiple: false
+      }
+    },
+    output: {
+      OK: z.string(),
+      BAD_REQUEST: z.string()
     }
   })
   .callback(
@@ -183,10 +190,11 @@ export const upload = forge
       media: { file },
       core: {
         media: { retrieveMedia, convertPDFToImage }
-      }
+      },
+      response
     }) => {
       if (typeof file === 'string') {
-        throw new ClientError('Invalid file')
+        return response.badRequest('Invalid file')
       }
 
       let thumbnail: File | undefined = undefined
@@ -219,117 +227,143 @@ export const upload = forge
         fs.unlinkSync(file.path)
       }
 
-      return 'ok'
+      return response.ok('ok')
     }
   )
 
 export const update = forge
-  .mutation()
-  .input({
-    query: z.object({
-      id: z.string()
-    }),
-    body: schema.entries
-      .pick({
-        title: true,
-        authors: true,
-        edition: true,
-        languages: true,
-        isbn: true,
-        publisher: true,
-        year_published: true
-      })
-      .extend({
-        collection: z.string().optional()
-      })
+  .mutation({
+    input: {
+      query: z.object({
+        id: z.string()
+      }),
+      body: schema.entries
+        .pick({
+          title: true,
+          authors: true,
+          edition: true,
+          languages: true,
+          isbn: true,
+          publisher: true,
+          year_published: true
+        })
+        .extend({
+          collection: z.string().optional()
+        })
+    },
+    description: 'Update an existing book entry',
+    existenceCheck: {
+      query: { id: 'entries' },
+      body: {
+        collection: '[collections]',
+        languages: '[languages]'
+      }
+    },
+    output: {
+      OK: schema.entries,
+      NOT_FOUND: true
+    }
   })
-  .description('Update an existing book entry')
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .existenceCheck('body', {
-    collection: '[collections]',
-    languages: '[languages]'
-  })
-  .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('entries').id(id).data(body).execute()
+  .callback(async ({ pb, query: { id }, body, response }) =>
+    response.ok(
+      await pb.update.collection('entries').id(id).data(body).execute()
+    )
   )
 
 export const toggleFavouriteStatus = forge
-  .mutation()
-  .description('Toggle book favorite status')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Toggle book favorite status',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: schema.entries,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .callback(async ({ pb, query: { id } }) => {
+  .callback(async ({ pb, query: { id }, response }) => {
     const book = await pb.getOne.collection('entries').id(id).execute()
 
-    return await pb.update
-      .collection('entries')
-      .id(id)
-      .data({
-        is_favourite: !book.is_favourite
-      })
-      .execute()
+    return response.ok(
+      await pb.update
+        .collection('entries')
+        .id(id)
+        .data({
+          is_favourite: !book.is_favourite
+        })
+        .execute()
+    )
   })
 
 export const toggleReadStatus = forge
-  .mutation()
-  .description('Toggle book read status')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Toggle book read status',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: schema.entries,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .callback(async ({ pb, query: { id } }) => {
+  .callback(async ({ pb, query: { id }, response }) => {
     const book = await pb.getOne.collection('entries').id(id).execute()
 
-    return await pb.update
-      .collection('entries')
-      .id(id)
-      .data({
-        read_status: {
-          unread: 'reading',
-          read: 'unread',
-          reading: 'read'
-        }[book.read_status],
-        time_finished: {
-          unread: undefined,
-          read: '',
-          reading: new Date().toISOString()
-        }[book.read_status],
-        time_started: {
-          unread: new Date().toISOString(),
-          read: '',
-          reading: undefined
-        }[book.read_status]
-      })
-      .execute()
+    return response.ok(
+      await pb.update
+        .collection('entries')
+        .id(id)
+        .data({
+          read_status: {
+            unread: 'reading',
+            read: 'unread',
+            reading: 'read'
+          }[book.read_status],
+          time_finished: {
+            unread: undefined,
+            read: '',
+            reading: new Date().toISOString()
+          }[book.read_status],
+          time_started: {
+            unread: new Date().toISOString(),
+            read: '',
+            reading: undefined
+          }[book.read_status]
+        })
+        .execute()
+    )
   })
 
 export const sendToKindle = forge
-  .mutation()
-  .description('Send book to Kindle email')
-  .input({
-    query: z.object({
-      id: z.string()
-    }),
-    body: z.object({
-      target: z.string().email()
-    })
+  .mutation({
+    description: 'Send book to Kindle email',
+    input: {
+      query: z.object({
+        id: z.string()
+      }),
+      body: z.object({
+        target: z.string().email()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: z.string(),
+      BAD_REQUEST: z.string(),
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .statusCode(202)
   .callback(
     async ({
       pb,
@@ -339,20 +373,15 @@ export const sendToKindle = forge
       core: {
         api: { getAPIKey },
         tasks
-      }
+      },
+      response
     }) => {
-      const taskid = tasks.add(io, {
-        module: 'booksLibrary',
-        description: 'Send book to Kindle',
-        status: 'pending'
-      })
-
       const smtpUser = await getAPIKey('smtp-user', pb)
 
       const smtpPassword = await getAPIKey('smtp-pass', pb)
 
       if (!smtpUser || !smtpPassword) {
-        throw new ClientError(
+        return response.badRequest(
           'SMTP user or password not found. Please set them in the API Keys module.'
         )
       }
@@ -370,8 +399,14 @@ export const sendToKindle = forge
       try {
         await transporter.verify()
       } catch {
-        throw new ClientError('SMTP credentials are invalid')
+        return response.badRequest('SMTP credentials are invalid')
       }
+
+      const taskid = tasks.add(io, {
+        module: 'booksLibrary',
+        description: 'Send book to Kindle',
+        status: 'pending'
+      })
 
       ;(async () => {
         const entry = await pb.getOne.collection('entries').id(id).execute()
@@ -413,23 +448,35 @@ export const sendToKindle = forge
         }
       })()
 
-      return taskid
+      return response.ok(taskid)
     }
   )
 
 export const getEpubMetadata = forge
-  .mutation()
-  .description('Get EPUB file metadata')
-  .input({})
-  .media({
-    document: {
-      optional: false,
-      multiple: false
+  .mutation({
+    description: 'Get EPUB file metadata',
+    media: {
+      document: {
+        optional: false,
+        multiple: false
+      }
+    },
+    output: {
+      OK: z.object({
+        ISBN: z.string(),
+        Title: z.string(),
+        'Author(s)': z.string(),
+        Publisher: z.string(),
+        Year: z.string(),
+        Size: z.string(),
+        Extension: z.string()
+      }),
+      BAD_REQUEST: z.string()
     }
   })
-  .callback(async ({ media: { document } }) => {
+  .callback(async ({ media: { document }, response }) => {
     if (typeof document === 'string') {
-      throw new ClientError('Invalid media type')
+      return response.badRequest('Invalid media type')
     }
 
     const epubInstance = await EPub.createAsync(document.path)
@@ -440,7 +487,7 @@ export const getEpubMetadata = forge
       fs.unlinkSync(document.path)
     }
 
-    return {
+    return response.ok({
       ISBN: metadata.ISBN,
       Title: metadata.title,
       'Author(s)': metadata.creator,
@@ -448,21 +495,27 @@ export const getEpubMetadata = forge
       Year: dayjs(metadata.date).year().toString(),
       Size: document.size.toString(),
       Extension: 'epub'
-    }
+    })
   })
 
 export const remove = forge
-  .mutation()
-  .description('Delete a book entry')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Delete a book entry',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      NO_CONTENT: true,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
+  .callback(async ({ pb, query: { id }, response }) => {
+    await pb.delete.collection('entries').id(id).execute()
+
+    return response.noContent()
   })
-  .statusCode(204)
-  .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('entries').id(id).execute()
-  )

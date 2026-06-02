@@ -4,52 +4,69 @@ import forge from '../forge'
 import schema from '../schema'
 
 export const list = forge
-  .query()
-  .description('Get all book languages')
-  .input({})
-  .callback(({ pb }) =>
-    pb.getFullList.collection('languages_aggregated').execute()
+  .query({
+    description: 'Get all book languages',
+    output: {
+      OK: z.array(schema.languages_aggregated)
+    }
+  })
+  .callback(async ({ pb, response }) =>
+    response.ok(await pb.getFullList.collection('languages_aggregated').execute())
   )
 
 export const create = forge
-  .mutation()
-  .description('Create a new book language')
-  .input({
-    body: schema.languages
+  .mutation({
+    description: 'Create a new book language',
+    input: {
+      body: schema.languages
+    },
+    output: {
+      CREATED: schema.languages
+    }
   })
-  .statusCode(201)
-  .callback(({ pb, body }) =>
-    pb.create.collection('languages').data(body).execute()
+  .callback(async ({ pb, body, response }) =>
+    response.created(await pb.create.collection('languages').data(body).execute())
   )
 
 export const update = forge
-  .mutation()
-  .description('Update an existing book language')
-  .input({
-    query: z.object({
-      id: z.string()
-    }),
-    body: schema.languages
+  .mutation({
+    description: 'Update an existing book language',
+    input: {
+      query: z.object({
+        id: z.string()
+      }),
+      body: schema.languages
+    },
+    existenceCheck: {
+      query: { id: 'languages' }
+    },
+    output: {
+      OK: schema.languages,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'languages'
-  })
-  .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('languages').id(id).data(body).execute()
+  .callback(async ({ pb, query: { id }, body, response }) =>
+    response.ok(await pb.update.collection('languages').id(id).data(body).execute())
   )
 
 export const remove = forge
-  .mutation()
-  .description('Delete a book language')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Delete a book language',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'languages' }
+    },
+    output: {
+      NO_CONTENT: true,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'languages'
+  .callback(async ({ pb, query: { id }, response }) => {
+    await pb.delete.collection('languages').id(id).execute()
+
+    return response.noContent()
   })
-  .statusCode(204)
-  .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('languages').id(id).execute()
-  )

@@ -4,54 +4,72 @@ import forge from '../forge'
 import schema from '../schema'
 
 export const list = forge
-  .query()
-  .description(
-    'Get all book collections. If the user asks to list books in a specific collection, call this tool first to get the collection ID.'
-  )
-  .input({})
-  .callback(({ pb }) =>
-    pb.getFullList.collection('collections_aggregated').sort(['name']).execute()
+  .query({
+    description:
+      'Get all book collections. If the user asks to list books in a specific collection, call this tool first to get the collection ID.',
+    output: {
+      OK: z.array(schema.collections_aggregated)
+    }
+  })
+  .callback(async ({ pb, response }) =>
+    response.ok(
+      await pb.getFullList.collection('collections_aggregated').sort(['name']).execute()
+    )
   )
 
 export const create = forge
-  .mutation()
-  .description('Create a new book collection')
-  .input({
-    body: schema.collections
+  .mutation({
+    description: 'Create a new book collection',
+    input: {
+      body: schema.collections
+    },
+    output: {
+      CREATED: schema.collections
+    }
   })
-  .statusCode(201)
-  .callback(({ pb, body }) =>
-    pb.create.collection('collections').data(body).execute()
+  .callback(async ({ pb, body, response }) =>
+    response.created(await pb.create.collection('collections').data(body).execute())
   )
 
 export const update = forge
-  .mutation()
-  .description('Update an existing book collection')
-  .input({
-    query: z.object({
-      id: z.string()
-    }),
-    body: schema.collections
+  .mutation({
+    description: 'Update an existing book collection',
+    input: {
+      query: z.object({
+        id: z.string()
+      }),
+      body: schema.collections
+    },
+    existenceCheck: {
+      query: { id: 'collections' }
+    },
+    output: {
+      OK: schema.collections,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'collections'
-  })
-  .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('collections').id(id).data(body).execute()
+  .callback(async ({ pb, query: { id }, body, response }) =>
+    response.ok(await pb.update.collection('collections').id(id).data(body).execute())
   )
 
 export const remove = forge
-  .mutation()
-  .description('Delete a book collection')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Delete a book collection',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'collections' }
+    },
+    output: {
+      NO_CONTENT: true,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'collections'
+  .callback(async ({ pb, query: { id }, response }) => {
+    await pb.delete.collection('collections').id(id).execute()
+
+    return response.noContent()
   })
-  .statusCode(204)
-  .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('collections').id(id).execute()
-  )

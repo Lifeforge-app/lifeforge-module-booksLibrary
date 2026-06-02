@@ -3,69 +3,88 @@ import z from 'zod'
 
 import forge from '../forge'
 
-interface BookResult {
-  md5: string
-  title: string
-  author?: string
-  publisher?: string
-  year?: string
-  description?: string
-  language?: string
-  format?: string
-  fileSize?: string
-  type?: string
-  coverUrl?: string
-  filePath?: string
-}
+const BookResultSchema = z.object({
+  md5: z.string(),
+  title: z.string(),
+  author: z.string().optional(),
+  publisher: z.string().optional(),
+  year: z.string().optional(),
+  description: z.string().optional(),
+  language: z.string().optional(),
+  format: z.string().optional(),
+  fileSize: z.string().optional(),
+  type: z.string().optional(),
+  coverUrl: z.string().optional(),
+  filePath: z.string().optional()
+})
+
+const AnnaSearchResponseSchema = z.object({
+  success: z.boolean(),
+  results: z.array(BookResultSchema),
+  total: z.number(),
+  totalPages: z.number(),
+  currentPage: z.number(),
+  query: z.string(),
+  error: z.string().optional()
+})
 
 export const search = forge
-  .query()
-  .description("Search books in Anna's Archive")
-  .noAuth()
-  .input({
-    query: z.object({
-      q: z.string(),
-      page: z.string().transform(val => {
-        const parsed = parseInt(val, 10)
-
-        return isNaN(parsed) || parsed < 1 ? 1 : parsed
+  .query({
+    description: "Search books in Anna's Archive",
+    noAuth: true,
+    input: {
+      query: z.object({
+        q: z.string(),
+        page: z.string()
       })
-    })
+    },
+    output: {
+      OK: AnnaSearchResponseSchema
+    }
   })
-  .callback(async ({ query: { q, page } }) => {
-    try {
-      // Construct the search URL
-      const searchUrl = `https://annas-archive.org/search?q=${encodeURIComponent(q)}&page=${page}`
+  .callback(async ({ query: { q, page }, response }) => {
+    const parsedPage = (() => {
+      const p = parseInt(page, 10)
 
-      // Fetch the HTML content
-      const response = await fetch(searchUrl, {
+      return isNaN(p) || p < 1 ? 1 : p
+    })()
+
+    try {
+      const searchUrl = `https://annas-archive.org/search?q=${encodeURIComponent(q)}&page=${parsedPage}`
+
+      const res = await fetch(searchUrl, {
         headers: {
           'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
       })
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+      if (!res.ok) {
+        return response.ok({
+          success: false,
+          error: `HTTP error! status: ${res.status}`,
+          results: [],
+          total: 0,
+          totalPages: 1,
+          currentPage: parsedPage,
+          query: q
+        })
       }
 
-      const html = await response.text()
+      const html = await res.text()
 
-      // Parse the HTML using JSDOM
       const dom = new JSDOM(html)
 
       const document = dom.window.document
 
-      // Find all book result items
       const bookItems = document.querySelectorAll(
         '.js-aarecord-list-outer > div.flex'
       )
 
-      const results: BookResult[] = []
+      const results: z.infer<typeof BookResultSchema>[] = []
 
       for (const item of bookItems) {
         try {
-          // Extract MD5 hash from the main link
           const mainLink = item.querySelector('a[href*="/md5/"]')
 
           if (!mainLink) continue
@@ -78,14 +97,12 @@ export const search = forge
 
           const md5 = md5Match[1]
 
-          // Extract title
           const titleElement = item.querySelector(
             'a[href*="/md5/"].js-vim-focus'
           )
 
           const title = titleElement?.textContent?.trim() || ''
 
-          // Extract author - look for the icon and get parent element text
           const authorElement = item.querySelector(
             'a[href*="/search?q="] .icon-\\[mdi--user-edit\\]'
           )?.parentElement
@@ -94,7 +111,6 @@ export const search = forge
             ?.replace(/^\s*\uD83D\uDC64?\s*/, '')
             .trim()
 
-          // Extract publisher and year - look for company icon
           const publisherElement = item.querySelector(
             'a[href*="/search?q="] .icon-\\[mdi--company\\]'
           )?.parentElement
@@ -108,11 +124,9 @@ export const search = forge
           let year: string | undefined
 
           if (publisherText) {
-            // Publisher format is usually: "Publisher, Location, Year"
             const parts = publisherText.split(', ')
 
             publisher = parts[0]
-            // Year is usually the last part or a 4-digit number
 
             const yearMatch = publisherText.match(/\b(19|20)\d{2}\b/)
 
@@ -121,26 +135,22 @@ export const search = forge
             }
           }
 
-          // Extract description - look for the description text in the relative div
           const descriptionElement = item.querySelector(
             '.relative .line-clamp-\\[2\\].text-gray-600'
           )
 
           const description = descriptionElement?.textContent?.trim()
 
-          // Extract metadata from the details line
           const detailsElement = item.querySelector(
             '.text-gray-800, .dark\\:text-slate-400'
           )
 
           const detailsText = detailsElement?.textContent || ''
 
-          // Extract language - look for checkmark and language pattern
           const languageMatch = detailsText.match(/✅\s*(\w+)\s*\[(\w+)\]/)
 
           const language = languageMatch ? languageMatch[1] : undefined
 
-          // Extract format and file size - look for format · size pattern
           const formatMatch = detailsText.match(
             /·\s*(\w+)\s*·\s*([\d.]+\s*[KMGT]?B)/i
           )
@@ -149,7 +159,6 @@ export const search = forge
 
           const fileSize = formatMatch ? formatMatch[2] : undefined
 
-          // Extract type (Book fiction/non-fiction, etc.) - look for book emojis
           const typeMatch = detailsText.match(
             /(📘\s*Book\s*\(non-fiction\)|📕\s*Book\s*\(fiction\)|📗\s*Book\s*\(unknown\)|📙\s*Book\s*\(comic\))/
           )
@@ -163,17 +172,15 @@ export const search = forge
             else if (typeMatch[0].includes('comic')) type = 'comic'
           }
 
-          // Extract cover image URL
           const coverImg = item.querySelector('img')
 
           const coverUrl = coverImg?.getAttribute('src') || undefined
 
-          // Extract file path from the small gray text
           const filePathElement = item.querySelector('.text-gray-500.font-mono')
 
           const filePath = filePathElement?.textContent?.trim()
 
-          const bookResult: BookResult = {
+          results.push({
             md5,
             title,
             author,
@@ -187,27 +194,19 @@ export const search = forge
             coverUrl:
               coverUrl && coverUrl.startsWith('http') ? coverUrl : undefined,
             filePath
-          }
-
-          results.push(bookResult)
-        } catch (error) {
-          console.error('Error parsing book item:', error)
-          // Continue with other items even if one fails
+          })
+        } catch {
+          continue
         }
       }
 
-      // Extract pagination information
       let totalPages = 1
 
-      const currentPage = page
-
-      // Look for pagination controls - find the navigation element with page links
       const paginationNav = document.querySelector(
         'nav[aria-label="Pagination"]'
       )
 
       if (paginationNav) {
-        // Find all page links and get the highest page number
         const pageLinks = paginationNav.querySelectorAll('a[href*="&page="]')
 
         for (const link of pageLinks) {
@@ -225,26 +224,24 @@ export const search = forge
         }
       }
 
-      return {
+      return response.ok({
         success: true,
         results,
         total: results.length,
         totalPages,
-        currentPage,
+        currentPage: parsedPage,
         query: q
-      }
+      })
     } catch (error) {
-      console.error("Error searching Anna's Archive:", error)
-
-      return {
+      return response.ok({
         success: false,
         error:
           error instanceof Error ? error.message : 'Unknown error occurred',
         results: [],
         total: 0,
         totalPages: 1,
-        currentPage: page,
+        currentPage: parsedPage,
         query: q
-      }
+      })
     }
   })
