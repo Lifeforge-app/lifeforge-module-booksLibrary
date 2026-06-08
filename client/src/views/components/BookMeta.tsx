@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import humanNumber from 'human-number'
 import prettyBytes from 'pretty-bytes'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import { type BooksLibraryEntry } from '../../providers/BooksLibraryProvider'
 

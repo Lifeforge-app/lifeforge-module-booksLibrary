@@ -9,7 +9,7 @@ import {
 } from '@lifeforge/shared'
 import type { InferOutput } from '@lifeforge/shared'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 export type BooksLibraryEntry = InferOutput<
   typeof forgeAPI.entries.list

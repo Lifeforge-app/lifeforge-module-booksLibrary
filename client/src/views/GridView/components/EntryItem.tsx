@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { Card, ContextMenu } from '@lifeforge/ui'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import { type BooksLibraryEntry } from '../../../providers/BooksLibraryProvider'
 import BookMeta from '../../components/BookMeta'

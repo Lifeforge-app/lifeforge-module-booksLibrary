@@ -8,7 +8,7 @@ import { forceDown } from '@lifeforge/shared'
 import ModifyBookModal from '@/components/modals/ModifyBookModal'
 import SendToKindleModal from '@/components/modals/SendToKindleModal'
 import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 export default function EntryContextMenu({
   item

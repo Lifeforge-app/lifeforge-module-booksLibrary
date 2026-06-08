@@ -17,7 +17,7 @@ import {
 } from '@lifeforge/ui'
 import { useModalStore } from '@lifeforge/ui'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'

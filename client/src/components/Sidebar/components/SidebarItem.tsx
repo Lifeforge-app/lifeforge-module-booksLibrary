@@ -7,7 +7,7 @@ import { useModalStore } from '@lifeforge/ui'
 
 import ModifyModal from '@/components/modals/ModifyModal'
 import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import {
   type BooksLibraryCollection,
