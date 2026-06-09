@@ -1,11 +1,11 @@
-import { Icon } from '@iconify/react/dist/iconify.js'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useTranslation } from 'react-i18next'
 import tinycolor from 'tinycolor2'
 
-import { usePersonalization } from '@lifeforge/shared'
+import { Icon } from '@lifeforge/ui'
+import { usePersonalization } from '@lifeforge/ui'
 
 import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 

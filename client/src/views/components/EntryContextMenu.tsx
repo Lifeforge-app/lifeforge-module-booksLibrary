@@ -1,14 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ConfirmationModal, ContextMenuItem } from '@lifeforge/ui'
-import { useModalStore } from '@lifeforge/ui'
 import { useCallback, useState } from 'react'
-import { toast } from 'react-toastify'
-import { forceDown } from '@lifeforge/shared'
+
+import {
+  ConfirmationModal,
+  ContextMenuItem,
+  toast,
+  useModalStore
+} from '@lifeforge/ui'
 
 import ModifyBookModal from '@/components/modals/ModifyBookModal'
 import SendToKindleModal from '@/components/modals/SendToKindleModal'
-import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 import { forgeAPI } from '@/manifest'
+import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 
 export default function EntryContextMenu({
   item
@@ -44,18 +47,17 @@ export default function EntryContextMenu({
 
   const handleDownload = useCallback(() => {
     setDownloadLoading(true)
-    forceDown(
-      forgeAPI.getMedia({
-        collectionId: item.collectionId,
-        recordId: item.id,
-        fieldId: item.file
-      }),
-      `${item.title}.${item.extension}`
-    )
-      .then(() => {
-        setDownloadLoading(false)
-      })
-      .catch(console.error)
+
+    const a = document.createElement('a')
+
+    a.href = forgeAPI.getMedia({
+      collectionId: item.collectionId,
+      recordId: item.id,
+      fieldId: item.file
+    })
+    a.download = `${item.title}.${item.extension}`
+    a.click()
+    setDownloadLoading(false)
   }, [item])
 
   const readStatusChangeMutation = useMutation(
@@ -117,7 +119,7 @@ export default function EntryContextMenu({
       description: `Are you sure you want to delete ${item.title}?`,
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [item])
@@ -143,7 +145,7 @@ export default function EntryContextMenu({
         namespace="apps.booksLibrary"
         onClick={() => {
           setReadStatusChangeLoading(true)
-          readStatusChangeMutation.mutate({})
+          readStatusChangeMutation.mutate(undefined)
         }}
       />
       <ContextMenuItem
@@ -153,7 +155,7 @@ export default function EntryContextMenu({
         namespace="apps.booksLibrary"
         onClick={() => {
           setAddToFavouritesLoading(true)
-          toggleFavouriteStatusMutation.mutate({})
+          toggleFavouriteStatusMutation.mutate(undefined)
         }}
       />
       <ContextMenuItem

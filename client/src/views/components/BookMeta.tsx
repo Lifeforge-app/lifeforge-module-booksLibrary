@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react'
+import { Icon } from '@lifeforge/ui'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import humanNumber from 'human-number'

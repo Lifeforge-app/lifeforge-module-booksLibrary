@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
 
-import { ConfirmationModal, ContextMenuItem, SidebarItem } from '@lifeforge/ui'
-import { useModalStore } from '@lifeforge/ui'
+import { toast , ConfirmationModal, ContextMenuItem, SidebarItem , useModalStore } from '@lifeforge/ui'
 
 import ModifyModal from '@/components/modals/ModifyModal'
 import useFilter from '@/hooks/useFilter'
@@ -79,7 +77,7 @@ function _SidebarItem({
       description: `Are you sure you want to delete this ${singleStuff}?`,
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [item, stuff])

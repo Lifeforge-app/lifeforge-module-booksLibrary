@@ -7,7 +7,7 @@ import {
   parseAsStringEnum,
   useQueryState,
   useQueryStates
-} from '@lifeforge/shared'
+} from 'nuqs'
 
 export default function useFilter() {
   const [searchQuery, setSearchQuery] = useQueryState(

@@ -1,6 +1,6 @@
 import { Button, FileInput, ModalHeader, useModalStore } from '@lifeforge/ui'
 import { useState } from 'react'
-import { usePromiseLoading } from '@lifeforge/shared'
+import { usePromiseLoading } from '@lifeforge/api'
 
 import { forgeAPI } from '@/manifest'
 

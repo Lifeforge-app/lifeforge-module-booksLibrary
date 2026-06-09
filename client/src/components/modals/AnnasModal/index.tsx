@@ -1,18 +1,19 @@
-import { Icon } from '@iconify/react/dist/iconify.js'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { type InferOutput, usePromiseLoading } from '@lifeforge/api'
 import {
   Button,
   EmptyStateScreen,
+  Icon,
   LoadingScreen,
   ModalHeader,
   Pagination,
   Scrollbar,
-  SearchInput
+  SearchInput,
+  toast
 } from '@lifeforge/ui'
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
-import { type InferOutput, usePromiseLoading } from '@lifeforge/shared'
 
 import { forgeAPI } from '@/manifest'
 
