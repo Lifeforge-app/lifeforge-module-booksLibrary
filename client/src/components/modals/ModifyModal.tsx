@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import _ from 'lodash'
 
 import type { InferInput } from '@lifeforge/api'
-import { FormModal, defineForm , toast } from '@lifeforge/ui'
+import { FormModal, defineForm, toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

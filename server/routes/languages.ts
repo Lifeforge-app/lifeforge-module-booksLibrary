@@ -11,7 +11,9 @@ export const list = forge
     }
   })
   .callback(async ({ pb, response }) =>
-    response.ok(await pb.getFullList.collection('languages_aggregated').execute())
+    response.ok(
+      await pb.getFullList.collection('languages_aggregated').execute()
+    )
   )
 
 export const create = forge
@@ -25,7 +27,9 @@ export const create = forge
     }
   })
   .callback(async ({ pb, body, response }) =>
-    response.created(await pb.create.collection('languages').data(body).execute())
+    response.created(
+      await pb.create.collection('languages').data(body).execute()
+    )
   )
 
 export const update = forge
@@ -46,7 +50,9 @@ export const update = forge
     }
   })
   .callback(async ({ pb, query: { id }, body, response }) =>
-    response.ok(await pb.update.collection('languages').id(id).data(body).execute())
+    response.ok(
+      await pb.update.collection('languages').id(id).data(body).execute()
+    )
   )
 
 export const remove = forge

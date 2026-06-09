@@ -3,7 +3,13 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { usePromiseLoading } from '@lifeforge/api'
-import { Button, EmptyStateScreen, TextInput, WithQuery , toast } from '@lifeforge/ui'
+import {
+  Button,
+  EmptyStateScreen,
+  TextInput,
+  WithQuery,
+  toast
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

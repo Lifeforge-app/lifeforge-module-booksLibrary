@@ -1,12 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { Outlet } from 'react-router'
 
 import type {
   InferOutput,
   SocketEvent,
   useSocketContext as useSocket
 } from '@lifeforge/api'
-import { Outlet } from 'react-router'
 import { toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'

@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 import {
   parseAsBoolean,
   parseAsInteger,
@@ -8,6 +6,7 @@ import {
   useQueryState,
   useQueryStates
 } from 'nuqs'
+import { useEffect, useState } from 'react'
 
 export default function useFilter() {
   const [searchQuery, setSearchQuery] = useQueryState(

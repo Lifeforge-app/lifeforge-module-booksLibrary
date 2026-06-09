@@ -1,6 +1,6 @@
-import { Icon , Card, Scrollbar } from '@lifeforge/ui'
 import { useQuery } from '@tanstack/react-query'
 
+import { Card, Icon, Scrollbar } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

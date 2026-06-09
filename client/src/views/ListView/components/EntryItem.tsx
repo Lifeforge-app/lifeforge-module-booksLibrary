@@ -1,6 +1,6 @@
-import { Icon , Card, ContextMenu } from '@lifeforge/ui'
 import { useQuery } from '@tanstack/react-query'
 
+import { Card, ContextMenu, Icon } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

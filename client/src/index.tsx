@@ -13,8 +13,9 @@ import {
   Pagination,
   SearchInput,
   ViewModeSelector,
-  WithQuery
-, useModalStore } from '@lifeforge/ui'
+  WithQuery,
+  useModalStore
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
