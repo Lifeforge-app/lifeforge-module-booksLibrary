@@ -22,10 +22,8 @@ import { forgeAPI } from '@/manifest'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import AnnasModal from './components/modals/AnnasModal'
-import LibgenModal from './components/modals/LibgenModal'
 import UploadFromDeviceModal from './components/modals/UploadFromDeviceModal'
 import useFilter from './hooks/useFilter'
-import './index.css'
 import GridView from './views/GridView'
 import ListView from './views/ListView'
 
@@ -92,14 +90,7 @@ function BooksLibrary() {
                 open(UploadFromDeviceModal, {})
               }}
             />
-            <ContextMenuItem
-              icon="tabler:books"
-              label="Download from Libgen"
-              namespace="apps.booksLibrary"
-              onClick={() => {
-                open(LibgenModal, {})
-              }}
-            />
+
             <ContextMenuItem
               icon="tabler:archive"
               label="Search Annas"
@@ -217,14 +208,7 @@ function BooksLibrary() {
             open(UploadFromDeviceModal, {})
           }}
         />
-        <ContextMenuItem
-          icon="tabler:books"
-          label="Download from Libgen"
-          namespace="apps.booksLibrary"
-          onClick={() => {
-            open(LibgenModal, {})
-          }}
-        />
+
         <ContextMenuItem
           icon="tabler:archive"
           label="Search Annas"
