@@ -15,7 +15,6 @@ export default function useFilter() {
   )
 
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
-
   const [initialLoading, setInitialLoading] = useState(true)
 
   const [filter, setFilter] = useQueryStates({

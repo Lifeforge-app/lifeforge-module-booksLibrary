@@ -4,8 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { useModuleTranslation } from '@lifeforge/localization'
 import tinycolor from 'tinycolor2'
 
-import { Icon } from '@lifeforge/ui'
-import { usePersonalization } from '@lifeforge/ui'
+import { Icon , usePersonalization } from '@lifeforge/ui'
 
 import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 
@@ -13,7 +12,6 @@ dayjs.extend(relativeTime)
 
 function ReadStatusChip({ item }: { item: BooksLibraryEntry }) {
   const { t } = useModuleTranslation()
-
   const { derivedThemeColor, language } = usePersonalization()
 
   if (item.read_status === 'unread') {

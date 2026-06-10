@@ -17,9 +17,7 @@ function ModifyBookModal({
   onClose: () => void
 }) {
   const queryClient = useQueryClient()
-
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
-
   const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
   const mutation = useMutation(

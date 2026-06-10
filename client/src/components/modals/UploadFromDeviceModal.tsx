@@ -9,9 +9,7 @@ import AddToLibraryModal from './AddToLibraryModal'
 
 function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
   const { open } = useModalStore()
-
   const [file, setFile] = useState<File | string | null>(null)
-
   const [preview, setPreview] = useState<string | null>(null)
 
   const [loading, uploadFile] = usePromiseLoading(async () => {

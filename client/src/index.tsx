@@ -29,7 +29,6 @@ import ListView from './views/ListView'
 
 function BooksLibrary() {
   const { t } = useModuleTranslation()
-
   const { open } = useModalStore()
 
   const {

@@ -19,13 +19,9 @@ export default function EntryContextMenu({
   item: BooksLibraryEntry
 }) {
   const { open } = useModalStore()
-
   const queryClient = useQueryClient()
-
   const [downloadLoading, setDownloadLoading] = useState(false)
-
   const [readStatusChangeLoading, setReadStatusChangeLoading] = useState(false)
-
   const [addToFavouritesLoading, setAddToFavouritesLoading] = useState(false)
 
   const toggleFavouriteStatusMutation = useMutation(

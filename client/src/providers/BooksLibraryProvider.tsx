@@ -52,7 +52,6 @@ export const BooksLibraryContext = createContext<IBooksLibraryData | undefined>(
 
 export default function BooksLibraryProvider() {
   const socket = useSocket()
-
   const queryClient = useQueryClient()
 
   const [processes, setProcesses] = useState<

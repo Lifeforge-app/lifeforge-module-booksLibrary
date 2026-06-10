@@ -33,7 +33,6 @@ function _SidebarItem({
   useNamespace?: boolean
 }) {
   const queryClient = useQueryClient()
-
   const { open } = useModalStore()
 
   const { updateFilter, collection, fileType, language, readStatus } =

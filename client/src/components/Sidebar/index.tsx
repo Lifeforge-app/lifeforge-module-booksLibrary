@@ -12,11 +12,8 @@ function Sidebar() {
     useFilter()
 
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
-
   const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
-
   const fileTypesQuery = useQuery(forgeAPI.fileTypes.list.queryOptions())
-
   const readStatusQuery = useQuery(forgeAPI.readStatus.list.queryOptions())
 
   return (

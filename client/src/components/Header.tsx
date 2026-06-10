@@ -8,11 +8,8 @@ import useFilter from '../hooks/useFilter'
 
 function Header({ itemCount }: { itemCount: number }) {
   const { setIsSidebarOpen } = useModuleSidebarState()
-
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
-
   const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
-
   const fileTypesQuery = useQuery(forgeAPI.fileTypes.list.queryOptions())
 
   const {

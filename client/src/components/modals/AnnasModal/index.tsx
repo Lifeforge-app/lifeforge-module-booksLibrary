@@ -23,13 +23,9 @@ export type AnnasSearchResult = InferOutput<typeof forgeAPI.annas.search>
 
 function AnnasModal({ onClose }: { onClose: () => void }) {
   const { t } = useModuleTranslation()
-
   const [searchQuery, setSearchQuery] = useState('')
-
   const [hasSearched, setHasSearched] = useState(false)
-
   const [currentPage, setCurrentPage] = useState(1)
-
   const [data, setData] = useState<AnnasSearchResult | null>(null)
 
   const [bookmarkedBooks] = useLocalStorage<

@@ -24,7 +24,6 @@ function SidebarSection({
   useNamespace?: boolean
 }) {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
 
   const handleCreateItem = useCallback(() => {
