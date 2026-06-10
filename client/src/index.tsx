@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   ContextMenu,
@@ -84,7 +84,6 @@ function BooksLibrary() {
             <ContextMenuItem
               icon="tabler:upload"
               label="Upload from device"
-              namespace="apps.booksLibrary"
               onClick={() => {
                 open(UploadFromDeviceModal, {})
               }}
@@ -93,7 +92,6 @@ function BooksLibrary() {
             <ContextMenuItem
               icon="tabler:archive"
               label="Search Annas"
-              namespace="apps.booksLibrary"
               onClick={() => {
                 open(AnnasModal, {})
               }}
@@ -128,7 +126,6 @@ function BooksLibrary() {
           <div className="mt-4 mb-6 flex items-center gap-2">
             <SearchInput
               debounceMs={300}
-              namespace="apps.booksLibrary"
               searchTarget="book"
               value={searchQuery}
               onChange={setSearchQuery}
@@ -154,8 +151,7 @@ function BooksLibrary() {
                           <EmptyStateScreen
                             icon="tabler:search-off"
                             message={{
-                              id: 'result',
-                              namespace: 'apps.booksLibrary'
+                              id: 'result'
                             }}
                           />
                         )
@@ -165,8 +161,7 @@ function BooksLibrary() {
                         <EmptyStateScreen
                           icon="tabler:books-off"
                           message={{
-                            id: 'book',
-                            namespace: 'apps.booksLibrary'
+                            id: 'book'
                           }}
                         />
                       )
@@ -202,7 +197,6 @@ function BooksLibrary() {
         <ContextMenuItem
           icon="tabler:upload"
           label="Upload from device"
-          namespace="apps.booksLibrary"
           onClick={() => {
             open(UploadFromDeviceModal, {})
           }}
@@ -211,7 +205,6 @@ function BooksLibrary() {
         <ContextMenuItem
           icon="tabler:archive"
           label="Search Annas"
-          namespace="apps.booksLibrary"
           onClick={() => {
             open(AnnasModal, {})
           }}

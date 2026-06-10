@@ -53,7 +53,6 @@ function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
     <div className="min-w-[50vw]">
       <ModalHeader
         icon="tabler:upload"
-        namespace="apps.booksLibrary"
         title="Upload From Device"
         onClose={onClose}
       />

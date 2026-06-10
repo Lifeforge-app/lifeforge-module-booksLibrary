@@ -138,7 +138,6 @@ export default function EntryContextMenu({
           }[item.read_status]
         }`}
         loading={readStatusChangeLoading}
-        namespace="apps.booksLibrary"
         onClick={() => {
           setReadStatusChangeLoading(true)
           readStatusChangeMutation.mutate(undefined)
@@ -148,7 +147,6 @@ export default function EntryContextMenu({
         icon={item.is_favourite ? 'tabler:heart-off' : 'tabler:heart'}
         label="Add to Favourites"
         loading={addToFavouritesLoading}
-        namespace="apps.booksLibrary"
         onClick={() => {
           setAddToFavouritesLoading(true)
           toggleFavouriteStatusMutation.mutate(undefined)
@@ -157,7 +155,6 @@ export default function EntryContextMenu({
       <ContextMenuItem
         icon="tabler:brand-amazon"
         label="Send to Kindle"
-        namespace="apps.booksLibrary"
         onClick={handleSendToKindle}
       />
       <ContextMenuItem

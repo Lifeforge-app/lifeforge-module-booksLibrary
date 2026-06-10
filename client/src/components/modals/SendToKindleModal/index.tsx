@@ -13,7 +13,6 @@ function SendToKindleModal({
     <div className="min-w-[50vw]">
       <ModalHeader
         icon="tabler:brand-amazon"
-        namespace="apps.booksLibrary"
         title="Send to Kindle"
         onClose={onClose}
       />

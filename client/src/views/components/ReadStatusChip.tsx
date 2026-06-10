@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { useModuleTranslation } from '@lifeforge/localization'
 import tinycolor from 'tinycolor2'
 
-import { Icon , usePersonalization } from '@lifeforge/ui'
+import { useModuleTranslation } from '@lifeforge/localization'
+import { Icon, usePersonalization } from '@lifeforge/ui'
 
 import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 

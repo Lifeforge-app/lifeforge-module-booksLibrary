@@ -27,7 +27,6 @@ function Sidebar() {
         ]).every(value => !value)}
         icon="tabler:list"
         label="All books"
-        namespace="apps.booksLibrary"
         onClick={() => {
           updateFilter('collection', null)
           updateFilter('fileType', null)
@@ -39,7 +38,6 @@ function Sidebar() {
         active={favourite}
         icon="tabler:heart"
         label="Favourite"
-        namespace="apps.booksLibrary"
         onCancelButtonClick={() => {
           updateFilter('favourite', false)
         }}

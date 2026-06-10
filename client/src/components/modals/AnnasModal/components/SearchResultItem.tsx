@@ -130,7 +130,6 @@ function SearchResultItem({
             <Button
               className="w-full"
               icon={isBookmarked ? 'tabler:bookmark-off' : 'tabler:bookmark'}
-              namespace="apps.booksLibrary"
               variant="secondary"
               onClick={handleToggleBookmark}
             >
@@ -139,7 +138,6 @@ function SearchResultItem({
             <Button
               className="w-full"
               icon="tabler:download"
-              namespace="apps.booksLibrary"
               variant="primary"
               onClick={handleOpenDownloadPage}
             >

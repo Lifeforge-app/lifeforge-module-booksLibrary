@@ -1,7 +1,7 @@
 import type { UseQueryResult } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { SidebarTitle, WithQuery, useModalStore } from '@lifeforge/ui'
 
 import ModifyModal from '@/components/modals/ModifyModal'
@@ -38,7 +38,6 @@ function SidebarSection({
     <>
       <SidebarTitle
         label={stuff}
-        namespace="apps.booksLibrary"
         {...(hasActionButton
           ? {
               actionButtonIcon: 'tabler:plus',

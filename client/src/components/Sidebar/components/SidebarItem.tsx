@@ -117,7 +117,7 @@ function _SidebarItem({
         }
         icon={'icon' in item ? item.icon : fallbackIcon}
         label={item.name}
-        namespace={useNamespace ? 'apps.booksLibrary' : undefined}
+        namespace={useNamespace ? undefined : false}
         number={item.amount}
         sideStripColor={'color' in item ? (item.color as string) : undefined}
         onCancelButtonClick={() => {

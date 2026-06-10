@@ -1,8 +1,8 @@
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEffect, useState } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
 import { type InferOutput, usePromiseLoading } from '@lifeforge/api'
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   EmptyStateScreen,
@@ -84,14 +84,12 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
     <div className="flex min-h-[80vh] min-w-[70vw] flex-col">
       <ModalHeader
         icon="tabler:archive"
-        namespace="apps.booksLibrary"
         title="Anna's Archive"
         onClose={onClose}
       />
       <div className="flex flex-col items-center gap-2 sm:flex-row">
         <SearchInput
           className="component-bg-lighter-with-hover"
-          namespace="apps.booksLibrary"
           searchTarget="libgenBook"
           value={searchQuery}
           onChange={setSearchQuery}
@@ -153,8 +151,7 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
                 <EmptyStateScreen
                   icon="tabler:books-off"
                   message={{
-                    id: 'annasResult',
-                    namespace: 'apps.booksLibrary'
+                    id: 'annasResult'
                   }}
                 />
               )
@@ -208,8 +205,7 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
             <EmptyStateScreen
               icon="tabler:archive"
               message={{
-                id: 'annas',
-                namespace: 'apps.booksLibrary'
+                id: 'annas'
               }}
             />
           )

@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
 import { usePromiseLoading } from '@lifeforge/api'
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   EmptyStateScreen,
@@ -64,7 +64,6 @@ function ContentContainer({
               icon="tabler:mail"
               inputMode="email"
               label="Kindle Email"
-              namespace="apps.booksLibrary"
               placeholder="johndoe@kindle.com"
               value={kindleEmail}
               onChange={setKindleEmail}
@@ -76,7 +75,6 @@ function ContentContainer({
               icon="tabler:send"
               iconPosition="end"
               loading={loading}
-              namespace="apps.booksLibrary"
               onClick={onSubmit}
             >
               Send to Kindle
@@ -87,8 +85,7 @@ function ContentContainer({
             <EmptyStateScreen
               icon="tabler:send-off"
               message={{
-                id: 'noSMTPKeys',
-                namespace: 'apps.booksLibrary'
+                id: 'noSMTPKeys'
               }}
             />
           </div>
