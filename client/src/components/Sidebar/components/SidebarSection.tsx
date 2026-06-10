@@ -1,6 +1,6 @@
 import type { UseQueryResult } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { SidebarTitle, WithQuery, useModalStore } from '@lifeforge/ui'
 
@@ -25,7 +25,7 @@ function SidebarSection({
 }) {
   const { open } = useModalStore()
 
-  const { t } = useTranslation('apps.booksLibrary')
+  const { t } = useModuleTranslation()
 
   const handleCreateItem = useCallback(() => {
     open(ModifyModal, {

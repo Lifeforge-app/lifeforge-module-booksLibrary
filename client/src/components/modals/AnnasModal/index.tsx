@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { type InferOutput, usePromiseLoading } from '@lifeforge/api'
 import {
@@ -22,7 +22,7 @@ import SearchResultItem from './components/SearchResultItem'
 export type AnnasSearchResult = InferOutput<typeof forgeAPI.annas.search>
 
 function AnnasModal({ onClose }: { onClose: () => void }) {
-  const { t } = useTranslation('apps.booksLibrary')
+  const { t } = useModuleTranslation()
 
   const [searchQuery, setSearchQuery] = useState('')
 

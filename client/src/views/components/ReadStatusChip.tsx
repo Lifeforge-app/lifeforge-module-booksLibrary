@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 import tinycolor from 'tinycolor2'
 
 import { Icon } from '@lifeforge/ui'
@@ -12,7 +12,7 @@ import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 dayjs.extend(relativeTime)
 
 function ReadStatusChip({ item }: { item: BooksLibraryEntry }) {
-  const { t } = useTranslation('apps.booksLibrary')
+  const { t } = useModuleTranslation()
 
   const { derivedThemeColor, language } = usePersonalization()
 

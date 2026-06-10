@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import {
   Button,
@@ -28,7 +28,7 @@ import GridView from './views/GridView'
 import ListView from './views/ListView'
 
 function BooksLibrary() {
-  const { t } = useTranslation('apps.booksLibrary')
+  const { t } = useModuleTranslation()
 
   const { open } = useModalStore()
 
