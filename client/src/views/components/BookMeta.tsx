@@ -1,54 +1,64 @@
+import type { BooksLibraryEntry } from '@'
 import { useQuery } from '@tanstack/react-query'
-import clsx from 'clsx'
 import humanNumber from 'human-number'
 import prettyBytes from 'pretty-bytes'
 
-import { Icon } from '@lifeforge/ui'
+import { Box, Flex, Icon, Text } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
-import { type BooksLibraryEntry } from '../../providers/BooksLibraryProvider'
+function Separator({ isGridView }: { isGridView?: boolean }) {
+  return (
+    <Icon
+      color="muted"
+      display={{ base: isGridView ? 'none' : 'block', sm: 'block' }}
+      icon="tabler:circle-filled"
+      mx="xs"
+      size="0.25em"
+    />
+  )
+}
+
+function MetaItem({
+  icon,
+  children
+}: {
+  icon: string
+  children: React.ReactNode
+}) {
+  return (
+    <Flex align="center" flexShrink="0" style={{ whiteSpace: 'nowrap' }}>
+      <Icon color="muted" icon={icon} mr="xs" size="1em" />
+      <Text color="muted">{children}</Text>
+    </Flex>
+  )
+}
 
 function BookMeta({
   item,
   isGridView = false
 }: {
-  item: BooksLibraryEntry | Record<string, any>
+  item: BooksLibraryEntry
   isGridView?: boolean
 }) {
   const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
   return (
-    <div
-      className={clsx(
-        'text-bg-500 mt-4 flex w-full min-w-0 flex-wrap gap-2 text-sm',
-        isGridView
-          ? 'flex-col sm:flex-row sm:items-center'
-          : 'flex-row items-center'
-      )}
-    >
+    <Flex align="center" gap="xs" minWidth="0" mt="md" width="100%" wrap="wrap">
       {item.page_count !== 0 && (
         <>
-          <p className="text-bg-500 flex shrink-0 items-center whitespace-nowrap">
-            <Icon className="mr-1 size-4" icon="tabler:file-text" />
+          <MetaItem icon="tabler:file-text">
             {humanNumber(item.page_count)} pages
-          </p>
-          <Icon
-            className={clsx('size-1', isGridView && 'hidden sm:block')}
-            icon="tabler:circle-filled"
-          />
+          </MetaItem>
+          <Separator />
         </>
       )}
       {item.word_count !== 0 && (
         <>
-          <p className="text-bg-500 flex shrink-0 items-center whitespace-nowrap">
-            <Icon className="mr-1 size-4" icon="tabler:text-size" />
+          <MetaItem icon="tabler:text-size">
             {humanNumber(item.word_count)} words
-          </p>
-          <Icon
-            className={clsx('size-1', isGridView && 'hidden sm:block')}
-            icon="tabler:circle-filled"
-          />
+          </MetaItem>
+          <Separator />
         </>
       )}
       {languagesQuery.data &&
@@ -61,70 +71,63 @@ function BookMeta({
             langs.length > 0 && (
               <>
                 {langs.map((lang, i) => (
-                  <div key={lang.id}>
-                    <div className="flex items-center gap-1">
-                      <Icon className="size-4" icon={lang.icon} />
-                      {lang.name}
-                    </div>
+                  <Flex key={lang.id} align="center" gap="sm">
+                    <Icon color="muted" icon={lang.icon} size="1em" />
+                    <Text color="muted">{lang.name}</Text>
                     {i !== langs.length - 1 && (
                       <Icon
-                        key={`separator-${lang.id}`}
-                        className={clsx(
-                          'size-1',
-                          isGridView && 'hidden sm:block'
-                        )}
+                        color="muted"
+                        display={{
+                          base: isGridView ? 'none' : 'block',
+                          sm: 'block'
+                        }}
                         icon="tabler:circle-filled"
+                        size="0.25em"
                       />
                     )}
-                  </div>
+                  </Flex>
                 ))}
-                <Icon
-                  className={clsx('size-1', isGridView && 'hidden sm:block')}
-                  icon="tabler:circle-filled"
-                />
+                <Separator />
               </>
             )
           )
         })()}
       {item.year_published !== 0 && (
         <>
-          <p className="text-bg-500 flex shrink-0 items-center whitespace-nowrap">
-            <Icon className="mr-1 size-4" icon="tabler:clock" />
-            {item.year_published}
-          </p>
-          <Icon
-            className={clsx('size-1', isGridView && 'hidden sm:block')}
-            icon="tabler:circle-filled"
-          />
+          <MetaItem icon="tabler:clock">{item.year_published}</MetaItem>
+          <Separator />
         </>
       )}
       {item.publisher !== '' && (
         <>
-          <p className="text-bg-500 flex w-full max-w-[80vw] min-w-0 shrink-0 items-center whitespace-nowrap sm:w-auto sm:max-w-48">
-            <Icon className="mr-1 size-4 shrink-0" icon="tabler:user" />
-            <span className="w-full max-w-44 min-w-0 truncate">
-              {item.publisher}
-            </span>
-          </p>
-          <Icon
-            className={clsx('size-1', isGridView && 'hidden sm:block')}
-            icon="tabler:circle-filled"
-          />
+          <Flex
+            align="center"
+            flexShrink="0"
+            style={{ whiteSpace: 'nowrap' }}
+            width={{ base: '100%', sm: 'auto' }}
+          >
+            <Icon
+              color="muted"
+              icon="tabler:user"
+              mr="xs"
+
+              size="1em"
+            />
+            <Box asChild maxWidth={{ base: '11rem', sm: '12rem' }} minWidth="0">
+              <Text truncate color="muted">
+                {item.publisher}
+              </Text>
+            </Box>
+          </Flex>
+          <Separator />
         </>
       )}
-      <p className="text-bg-500 flex shrink-0 items-center whitespace-nowrap">
-        <Icon className="mr-1 size-4" icon="tabler:dimensions" />
+      <MetaItem icon="tabler:dimensions">
         {prettyBytes(+item.size || 0)}
-      </p>
-      <Icon
-        className={clsx('size-1', isGridView && 'hidden sm:block')}
-        icon="tabler:circle-filled"
-      />
-      <p className="text-bg-500 flex shrink-0 items-center whitespace-nowrap">
-        <Icon className="mr-1 size-4" icon="tabler:file-text" />
-        {item.extension}
-      </p>
-    </div>
+      </MetaItem>
+      <Separator />
+      <MetaItem icon="tabler:file-text">{item.extension}</MetaItem>
+    </Flex>
   )
 }
 

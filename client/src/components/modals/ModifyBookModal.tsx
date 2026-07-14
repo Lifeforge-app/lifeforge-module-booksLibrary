@@ -1,18 +1,40 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import { type InferInput } from '@lifeforge/api'
-import { FormModal, defineForm, toast } from '@lifeforge/ui'
+import {
+  FormModal,
+  ListboxField,
+  NumberField,
+  TextField,
+  createDefaultValues,
+  fileValueSchema,
+  toast
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
-import { type BooksLibraryEntry } from '../../providers/BooksLibraryProvider'
+const schema = z.object({
+  authors: z.string().min(1, 'Required'),
+  collection: z.string().optional().catch(''),
+  edition: z.string().catch(''),
+  isbn: z.string().catch(''),
+  languages: z.array(z.string()),
+  publisher: z.string().min(1, 'Required'),
+  title: z.string().min(1, 'Required'),
+  year_published: z.number().nonnegative(),
+  file: fileValueSchema
+})
 
 function ModifyBookModal({
   data: { initialData },
   onClose
 }: {
   data: {
-    initialData: BooksLibraryEntry
+    initialData: Partial<z.infer<typeof schema>> & {
+      id?: string
+    }
   }
   onClose: () => void
 }) {
@@ -21,119 +43,127 @@ function ModifyBookModal({
   const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
   const mutation = useMutation(
-    forgeAPI.entries.update
-      .input({
-        id: initialData.id
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'entries']
-          })
-          queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'collections']
-          })
-          queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'languages']
-          })
-        },
-        onError: () => {
-          toast.error('Failed to update book data')
-        }
-      })
-  )
-
-  const { formProps } = defineForm<
-    InferInput<typeof forgeAPI.entries.update>['body']
-  >({
-    icon: 'tabler:pencil',
-    loading: languagesQuery.isLoading || collectionsQuery.isLoading,
-    namespace: 'apps.booksLibrary',
-    title: 'Modify Book Data',
-    onClose,
-    submitButton: 'update'
-  })
-    .typesMap({
-      authors: 'text',
-      collection: 'listbox',
-      edition: 'text',
-      isbn: 'text',
-      languages: 'listbox',
-      publisher: 'text',
-      title: 'text',
-      year_published: 'number'
-    })
-    .setupFields({
-      isbn: {
-        label: 'ISBN',
-        icon: 'tabler:barcode',
-        placeholder: 'ISBN'
+    forgeAPI.entries.update.input({ id: initialData.id }).mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['booksLibrary', 'entries'] })
+        queryClient.invalidateQueries({
+          queryKey: ['booksLibrary', 'collections']
+        })
+        queryClient.invalidateQueries({
+          queryKey: ['booksLibrary', 'languages']
+        })
       },
-      collection: {
-        label: 'Collection',
-        icon: 'heroicons-outline:collection',
-        multiple: false,
-        nullOption: 'None',
-        options:
-          !collectionsQuery.isLoading && collectionsQuery.data
-            ? collectionsQuery.data.map(({ id, name, icon }) => ({
-                text: name[0].toUpperCase() + name.slice(1),
-                value: id,
-                icon
-              }))
-            : []
-      },
-      title: {
-        required: true,
-        label: 'Book Title',
-        icon: 'tabler:book',
-        placeholder: 'Title of the Book'
-      },
-      edition: {
-        label: 'Edition',
-        icon: 'tabler:number',
-        placeholder: 'Edition'
-      },
-      authors: {
-        required: true,
-        label: 'Authors',
-        icon: 'tabler:users',
-        placeholder: 'Authors'
-      },
-      publisher: {
-        required: true,
-        label: 'Publisher',
-        icon: 'tabler:building',
-        placeholder: 'Publisher'
-      },
-      year_published: {
-        required: true,
-        label: 'Publication Year',
-        icon: 'tabler:calendar',
-        placeholder: '20xx'
-      },
-      languages: {
-        required: true,
-        label: 'Languages',
-        icon: 'tabler:language',
-        multiple: true,
-        options:
-          !languagesQuery.isLoading && languagesQuery.data
-            ? languagesQuery.data.map(({ id, name, icon }) => ({
-                text: name[0].toUpperCase() + name.slice(1),
-                value: id,
-                icon
-              }))
-            : []
+      onError: () => {
+        toast.error('Failed to update book data')
       }
     })
-    .initialData(initialData)
-    .onSubmit(async data => {
-      await mutation.mutateAsync(data)
-    })
-    .build()
+  )
 
-  return <FormModal {...formProps} />
+  const form = useForm({
+    defaultValues: {
+      ...createDefaultValues(schema),
+      ...initialData
+    },
+    resolver: zodResolver(schema)
+  })
+
+  const collectionOptions =
+    !collectionsQuery.isLoading && collectionsQuery.data
+      ? collectionsQuery.data.map(({ id, name, icon }) => ({
+          text: name[0].toUpperCase() + name.slice(1),
+          value: id,
+          icon
+        }))
+      : []
+
+  const languageOptions =
+    !languagesQuery.isLoading && languagesQuery.data
+      ? languagesQuery.data.map(({ id, name, icon }) => ({
+          text: name[0].toUpperCase() + name.slice(1),
+          value: id,
+          icon
+        }))
+      : []
+
+  return (
+    <FormModal
+      form={form}
+      submissionConfig={{
+        template: 'update',
+        handler: mutation.mutateAsync
+      }}
+      uiConfig={{
+        icon: 'tabler:pencil',
+        loading: languagesQuery.isLoading || collectionsQuery.isLoading,
+        namespace: 'apps.booksLibrary',
+        title: 'Modify Book Data',
+        onClose
+      }}
+    >
+      <TextField
+        control={form.control}
+        icon="tabler:barcode"
+        label="ISBN"
+        name="isbn"
+        placeholder="ISBN"
+      />
+      <ListboxField
+        control={form.control}
+        icon="heroicons-outline:collection"
+        label="Collection"
+        name="collection"
+        options={collectionOptions}
+      />
+      <TextField
+        required
+        control={form.control}
+        icon="tabler:book"
+        label="Book Title"
+        name="title"
+        placeholder="Title of the Book"
+      />
+      <TextField
+        control={form.control}
+        icon="tabler:number"
+        label="Edition"
+        name="edition"
+        placeholder="Edition"
+      />
+      <TextField
+        required
+        control={form.control}
+        icon="tabler:users"
+        label="Authors"
+        name="authors"
+        placeholder="Authors"
+      />
+      <TextField
+        required
+        control={form.control}
+        icon="tabler:building"
+        label="Publisher"
+        name="publisher"
+        placeholder="Publisher"
+      />
+      <NumberField
+        required
+        control={form.control}
+        icon="tabler:calendar"
+        label="Publication Year"
+        name="year_published"
+        placeholder="20xx"
+      />
+      <ListboxField
+        multiple
+        required
+        control={form.control}
+        icon="tabler:language"
+        label="Languages"
+        name="languages"
+        options={languageOptions}
+      />
+    </FormModal>
+  )
 }
 
 export default ModifyBookModal

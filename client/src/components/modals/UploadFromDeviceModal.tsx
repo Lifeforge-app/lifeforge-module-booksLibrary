@@ -1,16 +1,22 @@
 import { useState } from 'react'
 
 import { usePromiseLoading } from '@lifeforge/api'
-import { Button, FileInput, ModalHeader, useModalStore } from '@lifeforge/ui'
+import {
+  Button,
+  FileInput,
+  ModalHeader,
+  Stack,
+  useModalStore
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
-import AddToLibraryModal from './AddToLibraryModal'
+import ModifyBookModal from './ModifyBookModal'
 
 function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
   const { open } = useModalStore()
-  const [file, setFile] = useState<File | string | null>(null)
-  const [preview, setPreview] = useState<string | null>(null)
+  const [file, setFile] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | undefined>(undefined)
 
   const [loading, uploadFile] = usePromiseLoading(async () => {
     if (!(file instanceof File)) return
@@ -25,12 +31,14 @@ function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
 
       onClose()
 
-      open(AddToLibraryModal, {
-        book: {
+      open(ModifyBookModal, {
+        initialData: {
           ...metadata,
-          File: file
-        },
-        provider: 'local'
+          file: {
+            type: 'upload',
+            file
+          }
+        }
       })
 
       return
@@ -38,48 +46,62 @@ function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
 
     onClose()
 
-    open(AddToLibraryModal, {
-      provider: 'local',
-      book: {
-        Title: file.name,
-        Size: file.size,
-        Extension: file.name.split('.').pop(),
-        File: file
+    open(ModifyBookModal, {
+      initialData: {
+        title: file.name,
+        file: {
+          type: 'upload',
+          file
+        }
       }
     })
   })
 
   return (
-    <div className="min-w-[50vw]">
+    <Stack minWidth="50vw">
       <ModalHeader
         icon="tabler:upload"
         title="Upload From Device"
         onClose={onClose}
       />
       <FileInput
-        acceptedMimeTypes={{
-          application: ['pdf', 'epub+zip']
-        }}
-        file={file}
         icon="tabler:book"
         label="Upload Book File"
-        preview={preview}
-        setData={({ file, preview }) => {
-          setFile(file)
-          setPreview(preview)
+        mimeTypes={{
+          application: ['pdf', 'epub+zip']
+        }}
+        value={
+          file
+            ? {
+                type: 'upload',
+                file,
+                preview
+              }
+            : {
+                type: 'empty'
+              }
+        }
+        onChange={value => {
+          if (value.type === 'upload') {
+            setFile(file)
+            setPreview(preview)
+          } else {
+            setFile(null)
+            setPreview(undefined)
+          }
         }}
       />
       <Button
-        className="mt-6 w-full"
         disabled={!file}
         icon="tabler:arrow-right"
         iconPosition="end"
         loading={loading}
+        mt="lg"
         onClick={uploadFile}
       >
         Proceed
       </Button>
-    </div>
+    </Stack>
   )
 }
 

@@ -1,19 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 
+import type { InferOutput } from '@lifeforge/api'
 import { useModuleTranslation } from '@lifeforge/localization'
 import {
+  Box,
   Button,
+  ContentWrapperWithSidebar,
   ContextMenu,
-  ContextMenuGroup,
   ContextMenuItem,
-  EmptyStateScreen,
   FAB,
+  Flex,
+  LayoutWithSidebar,
   ModuleHeader,
-  Pagination,
   SearchInput,
-  ViewModeSelector,
-  WithQuery,
   useModalStore
 } from '@lifeforge/ui'
 
@@ -24,8 +23,23 @@ import Sidebar from './components/Sidebar'
 import AnnasModal from './components/modals/AnnasModal'
 import UploadFromDeviceModal from './components/modals/UploadFromDeviceModal'
 import useFilter from './hooks/useFilter'
-import GridView from './views/GridView'
-import ListView from './views/ListView'
+import BookListing, { ViewMode } from './views'
+
+export type BooksLibraryEntry = InferOutput<
+  typeof forgeAPI.entries.list
+>['items'][number]
+
+export type BooksLibraryCollection = InferOutput<
+  typeof forgeAPI.collections.list
+>[number]
+
+export type BooksLibraryLanguage = InferOutput<
+  typeof forgeAPI.languages.list
+>[number]
+
+export type BooksLibraryFileType = InferOutput<
+  typeof forgeAPI.fileTypes.list
+>[number]
 
 function BooksLibrary() {
   const { t } = useModuleTranslation()
@@ -33,7 +47,6 @@ function BooksLibrary() {
 
   const {
     page,
-    setPage,
     collection,
     language,
     favourite,
@@ -42,8 +55,6 @@ function BooksLibrary() {
     searchQuery,
     setSearchQuery
   } = useFilter()
-
-  const [view, setView] = useState<'list' | 'grid'>('list')
 
   const dataQuery = useQuery(
     forgeAPI.entries.list
@@ -60,157 +71,88 @@ function BooksLibrary() {
   )
 
   return (
-    <>
+    <ViewMode.Root>
       <ModuleHeader
         actionButton={
-          <ContextMenu
-            buttonComponent={
-              <Button
-                className="hidden sm:flex"
-                icon="tabler:plus"
-                tProps={{
-                  item: t('items.book')
-                }}
-                onClick={() => {}}
-              >
-                new
-              </Button>
-            }
-            classNames={{
-              wrapper: 'hidden md:block',
-              menu: 'w-64'
-            }}
-          >
-            <ContextMenuItem
-              icon="tabler:upload"
-              label="Upload from device"
-              onClick={() => {
-                open(UploadFromDeviceModal, {})
+          <Box asChild display={{ base: 'none', md: 'block' }}>
+            <ContextMenu
+              buttonComponent={
+                <Button
+                  display={{ base: 'none', sm: 'flex' }}
+                  icon="tabler:plus"
+                  tProps={{
+                    item: t('items.book')
+                  }}
+                  onClick={() => {}}
+                >
+                  new
+                </Button>
+              }
+              styles={{
+                menu: {
+                  width: '16em'
+                }
               }}
-            />
-
-            <ContextMenuItem
-              icon="tabler:archive"
-              label="Search Annas"
-              onClick={() => {
-                open(AnnasModal, {})
-              }}
-            />
-          </ContextMenu>
+            >
+              <ContextMenuItem
+                icon="tabler:upload"
+                label="Upload from device"
+                onClick={() => open(UploadFromDeviceModal, {})}
+              />
+              <ContextMenuItem
+                icon="tabler:archive"
+                label="Search Annas"
+                onClick={() => open(AnnasModal, {})}
+              />
+            </ContextMenu>
+          </Box>
         }
         contextMenuProps={{
           classNames: {
             wrapper: 'block md:hidden'
           },
-          children: (
-            <ContextMenuGroup icon="tabler:eye" label="View as">
-              {['grid', 'list'].map(type => (
-                <ContextMenuItem
-                  key={type}
-                  checked={view === type}
-                  icon={type === 'grid' ? 'uil:apps' : 'uil:list-ul'}
-                  label={type.charAt(0).toUpperCase() + type.slice(1)}
-                  onClick={() => {
-                    setView(type as 'grid' | 'list')
-                  }}
-                />
-              ))}
-            </ContextMenuGroup>
-          )
+          children: <ViewMode.ContextMenuSelector />
         }}
       />
-      <div className="flex min-h-0 w-full min-w-0 flex-1">
+      <LayoutWithSidebar>
         <Sidebar />
-        <div className="flex h-full min-h-0 flex-1 flex-col pb-8 xl:ml-8">
+        <ContentWrapperWithSidebar>
           <Header itemCount={dataQuery.data?.totalItems || 0} />
-          <div className="mt-4 mb-6 flex items-center gap-2">
+          <Flex
+            align="center"
+
+            gap="xs"
+            mb="lg"
+            mt="md"
+          >
             <SearchInput
               debounceMs={300}
               searchTarget="book"
               value={searchQuery}
               onChange={setSearchQuery}
             />
-            <ViewModeSelector
-              className="hidden md:flex"
-              currentMode={view}
-              options={[
-                { value: 'list', icon: 'uil:list-ul' },
-                { value: 'grid', icon: 'uil:apps' }
-              ]}
-              onModeChange={setView}
-            />
-          </div>
-          <WithQuery query={dataQuery}>
-            {entries => (
-              <>
-                {(() => {
-                  {
-                    if (entries.items.length === 0) {
-                      if (searchQuery.trim()) {
-                        return (
-                          <EmptyStateScreen
-                            icon="tabler:search-off"
-                            message={{
-                              id: 'result'
-                            }}
-                          />
-                        )
-                      }
-
-                      return (
-                        <EmptyStateScreen
-                          icon="tabler:books-off"
-                          message={{
-                            id: 'book'
-                          }}
-                        />
-                      )
-                    }
-
-                    const FinalComponent = view === 'grid' ? GridView : ListView
-
-                    return (
-                      <>
-                        <Pagination
-                          className="mb-6"
-                          page={page}
-                          totalPages={entries.totalPages}
-                          onPageChange={setPage}
-                        />
-                        <FinalComponent books={entries.items} />
-                      </>
-                    )
-                  }
-                })()}
-              </>
-            )}
-          </WithQuery>
-        </div>
-      </div>
-      <ContextMenu
-        buttonComponent={<FAB className="static!" />}
-        classNames={{
-          wrapper: 'fixed right-6 bottom-6 z-50',
-          menu: 'w-72'
-        }}
-      >
-        <ContextMenuItem
-          icon="tabler:upload"
-          label="Upload from device"
-          onClick={() => {
-            open(UploadFromDeviceModal, {})
-          }}
-        />
-
-        <ContextMenuItem
-          icon="tabler:archive"
-          label="Search Annas"
-          onClick={() => {
-            open(AnnasModal, {})
-          }}
-        />
-      </ContextMenu>
-    </>
+            <ViewMode.Selector />
+          </Flex>
+          <BookListing />
+        </ContentWrapperWithSidebar>
+      </LayoutWithSidebar>
+      <Box bottom="1.5rem" position="fixed" right="1.5rem" zIndex="50">
+        <ContextMenu
+          buttonComponent={<FAB position="static" visibilityBreakpoint="md" />}
+        >
+          <ContextMenuItem
+            icon="tabler:upload"
+            label="Upload from device"
+            onClick={() => open(UploadFromDeviceModal, {})}
+          />
+          <ContextMenuItem
+            icon="tabler:archive"
+            label="Search Annas"
+            onClick={() => open(AnnasModal, {})}
+          />
+        </ContextMenu>
+      </Box>
+    </ViewMode.Root>
   )
 }
 

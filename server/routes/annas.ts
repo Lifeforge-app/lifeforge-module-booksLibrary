@@ -50,7 +50,7 @@ export const search = forge
     })()
 
     try {
-      const searchUrl = `https://annas-archive.org/search?q=${encodeURIComponent(q)}&page=${parsedPage}`
+      const searchUrl = `https://annas-archive.gl/search?q=${encodeURIComponent(q)}&page=${parsedPage}`
 
       const res = await fetch(searchUrl, {
         headers: {

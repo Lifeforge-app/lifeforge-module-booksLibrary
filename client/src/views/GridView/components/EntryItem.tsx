@@ -1,10 +1,10 @@
+import type { BooksLibraryEntry } from '@'
 import { useQuery } from '@tanstack/react-query'
 
-import { Card, ContextMenu, Icon } from '@lifeforge/ui'
+import { Box, Card, ContextMenu, Flex, Icon, Text } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
-import { type BooksLibraryEntry } from '../../../providers/BooksLibraryProvider'
 import BookMeta from '../../components/BookMeta'
 import EntryContextMenu from '../../components/EntryContextMenu'
 import ReadStatusChip from '../../components/ReadStatusChip'
@@ -14,41 +14,49 @@ function EntryItem({ item }: { item: BooksLibraryEntry }) {
 
   return (
     <Card key={item.id} as="li">
-      <a
-        className="absolute inset-0 z-10 size-full rounded-lg"
-        href={forgeAPI.getMedia({
-          collectionId: item.collectionId,
-          recordId: item.id,
-          fieldId: item.file
-        })}
-        rel="noreferrer"
-        target="_blank"
-      />
-      <ContextMenu
-        classNames={{
-          wrapper: 'absolute right-6 top-6 z-20'
-        }}
+      <Box position="absolute" right="1em" top="1em" zIndex="20">
+        <ContextMenu>
+          <EntryContextMenu item={item} />
+        </ContextMenu>
+      </Box>
+      <Flex
+        centered
+        aspectRatio="9 / 12"
+        bg={{ base: 'bg-200', dark: 'bg-800' }}
+        overflow="hidden"
+        position="relative"
+        r="lg"
+        style={{ isolation: 'isolate' }}
+        width="100%"
       >
-        <EntryContextMenu item={item} />
-      </ContextMenu>
-      <div className="flex-center bg-bg-200/70 shadow-custom dark:bg-bg-800/50 relative isolate aspect-9/12 w-full overflow-hidden rounded-lg">
-        <img
-          alt=""
-          className="h-full"
-          loading="lazy"
-          src={forgeAPI.getMedia({
-            collectionId: item.collectionId,
-            recordId: item.id,
-            fieldId: item.thumbnail,
-            thumb: '200x0'
-          })}
-        />
-        <Icon
-          className="text-bg-200 dark:text-bg-800 absolute top-1/2 left-1/2 z-[-1] size-20 -translate-x-1/2 -translate-y-1/2"
-          icon="tabler:book"
-        />
-      </div>
-      <div className="mt-6 w-full min-w-0">
+        <Box asChild height="100%" style={{ objectFit: 'cover' }}>
+          <img
+            alt=""
+            loading="lazy"
+            src={forgeAPI.getMedia({
+              collectionId: item.collectionId,
+              recordId: item.id,
+              fieldId: item.thumbnail,
+              thumb: '200x0'
+            })}
+          />
+        </Box>
+        <Box
+          asChild
+          left="50%"
+          position="absolute"
+          style={{ transform: 'translate(-50%, -50%)', zIndex: -1 }}
+          top="50%"
+          zIndex="-1"
+        >
+          <Icon
+            color={{ base: 'bg-200', dark: 'bg-700' }}
+            icon="tabler:book"
+            size="5em"
+          />
+        </Box>
+      </Flex>
+      <Flex direction="column" flex="1" minWidth="0" mt="lg" width="100%">
         <ReadStatusChip item={item} />
         {collectionsQuery.data &&
           (() => {
@@ -57,27 +65,42 @@ function EntryItem({ item }: { item: BooksLibraryEntry }) {
             )
 
             return collection !== undefined ? (
-              <div className="text-bg-500 mt-2 flex items-center gap-1 text-sm font-medium">
-                <Icon className="text-bg-500 size-4" icon={collection.icon} />{' '}
-                {collection.name}
-              </div>
-            ) : (
-              ''
-            )
+              <Flex align="center" gap="xs" mt="xs">
+                <Icon color="muted" icon={collection.icon} size="1em" />
+                <Text color="muted" size="sm" weight="medium">
+                  {collection.name}
+                </Text>
+              </Flex>
+            ) : null
           })()}
-        <div className="mt-1 line-clamp-3 w-full min-w-0 text-xl font-medium">
+        <Text lineClamp={3} mt="xs" size="xl" weight="medium">
           {item.title}{' '}
           {item.edition !== '' && (
-            <span className="text-bg-500 text-sm">({item.edition} ed)</span>
+            <Text as="span" color="muted" size="sm">
+              ({item.edition} ed)
+            </Text>
           )}
-        </div>
-        <div className="text-custom-500 mt-0.5 line-clamp-3 text-sm font-medium break-all">
+        </Text>
+        <Text
+          color="custom-500"
+          lineClamp={3}
+          mt="xs"
+          size="sm"
+          weight="medium"
+          wordBreak="break-all"
+        >
           {item.authors}
-        </div>
-        <div className="mt-auto w-full min-w-0">
+        </Text>
+        <Box
+          minWidth="0"
+          style={{
+            marginTop: 'auto'
+          }}
+          width="100%"
+        >
           <BookMeta isGridView item={item} />
-        </div>
-      </div>
+        </Box>
+      </Flex>
     </Card>
   )
 }

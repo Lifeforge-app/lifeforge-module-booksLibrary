@@ -122,9 +122,18 @@
       "title": "No SMTP API Keys Found",
       "description": "Proper SMTP API configurations are not found in your API key vault. Please go to the module and configure \"smtp-user\" and \"smtp-pass\"."
     },
-    "collections": "No collections found",
-    "languages": "No languages available",
-    "fileTypes": "No file types found",
+    "collections": {
+      "title": "No collections found",
+      "description": "No collections found. Click the plus button above to create one."
+    },
+    "languages": {
+      "title": "No languages available",
+      "description": "No languages available. Click the plus button above to add one."
+    },
+    "fileTypes": {
+      "title": "No file types found",
+      "description": "No file types available."
+    },
     "libgenOffline": {
       "title": "Libgen is Offline",
       "description": "Unable to reach the current provider of Libgen. Please try another one."
@@ -132,6 +141,10 @@
   },
   "checkingKeys": "Checking SMTP API keys...",
   "kindleSent": "Fired process to send the selected document to the targeted email address.",
+  "viewModes": {
+    "grid": "Grid",
+    "list": "List"
+  },
   "bookmarkedBooks": "Bookmarked Books",
   "bookmarkedBooksDesc": "You have {{number}} bookmarked book(s)"
 }

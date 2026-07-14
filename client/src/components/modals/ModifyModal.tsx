@@ -1,10 +1,22 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import _ from 'lodash'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import type { InferInput } from '@lifeforge/api'
-import { FormModal, defineForm, toast } from '@lifeforge/ui'
+import {
+  FormModal,
+  IconField,
+  TextField,
+  createDefaultValues,
+  toast
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
+
+const schema = z.object({
+  name: z.string().min(1, 'Required'),
+  icon: z.string().min(1, 'Required')
+})
 
 function ModifyModal({
   onClose,
@@ -13,7 +25,7 @@ function ModifyModal({
   onClose: () => void
   data: {
     type: 'create' | 'update'
-    initialData: any
+    initialData: unknown
     stuff: 'collections' | 'languages'
   }
 }) {
@@ -23,59 +35,60 @@ function ModifyModal({
     (type === 'create'
       ? forgeAPI[stuff].create
       : forgeAPI[stuff].update.input({
-          id: initialData?.id || ''
+          id: (initialData as { id?: string })?.id || ''
         })
     ).mutationOptions({
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['booksLibrary', stuff]
-        })
+        queryClient.invalidateQueries({ queryKey: ['booksLibrary', stuff] })
       },
       onError: () => {
-        toast.error(`Failed to ${type} ${_.camelCase(stuff)}`)
+        toast.error(
+          `Failed to ${type} ${stuff === 'collections' ? 'collection' : 'language'}`
+        )
       }
     })
   )
 
-  const singleStuff = {
-    collections: 'collection',
-    languages: 'language'
-  }[stuff]
+  const singleStuff = stuff === 'collections' ? 'collection' : 'language'
 
-  const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI)[typeof stuff][typeof type]>['body']
-  >({
-    icon: type === 'update' ? 'tabler:pencil' : 'tabler:plus',
-    namespace: 'apps.booksLibrary',
-    title: `${_.camelCase(singleStuff)}.${type}`,
-    onClose,
-    submitButton: type
+  const form = useForm({
+    defaultValues: {
+      ...createDefaultValues(schema),
+      ...(initialData as Record<string, unknown>)
+    },
+    resolver: zodResolver(schema)
   })
-    .typesMap({
-      name: 'text',
-      icon: 'icon'
-    })
-    .setupFields({
-      name: {
-        label: `${singleStuff} name`,
-        icon: 'tabler:book',
-        required: true,
-        placeholder: `Project ${singleStuff}`,
-        type: 'text'
-      },
-      icon: {
-        label: `${singleStuff} icon`,
-        type: 'icon',
-        required: true
-      }
-    })
-    .initialData(initialData)
-    .onSubmit(async data => {
-      await mutation.mutateAsync(data)
-    })
-    .build()
 
-  return <FormModal {...formProps} />
+  return (
+    <FormModal
+      form={form}
+      submissionConfig={{
+        template: type,
+        handler: mutation.mutateAsync
+      }}
+      uiConfig={{
+        icon: type === 'update' ? 'tabler:pencil' : 'tabler:plus',
+        namespace: 'apps.booksLibrary',
+        title: `${singleStuff}.${type}`,
+        onClose
+      }}
+    >
+      <TextField
+        required
+        control={form.control}
+        icon="tabler:book"
+        label={`${singleStuff} name`}
+        name="name"
+        placeholder={`Project ${singleStuff}`}
+      />
+      <IconField
+        required
+        control={form.control}
+        label={`${singleStuff} icon`}
+        name="icon"
+      />
+    </FormModal>
+  )
 }
 
 export default ModifyModal

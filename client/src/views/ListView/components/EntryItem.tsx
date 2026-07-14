@@ -1,10 +1,18 @@
+import type { BooksLibraryEntry } from '@'
 import { useQuery } from '@tanstack/react-query'
 
-import { Card, ContextMenu, Icon } from '@lifeforge/ui'
+import {
+  Box,
+  Card,
+  ContextMenu,
+  Flex,
+  Icon,
+  Text,
+  surface
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
-import { type BooksLibraryEntry } from '../../../providers/BooksLibraryProvider'
 import BookMeta from '../../components/BookMeta'
 import EntryContextMenu from '../../components/EntryContextMenu'
 import ReadStatusChip from '../../components/ReadStatusChip'
@@ -13,26 +21,26 @@ export default function EntryItem({ item }: { item: BooksLibraryEntry }) {
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
 
   return (
-    <Card key={item.id} as="li" className="flex flex-col gap-3 sm:flex-row">
-      <div className="absolute top-4 right-3 z-20 flex">
+    <Card as="li" direction={{ base: 'column', sm: 'row' }} gap="md">
+      <Box position="absolute" right="1em" top="1em" zIndex="20">
         <ContextMenu>
           <EntryContextMenu item={item} />
         </ContextMenu>
-      </div>
-      <a
-        className="absolute inset-0 z-10 size-full rounded-lg"
-        href={forgeAPI.getMedia({
-          collectionId: item.collectionId,
-          recordId: item.id,
-          fieldId: item.file
-        })}
-        rel="noreferrer"
-        target="_blank"
-      />
-      <div className="flex-center component-bg-lighter relative isolate aspect-10/12 h-min w-[calc(100%-4rem)] rounded-lg p-2 sm:w-28">
+      </Box>
+      <Flex
+        centered
+        aspectRatio="10 / 12"
+        bg={surface.light}
+        height="min-content"
+        overflow="hidden"
+        p="sm"
+        position="relative"
+        r="lg"
+        style={{ isolation: 'isolate' }}
+        width="12em"
+      >
         <img
           alt=""
-          className="h-full object-cover"
           loading="lazy"
           src={forgeAPI.getMedia({
             collectionId: item.collectionId,
@@ -40,43 +48,63 @@ export default function EntryItem({ item }: { item: BooksLibraryEntry }) {
             fieldId: item.thumbnail,
             thumb: '200x0'
           })}
+          style={{ height: '100%', objectFit: 'cover' }}
         />
-        <Icon
-          className="text-bg-200 dark:text-bg-800 absolute top-1/2 left-1/2 z-[-1] size-12 -translate-x-1/2 -translate-y-1/2"
-          icon="tabler:book"
-        />
-      </div>
-      <div className="flex w-full min-w-0 flex-1 flex-col">
+        <Box
+          asChild
+          left="50%"
+          position="absolute"
+          style={{ transform: 'translate(-50%, -50%)' }}
+          top="50%"
+          zIndex="-1"
+        >
+          <Icon
+            color={{ base: 'bg-200', dark: 'bg-700' }}
+            icon="tabler:book"
+            size="3em"
+          />
+        </Box>
+      </Flex>
+      <Flex direction="column" flex="1" minWidth="0" width="100%">
         <ReadStatusChip item={item} />
-        {collectionsQuery.data && (
-          <div className="text-bg-500 mb-1 flex items-center gap-1 text-sm font-medium">
-            {(() => {
-              const collection = collectionsQuery.data.find(
-                collection => collection.id === item.collection
-              )
+        {collectionsQuery.data &&
+          (() => {
+            const collection = collectionsQuery.data.find(
+              collection => collection.id === item.collection
+            )
 
-              return collection !== undefined ? (
-                <>
-                  <Icon className="text-bg-500 size-4" icon={collection.icon} />
+            return collection !== undefined ? (
+              <Flex align="center" gap="xs" mb="md">
+                <Icon color="muted" icon={collection.icon} />
+                <Text color="muted" weight="medium">
                   {collection.name}
-                </>
-              ) : (
-                ''
-              )
-            })()}
-          </div>
-        )}
-        <div className="line-clamp-3 text-lg font-semibold sm:mr-28">
+                </Text>
+              </Flex>
+            ) : null
+          })()}
+        <Text
+          lineClamp={3}
+          size="xl"
+          style={{ marginRight: '7rem' }}
+          weight="semibold"
+        >
           {item.title}{' '}
           {item.edition !== '' && (
-            <span className="text-bg-500 text-sm">({item.edition} ed)</span>
+            <Text as="span" color="muted" size="sm">
+              ({item.edition} ed)
+            </Text>
           )}
-        </div>
-        <div className="text-custom-500 mt-1 text-sm font-medium sm:mr-28">
+        </Text>
+        <Text
+          color="custom-500"
+          mt="xs"
+          style={{ marginRight: '7rem' }}
+          weight="medium"
+        >
           {item.authors}
-        </div>
+        </Text>
         <BookMeta item={item} />
-      </div>
+      </Flex>
     </Card>
   )
 }

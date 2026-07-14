@@ -18,36 +18,28 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "ISBN": {
+            "isbn": {
               "type": "string"
             },
-            "Title": {
+            "title": {
               "type": "string"
             },
-            "Author(s)": {
+            "authors": {
               "type": "string"
             },
-            "Publisher": {
+            "publisher": {
               "type": "string"
             },
-            "Year": {
-              "type": "string"
-            },
-            "Size": {
-              "type": "string"
-            },
-            "Extension": {
+            "year_published": {
               "type": "string"
             }
           },
           "required": [
-            "ISBN",
-            "Title",
-            "Author(s)",
-            "Publisher",
-            "Year",
-            "Size",
-            "Extension"
+            "isbn",
+            "title",
+            "authors",
+            "publisher",
+            "year_published"
           ],
           "additionalProperties": false
         },
@@ -880,23 +872,11 @@ export const contract = {
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
             "name",
-            "icon",
-            "id",
-            "collectionId",
-            "collectionName"
+            "icon"
           ],
           "additionalProperties": false
         }
@@ -1037,23 +1017,11 @@ export const contract = {
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
             "name",
-            "icon",
-            "id",
-            "collectionId",
-            "collectionName"
+            "icon"
           ],
           "additionalProperties": false
         }
@@ -1110,23 +1078,11 @@ export const contract = {
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
             "name",
-            "icon",
-            "id",
-            "collectionId",
-            "collectionName"
+            "icon"
           ],
           "additionalProperties": false
         }
@@ -1267,23 +1223,11 @@ export const contract = {
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
             "name",
-            "icon",
-            "id",
-            "collectionId",
-            "collectionName"
+            "icon"
           ],
           "additionalProperties": false
         }

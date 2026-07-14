@@ -1,5 +1,4 @@
 import z from 'zod'
-
 import { cleanSchemas } from '@lifeforge/server-utils'
 
 export const schemas = {
@@ -57,9 +56,7 @@ export const schemas = {
           type: 'text'
         }
       ],
-      indexes: [
-        'CREATE UNIQUE INDEX `idx_CJdyjxINIA` ON `books_library__collections` (`name`)'
-      ],
+      indexes: [],
       system: false
     }
   },
@@ -117,9 +114,7 @@ export const schemas = {
           type: 'text'
         }
       ],
-      indexes: [
-        'CREATE UNIQUE INDEX `idx_KB4mJFMlCd` ON `books_library__languages` (`name`)'
-      ],
+      indexes: [],
       system: false
     }
   },
@@ -455,9 +450,7 @@ export const schemas = {
           type: 'text'
         }
       ],
-      indexes: [
-        'CREATE UNIQUE INDEX `idx_MKfAEJXdDv` ON `books_library__file_types` (`name`)'
-      ],
+      indexes: [],
       system: false
     }
   },

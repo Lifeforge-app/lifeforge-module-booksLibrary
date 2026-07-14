@@ -1,3 +1,8 @@
+import type {
+  BooksLibraryCollection,
+  BooksLibraryFileType,
+  BooksLibraryLanguage
+} from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
@@ -12,12 +17,6 @@ import {
 import ModifyModal from '@/components/modals/ModifyModal'
 import useFilter from '@/hooks/useFilter'
 import { forgeAPI } from '@/manifest'
-
-import {
-  type BooksLibraryCollection,
-  type BooksLibraryFileType,
-  type BooksLibraryLanguage
-} from '../../../providers/BooksLibraryProvider'
 
 function _SidebarItem({
   item,

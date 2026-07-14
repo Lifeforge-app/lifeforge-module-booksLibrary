@@ -122,9 +122,18 @@
       "title": "未找到 SMTP API 密钥",
       "description": "在您的 API 密钥库中未找到正确的 SMTP API 配置。请前往模块并配置\"smtp-user\"和\"smtp-pass\"。"
     },
-    "collections": "未找到收藏集",
-    "languages": "无可用语言",
-    "fileTypes": "未找到文件类型",
+    "collections": {
+      "title": "未找到收藏集",
+      "description": "未找到任何收藏集。点击上面的加号按钮创建一个。"
+    },
+    "languages": {
+      "title": "无可用语言",
+      "description": "没有可用语言。点击上面的加号按钮添加一个。"
+    },
+    "fileTypes": {
+      "title": "未找到文件类型",
+      "description": "没有可用文件类型。"
+    },
     "libgenOffline": {
       "title": "Libgen 离线",
       "description": "无法连接到当前的 Libgen 提供商。请尝试其他提供商。"
@@ -132,6 +141,10 @@
   },
   "checkingKeys": "正在检查 SMTP API 密钥...",
   "kindleSent": "已启动进程将所选文档发送到目标邮箱地址。",
+  "viewModes": {
+    "grid": "网格",
+    "list": "列表"
+  },
   "bookmarkedBooks": "已收藏的书籍",
   "bookmarkedBooksDesc": "您有 {{number}} 本书已添加书签"
 }

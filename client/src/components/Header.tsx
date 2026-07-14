@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { Button, TagsFilter, useModuleSidebarState } from '@lifeforge/ui'
+import { Button, Flex, TagsFilter, Text, useModuleSidebarState } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
@@ -22,30 +22,32 @@ function Header({ itemCount }: { itemCount: number }) {
     readStatus
   } = useFilter()
 
+  const isFiltered = !Object.values([
+    collection,
+    favourite,
+    fileType,
+    language,
+    readStatus
+  ]).every(value => !value) || !!searchQuery.trim()
+
   return (
-    <div>
-      <div className="flex-between flex">
-        <h1 className="text-3xl font-semibold">
-          {Object.values([
-            collection,
-            favourite,
-            fileType,
-            language,
-            readStatus
-          ]).every(value => !value) && !searchQuery.trim()
-            ? 'All'
-            : 'Filtered'}{' '}
-          Books <span className="text-bg-500 text-base">({itemCount})</span>
-        </h1>
+    <Flex direction="column">
+      <Flex justify="between">
+        <Text as="h1" size="3xl" weight="semibold">
+          {isFiltered ? 'Filtered' : 'All'} Books{' '}
+          <Text as="span" color="muted" size="base">
+            ({itemCount})
+          </Text>
+        </Text>
         <Button
-          className="lg:hidden"
+          display={{ base: 'flex', lg: 'none' }}
           icon="tabler:menu"
           variant="plain"
           onClick={() => {
             setIsSidebarOpen(true)
           }}
         />
-      </div>
+      </Flex>
       <TagsFilter
         availableFilters={{
           collection: {
@@ -87,7 +89,7 @@ function Header({ itemCount }: { itemCount: number }) {
             updateFilter('language', (value || null) as string | null)
         }}
       />
-    </div>
+    </Flex>
   )
 }
 

@@ -2,7 +2,12 @@ import type { UseQueryResult } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
 import { useModuleTranslation } from '@lifeforge/localization'
-import { SidebarTitle, WithQuery, useModalStore } from '@lifeforge/ui'
+import {
+  EmptyStateScreen,
+  SidebarTitle,
+  WithQuery,
+  useModalStore
+} from '@lifeforge/ui'
 
 import ModifyModal from '@/components/modals/ModifyModal'
 
@@ -61,7 +66,13 @@ function SidebarSection({
               ))}
             </>
           ) : (
-            <p className="text-bg-500 text-center">{t(`empty.${stuff}`)}</p>
+            <EmptyStateScreen
+              smaller
+              icon="tabler:box-off"
+              message={{
+                id: stuff
+              }}
+            />
           )
         }
       </WithQuery>

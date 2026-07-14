@@ -1,3 +1,4 @@
+import type { BooksLibraryEntry } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
 
@@ -11,7 +12,6 @@ import {
 import ModifyBookModal from '@/components/modals/ModifyBookModal'
 import SendToKindleModal from '@/components/modals/SendToKindleModal'
 import { forgeAPI } from '@/manifest'
-import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
 
 export default function EntryContextMenu({
   item

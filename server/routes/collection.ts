@@ -24,7 +24,11 @@ export const create = forge
   .mutation({
     description: 'Create a new book collection',
     input: {
-      body: schema.collections
+      body: schema.collections.omit({
+        id: true,
+        collectionName: true,
+        collectionId: true
+      })
     },
     output: {
       CREATED: schema.collections
@@ -43,7 +47,11 @@ export const update = forge
       query: z.object({
         id: z.string()
       }),
-      body: schema.collections
+      body: schema.collections.omit({
+        id: true,
+        collectionName: true,
+        collectionId: true
+      })
     },
     existenceCheck: {
       query: { id: 'collections' }

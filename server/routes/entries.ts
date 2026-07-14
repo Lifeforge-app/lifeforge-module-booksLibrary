@@ -463,13 +463,11 @@ export const getEpubMetadata = forge
     },
     output: {
       OK: z.object({
-        ISBN: z.string(),
-        Title: z.string(),
-        'Author(s)': z.string(),
-        Publisher: z.string(),
-        Year: z.string(),
-        Size: z.string(),
-        Extension: z.string()
+        isbn: z.string(),
+        title: z.string(),
+        authors: z.string(),
+        publisher: z.string(),
+        year_published: z.string()
       }),
       BAD_REQUEST: z.string()
     }
@@ -488,13 +486,11 @@ export const getEpubMetadata = forge
     }
 
     return response.ok({
-      ISBN: metadata.ISBN,
-      Title: metadata.title,
-      'Author(s)': metadata.creator,
-      Publisher: metadata.publisher,
-      Year: dayjs(metadata.date).year().toString(),
-      Size: document.size.toString(),
-      Extension: 'epub'
+      isbn: metadata.ISBN,
+      title: metadata.title,
+      authors: metadata.creator,
+      publisher: metadata.publisher,
+      year_pubhlished: dayjs(metadata.date).year().toString()
     })
   })
 

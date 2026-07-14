@@ -6,6 +6,8 @@ import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   EmptyStateScreen,
+  ModalHeader,
+  Stack,
   TextInput,
   WithQuery,
   toast
@@ -13,11 +15,11 @@ import {
 
 import { forgeAPI } from '@/manifest'
 
-function ContentContainer({
-  bookId,
+function SendToKindleModal({
+  data: { bookId },
   onClose
 }: {
-  bookId: string
+  data: { bookId: string }
   onClose: () => void
 }) {
   const { t } = useModuleTranslation()
@@ -55,44 +57,48 @@ function ContentContainer({
   }
 
   return (
-    <WithQuery query={enabledQuery}>
-      {enabled =>
-        enabled ? (
-          <div className="space-y-3">
-            <TextInput
-              required
-              icon="tabler:mail"
-              inputMode="email"
-              label="Kindle Email"
-              placeholder="johndoe@kindle.com"
-              value={kindleEmail}
-              onChange={setKindleEmail}
-              onKeyDown={handleKeyDown}
-            />
-            <Button
-              className="w-full"
-              disabled={!kindleEmail.match(/^[\w-.]+@kindle\.com$/)}
-              icon="tabler:send"
-              iconPosition="end"
-              loading={loading}
-              onClick={onSubmit}
-            >
-              Send to Kindle
-            </Button>
-          </div>
-        ) : (
-          <div className="py-8">
+    <Stack minWidth="50vw">
+      <ModalHeader
+        icon="tabler:brand-amazon"
+        title="Send to Kindle"
+        onClose={onClose}
+      />
+      <WithQuery query={enabledQuery}>
+        {enabled =>
+          enabled ? (
+            <Stack>
+              <TextInput
+                required
+                icon="tabler:mail"
+                inputMode="email"
+                label="Kindle Email"
+                placeholder="johndoe@kindle.com"
+                value={kindleEmail}
+                onChange={setKindleEmail}
+                onKeyDown={handleKeyDown}
+              />
+              <Button
+                disabled={!kindleEmail.match(/^[\w-.]+@kindle\.com$/)}
+                icon="tabler:send"
+                iconPosition="end"
+                loading={loading}
+                onClick={onSubmit}
+              >
+                Send to Kindle
+              </Button>
+            </Stack>
+          ) : (
             <EmptyStateScreen
               icon="tabler:send-off"
               message={{
                 id: 'noSMTPKeys'
               }}
             />
-          </div>
-        )
-      }
-    </WithQuery>
+          )
+        }
+      </WithQuery>
+    </Stack>
   )
 }
 
-export default ContentContainer
+export default SendToKindleModal

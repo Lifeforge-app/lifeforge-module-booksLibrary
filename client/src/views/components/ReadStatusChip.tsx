@@ -1,12 +1,9 @@
-import clsx from 'clsx'
+import type { BooksLibraryEntry } from '@'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import tinycolor from 'tinycolor2'
 
 import { useModuleTranslation } from '@lifeforge/localization'
-import { Icon, usePersonalization } from '@lifeforge/ui'
-
-import type { BooksLibraryEntry } from '@/providers/BooksLibraryProvider'
+import { TagChip, usePersonalization } from '@lifeforge/ui'
 
 dayjs.extend(relativeTime)
 
@@ -18,40 +15,25 @@ function ReadStatusChip({ item }: { item: BooksLibraryEntry }) {
     return null
   }
 
+  const isRead = item.read_status === 'read'
+
   return (
-    <span
-      className={clsx(
-        'mb-2 flex w-min items-center gap-1 rounded-full py-1 pr-3 pl-2.5 text-xs font-semibold tracking-wide whitespace-nowrap',
-        item.read_status === 'read' &&
-          `bg-custom-500 ${
-            tinycolor(derivedThemeColor).isDark()
-              ? 'text-bg-100'
-              : 'text-bg-800'
-          }`,
-        item.read_status === 'reading' &&
-          'text-custom-500 border-custom-500 border-[1.5px]'
-      )}
-      data-tooltip-id={`read-label-${item.id}`}
-    >
-      <Icon
-        className="size-4"
-        icon={
-          {
-            reading: 'tabler:bolt',
-            read: 'tabler:check'
-          }[item.read_status]
-        }
-      />
-      {t(`sidebar.${item.read_status}`)}:{' '}
-      {
-        {
-          read: dayjs(item.time_finished)
-            .locale(language)
-            .from(dayjs(item.time_started), true),
-          reading: dayjs(item.time_started).locale(language).fromNow()
-        }[item.read_status]
-      }
-    </span>
+    <TagChip
+      color={derivedThemeColor}
+      icon={isRead ? 'tabler:check' : 'tabler:bolt'}
+      label={`${t(`sidebar.${item.read_status}`)}: ${
+        isRead
+          ? dayjs(item.time_finished)
+              .locale(language)
+              .from(dayjs(item.time_started), true)
+          : dayjs(item.time_started).locale(language).fromNow()
+      }`}
+      mb="lg"
+      mt="md"
+      size="sm"
+      variant={isRead ? 'filled' : 'outlined'}
+      width="min-content"
+    />
   )
 }
 

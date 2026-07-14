@@ -122,9 +122,18 @@
       "title": "Tiada Kunci API SMTP Dijumpai",
       "description": "Konfigurasi API SMTP yang betul tidak dijumpai dalam peti besi kunci API anda. Sila pergi ke modul dan konfigurasikan \"smtp-user\" dan \"smtp-pass\"."
     },
-    "collections": "Tiada koleksi dijumpai",
-    "languages": "Tiada bahasa tersedia",
-    "fileTypes": "Tiada jenis fail dijumpai",
+    "collections": {
+      "title": "Tiada koleksi dijumpai",
+      "description": "Tiada koleksi dijumpai. Klik butang tambah di atas untuk mencipta satu."
+    },
+    "languages": {
+      "title": "Tiada bahasa tersedia",
+      "description": "Tiada bahasa tersedia. Klik butang tambah di atas untuk menambah satu."
+    },
+    "fileTypes": {
+      "title": "Tiada jenis fail dijumpai",
+      "description": "Tiada jenis fail tersedia."
+    },
     "libgenOffline": {
       "title": "Libgen Sedang Luar Talian",
       "description": "Tidak dapat mencapai penyedia semasa Libgen. Sila cuba yang lain."
@@ -132,6 +141,10 @@
   },
   "checkingKeys": "Memeriksa kunci API SMTP...",
   "kindleSent": "Proses dijalankan untuk menghantar dokumen terpilih ke alamat e-mel yang disasarkan.",
+  "viewModes": {
+    "grid": "Grid",
+    "list": "Senarai"
+  },
   "bookmarkedBooks": "Buku Yang Ditempah",
   "bookmarkedBooksDesc": "Anda mempunyai {{number}} buku yang ditandai"
 }

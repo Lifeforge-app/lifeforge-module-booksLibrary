@@ -20,12 +20,14 @@
     "nodemailer": "^7.0.9",
     "pdf-page-counter": "^1.0.3",
     "pretty-bytes": "^7.1.0",
+    "react-virtualized": "^9.22.6",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "@types/human-number": "^1.0.2",
     "@types/jsdom": "^27.0.0",
-    "@types/nodemailer": "^7.0.2"
+    "@types/nodemailer": "^7.0.2",
+    "@types/react-virtualized": "^9.22.3"
   },
   "author": "Melvin Chia <melvinchia623600@gmail.com>",
   "lifeforge": {
@@ -34,10 +36,10 @@
   },
   "peerDependencies": {
     "@lifeforge/api": "workspace:*",
-    "@lifeforge/server-utils": "workspace:*",
-    "@lifeforge/localization": "workspace:*",
-    "@lifeforge/ui": "workspace:*",
+    "@lifeforge/configs": "workspace:*",
     "@lifeforge/federation": "workspace:*",
-    "@lifeforge/configs": "workspace:*"
+    "@lifeforge/localization": "workspace:*",
+    "@lifeforge/server-utils": "workspace:*",
+    "@lifeforge/ui": "workspace:*"
   }
 }
