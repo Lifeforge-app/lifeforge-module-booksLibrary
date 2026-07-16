@@ -490,7 +490,7 @@ export const getEpubMetadata = forge
       title: metadata.title,
       authors: metadata.creator,
       publisher: metadata.publisher,
-      year_pubhlished: dayjs(metadata.date).year().toString()
+      year_published: dayjs(metadata.date).year().toString()
     })
   })
 

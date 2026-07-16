@@ -2,15 +2,19 @@
   "name": "@lifeforge/lifeforge--books-library",
   "displayName": "Books Library",
   "version": "0.0.5",
+  "type": "module",
   "description": "Your personal library, no overdue fees.",
   "repository": {
     "type": "git",
     "url": "https://github.com/lifeforge-app/lifeforge-module-booksLibrary.git"
   },
   "scripts": {
-    "types": "cd client && bun tsc",
-    "build:client": "cd client && bun run vite build",
-    "build:server": "bun build ./server/index.ts --outdir ./server/dist --target bun --external @lifeforge/server-utils --external zod"
+    "typecheck": "pnpm run typecheck:client && pnpm run typecheck:server",
+    "typecheck:client": "cd client && tsc",
+    "typecheck:server": "cd server && tsc",
+    "build": "pnpm run build:client && pnpm run build:server",
+    "build:client": "cd client && vite build",
+    "build:server": "cd server && vite build"
   },
   "dependencies": {
     "epub-wordcount": "^2.1.3",
@@ -40,6 +44,7 @@
     "@lifeforge/federation": "workspace:*",
     "@lifeforge/localization": "workspace:*",
     "@lifeforge/server-utils": "workspace:*",
+    "@lifeforge/pocketbase": "workspace:*",
     "@lifeforge/ui": "workspace:*"
   }
 }
