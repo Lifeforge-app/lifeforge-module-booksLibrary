@@ -1,7 +1,6 @@
 import type { UseQueryResult } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
-import { useModuleTranslation } from '@lifeforge/localization'
 import {
   EmptyStateScreen,
   SidebarTitle,
@@ -29,7 +28,6 @@ function SidebarSection({
   useNamespace?: boolean
 }) {
   const { open } = useModalStore()
-  const { t } = useModuleTranslation()
 
   const handleCreateItem = useCallback(() => {
     open(ModifyModal, {

@@ -17,7 +17,10 @@ export const ViewMode = createViewMode({
   modes: [
     { value: 'list', icon: 'uil:list-ul' },
     { value: 'grid', icon: 'uil:apps' }
-  ]
+  ],
+  selectorProps: {
+    display: { base: 'none', md: 'flex' }
+  }
 })
 
 export default function BookListing() {

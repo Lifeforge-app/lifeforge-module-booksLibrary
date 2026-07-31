@@ -17,7 +17,7 @@ import { forgeAPI } from '@/manifest'
 
 const schema = z.object({
   authors: z.string().min(1, 'Required'),
-  collection: z.string().optional().catch(''),
+  collection: z.string(),
   edition: z.string().catch(''),
   isbn: z.string().catch(''),
   languages: z.array(z.string()),

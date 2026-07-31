@@ -56,6 +56,9 @@ function AnnasModal({ onClose }: { onClose: () => void }) {
           searchTarget="libgenBook"
           value={searchQuery}
           onChange={setSearchQuery}
+          onClear={() => {
+            setHasSearched(false)
+          }}
           onKeyUp={e => {
             if (e.key === 'Enter') {
               handleSearch()

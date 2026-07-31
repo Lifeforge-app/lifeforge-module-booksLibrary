@@ -1,4 +1,4 @@
-import { Box, Flex, Pagination, Stack, Text } from '@lifeforge/ui'
+import { Flex, Pagination, Stack, Text } from '@lifeforge/ui'
 
 import type { AnnasSearchResult } from '..'
 import SearchResultItem from './SearchResultItem'
@@ -14,19 +14,11 @@ function SearchResultList({
 }) {
   return (
     <Flex direction="column" gap="xs">
-      <Box mb="md">
-        <Text color="muted" size="lg" weight="medium">
-          Search results for{' '}
-          <Text as="span" color={{ base: 'bg-800', dark: 'bg-100' }}>
-            &quot;{data.query}&quot;
-          </Text>
-        </Text>
-        <Text color="muted" size="sm">
-          {data.total} result
-          {data.total !== 1 ? 's' : ''} found on page {currentPage} of{' '}
-          {data.totalPages}
-        </Text>
-      </Box>
+      <Text as="p" color="muted" mt="md">
+        {data.total} result
+        {data.total !== 1 ? 's' : ''} found on page {currentPage} of{' '}
+        {data.totalPages}
+      </Text>
       <Pagination
         mb="md"
         page={currentPage}

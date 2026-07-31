@@ -73,12 +73,11 @@ function BooksLibrary() {
   return (
     <ViewMode.Root>
       <ModuleHeader
-        actionButton={
-          <Box asChild display={{ base: 'none', md: 'block' }}>
+        trailing={
+          <>
             <ContextMenu
               buttonComponent={
                 <Button
-                  display={{ base: 'none', sm: 'flex' }}
                   icon="tabler:plus"
                   tProps={{
                     item: t('items.book')
@@ -88,11 +87,13 @@ function BooksLibrary() {
                   new
                 </Button>
               }
-              styles={{
+
+              componentProps={{
                 menu: {
                   width: '16em'
                 }
               }}
+              display={{ base: 'none', md: 'block' }}
             >
               <ContextMenuItem
                 icon="tabler:upload"
@@ -105,26 +106,17 @@ function BooksLibrary() {
                 onClick={() => open(AnnasModal, {})}
               />
             </ContextMenu>
-          </Box>
+            <ContextMenu display={{ base: 'block', md: 'none' }}>
+              <ViewMode.ContextMenuSelector />
+            </ContextMenu>
+          </>
         }
-        contextMenuProps={{
-          classNames: {
-            wrapper: 'block md:hidden'
-          },
-          children: <ViewMode.ContextMenuSelector />
-        }}
       />
       <LayoutWithSidebar>
         <Sidebar />
         <ContentWrapperWithSidebar>
           <Header itemCount={dataQuery.data?.totalItems || 0} />
-          <Flex
-            align="center"
-
-            gap="xs"
-            mb="lg"
-            mt="md"
-          >
+          <Flex align="center" gap="xs" mb="lg" mt="md">
             <SearchInput
               debounceMs={300}
               searchTarget="book"
