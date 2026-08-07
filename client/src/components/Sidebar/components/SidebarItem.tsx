@@ -62,11 +62,11 @@ function _SidebarItem({
       .mutationOptions({
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', stuff]
+            queryKey: forgeAPI[stuff].key
           })
 
           queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'entries']
+            queryKey: forgeAPI.entries.key
           })
         },
         onError: () => {

@@ -43,20 +43,22 @@ function ModifyBookModal({
   const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
 
   const mutation = useMutation(
-    forgeAPI.entries.update.input({ id: initialData.id }).mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['booksLibrary', 'entries'] })
-        queryClient.invalidateQueries({
-          queryKey: ['booksLibrary', 'collections']
-        })
-        queryClient.invalidateQueries({
-          queryKey: ['booksLibrary', 'languages']
-        })
-      },
-      onError: () => {
-        toast.error('Failed to update book data')
-      }
-    })
+    forgeAPI.entries.update
+      .input({ id: initialData.id || '' })
+      .mutationOptions({
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: forgeAPI.entries.key })
+          queryClient.invalidateQueries({
+            queryKey: forgeAPI.collections.key
+          })
+          queryClient.invalidateQueries({
+            queryKey: forgeAPI.languages.key
+          })
+        },
+        onError: () => {
+          toast.error('Failed to update book data')
+        }
+      })
   )
 
   const form = useForm({

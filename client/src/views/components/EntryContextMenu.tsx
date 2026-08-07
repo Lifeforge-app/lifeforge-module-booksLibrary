@@ -32,7 +32,7 @@ export default function EntryContextMenu({
       .mutationOptions({
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'entries']
+            queryKey: forgeAPI.entries.key
           })
         },
         onSettled: () => {
@@ -64,10 +64,10 @@ export default function EntryContextMenu({
       .mutationOptions({
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'entries']
+            queryKey: forgeAPI.entries.key
           })
           queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'readStatus']
+            queryKey: forgeAPI.readStatus.key
           })
         },
         onSettled: () => {
@@ -97,10 +97,10 @@ export default function EntryContextMenu({
       .mutationOptions({
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'entries']
+            queryKey: forgeAPI.entries.key
           })
           queryClient.invalidateQueries({
-            queryKey: ['booksLibrary', 'fileTypes']
+            queryKey: forgeAPI.fileTypes.key
           })
         },
         onError: () => {

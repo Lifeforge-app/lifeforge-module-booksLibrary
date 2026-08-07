@@ -39,7 +39,7 @@ function ModifyModal({
         })
     ).mutationOptions({
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['booksLibrary', stuff] })
+        queryClient.invalidateQueries({ queryKey: forgeAPI[stuff].key })
       },
       onError: () => {
         toast.error(
