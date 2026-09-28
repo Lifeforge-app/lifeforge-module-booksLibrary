@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import type { InferOutput } from '@lifeforge/api'
 import { useModuleTranslation } from '@lifeforge/localization'
 import {
-  Box,
   Button,
   ContentWrapperWithSidebar,
   ContextMenu,
@@ -128,22 +127,18 @@ function BooksLibrary() {
           <BookListing />
         </ContentWrapperWithSidebar>
       </LayoutWithSidebar>
-      <Box bottom="1.5rem" position="fixed" right="1.5rem" zIndex="50">
-        <ContextMenu
-          buttonComponent={<FAB position="static" visibilityBreakpoint="md" />}
-        >
-          <ContextMenuItem
-            icon="tabler:upload"
-            label="Upload from device"
-            onClick={() => open(UploadFromDeviceModal, {})}
-          />
-          <ContextMenuItem
-            icon="tabler:archive"
-            label="Search Annas"
-            onClick={() => open(AnnasModal, {})}
-          />
-        </ContextMenu>
-      </Box>
+      <FAB menuProps={{ zIndex: '50' }} visibilityBreakpoint="md">
+        <ContextMenuItem
+          icon="tabler:upload"
+          label="Upload from device"
+          onClick={() => open(UploadFromDeviceModal, {})}
+        />
+        <ContextMenuItem
+          icon="tabler:archive"
+          label="Search Annas"
+          onClick={() => open(AnnasModal, {})}
+        />
+      </FAB>
     </ViewMode.Root>
   )
 }
