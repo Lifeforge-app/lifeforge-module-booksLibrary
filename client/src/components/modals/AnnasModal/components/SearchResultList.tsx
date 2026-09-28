@@ -25,7 +25,7 @@ function SearchResultList({
         totalPages={data.totalPages || 1}
         onPageChange={onPageChange}
       />
-      <Stack gap="sm">
+      <Stack>
         {data.results.map(book => (
           <SearchResultItem key={book.md5} book={book} />
         ))}
