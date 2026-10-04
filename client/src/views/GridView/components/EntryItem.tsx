@@ -34,9 +34,7 @@ function EntryItem({ item }: { item: BooksLibraryEntry }) {
             alt=""
             loading="lazy"
             src={forgeAPI.getMedia({
-              collectionId: item.collectionId,
-              recordId: item.id,
-              fieldId: item.thumbnail,
+              key: item.thumbnail,
               thumb: '200x0'
             })}
           />

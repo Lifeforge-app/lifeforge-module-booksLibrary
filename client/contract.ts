@@ -31,7 +31,7 @@ export const contract = {
               "type": "string"
             },
             "year_published": {
-              "type": "string"
+              "type": "number"
             }
           },
           "required": [
@@ -42,10 +42,6 @@ export const contract = {
             "year_published"
           ],
           "additionalProperties": false
-        },
-        "BAD_REQUEST": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "string"
         }
       }
     },
@@ -119,6 +115,11 @@ export const contract = {
               "items": {
                 "type": "object",
                 "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
                   "title": {
                     "type": "string"
                   },
@@ -129,7 +130,9 @@ export const contract = {
                     "type": "string"
                   },
                   "year_published": {
-                    "type": "number"
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
                   },
                   "publisher": {
                     "type": "string"
@@ -141,7 +144,16 @@ export const contract = {
                     }
                   },
                   "collection": {
-                    "type": "string"
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
                   },
                   "extension": {
                     "type": "string"
@@ -150,13 +162,19 @@ export const contract = {
                     "type": "string"
                   },
                   "size": {
-                    "type": "number"
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
                   },
                   "word_count": {
-                    "type": "number"
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
                   },
                   "page_count": {
-                    "type": "number"
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
                   },
                   "isbn": {
                     "type": "string"
@@ -171,36 +189,41 @@ export const contract = {
                     "type": "boolean"
                   },
                   "time_started": {
-                    "type": "string"
-                  },
-                  "time_finished": {
-                    "type": "string"
-                  },
-                  "read_status": {
-                    "type": "string",
-                    "enum": [
-                      "read",
-                      "unread",
-                      "reading"
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
                     ]
                   },
-                  "created": {
+                  "time_finished": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "read_status": {
                     "type": "string"
+                  },
+                  "created": {
+                    "type": "string",
+                    "format": "date-time"
                   },
                   "updated": {
-                    "type": "string"
-                  },
-                  "id": {
-                    "type": "string"
-                  },
-                  "collectionId": {
-                    "type": "string"
-                  },
-                  "collectionName": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "date-time"
                   }
                 },
                 "required": [
+                  "id",
                   "title",
                   "authors",
                   "md5",
@@ -221,10 +244,7 @@ export const contract = {
                   "time_finished",
                   "read_status",
                   "created",
-                  "updated",
-                  "id",
-                  "collectionId",
-                  "collectionName"
+                  "updated"
                 ],
                 "additionalProperties": false
               }
@@ -237,8 +257,7 @@ export const contract = {
             "items"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "remove": {
@@ -264,8 +283,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "sendToKindle": {
@@ -309,12 +327,7 @@ export const contract = {
         "OK": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "string"
-        },
-        "BAD_REQUEST": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "string"
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "toggleFavouriteStatus": {
@@ -344,6 +357,11 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "title": {
               "type": "string"
             },
@@ -354,7 +372,9 @@ export const contract = {
               "type": "string"
             },
             "year_published": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "publisher": {
               "type": "string"
@@ -366,7 +386,16 @@ export const contract = {
               }
             },
             "collection": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "extension": {
               "type": "string"
@@ -375,13 +404,19 @@ export const contract = {
               "type": "string"
             },
             "size": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
             },
             "word_count": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "page_count": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "isbn": {
               "type": "string"
@@ -396,36 +431,41 @@ export const contract = {
               "type": "boolean"
             },
             "time_started": {
-              "type": "string"
-            },
-            "time_finished": {
-              "type": "string"
-            },
-            "read_status": {
-              "type": "string",
-              "enum": [
-                "read",
-                "unread",
-                "reading"
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
-            "created": {
+            "time_finished": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "read_status": {
               "type": "string"
+            },
+            "created": {
+              "type": "string",
+              "format": "date-time"
             },
             "updated": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             }
           },
           "required": [
+            "id",
             "title",
             "authors",
             "md5",
@@ -446,14 +486,10 @@ export const contract = {
             "time_finished",
             "read_status",
             "created",
-            "updated",
-            "id",
-            "collectionId",
-            "collectionName"
+            "updated"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "toggleReadStatus": {
@@ -483,6 +519,11 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "title": {
               "type": "string"
             },
@@ -493,7 +534,9 @@ export const contract = {
               "type": "string"
             },
             "year_published": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "publisher": {
               "type": "string"
@@ -505,7 +548,16 @@ export const contract = {
               }
             },
             "collection": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "extension": {
               "type": "string"
@@ -514,13 +566,19 @@ export const contract = {
               "type": "string"
             },
             "size": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
             },
             "word_count": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "page_count": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "isbn": {
               "type": "string"
@@ -535,36 +593,41 @@ export const contract = {
               "type": "boolean"
             },
             "time_started": {
-              "type": "string"
-            },
-            "time_finished": {
-              "type": "string"
-            },
-            "read_status": {
-              "type": "string",
-              "enum": [
-                "read",
-                "unread",
-                "reading"
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
-            "created": {
+            "time_finished": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "read_status": {
               "type": "string"
+            },
+            "created": {
+              "type": "string",
+              "format": "date-time"
             },
             "updated": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             }
           },
           "required": [
+            "id",
             "title",
             "authors",
             "md5",
@@ -585,14 +648,10 @@ export const contract = {
             "time_finished",
             "read_status",
             "created",
-            "updated",
-            "id",
-            "collectionId",
-            "collectionName"
+            "updated"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "update": {
@@ -648,15 +707,6 @@ export const contract = {
               "type": "string"
             }
           },
-          "required": [
-            "title",
-            "authors",
-            "edition",
-            "languages",
-            "isbn",
-            "publisher",
-            "year_published"
-          ],
           "additionalProperties": false
         }
       },
@@ -665,6 +715,11 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "title": {
               "type": "string"
             },
@@ -675,7 +730,9 @@ export const contract = {
               "type": "string"
             },
             "year_published": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "publisher": {
               "type": "string"
@@ -687,7 +744,16 @@ export const contract = {
               }
             },
             "collection": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "extension": {
               "type": "string"
@@ -696,13 +762,19 @@ export const contract = {
               "type": "string"
             },
             "size": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
             },
             "word_count": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "page_count": {
-              "type": "number"
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
             },
             "isbn": {
               "type": "string"
@@ -717,36 +789,41 @@ export const contract = {
               "type": "boolean"
             },
             "time_started": {
-              "type": "string"
-            },
-            "time_finished": {
-              "type": "string"
-            },
-            "read_status": {
-              "type": "string",
-              "enum": [
-                "read",
-                "unread",
-                "reading"
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
-            "created": {
+            "time_finished": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "read_status": {
               "type": "string"
+            },
+            "created": {
+              "type": "string",
+              "format": "date-time"
             },
             "updated": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
+              "type": "string",
+              "format": "date-time"
             }
           },
           "required": [
+            "id",
             "title",
             "authors",
             "md5",
@@ -767,14 +844,10 @@ export const contract = {
             "time_finished",
             "read_status",
             "created",
-            "updated",
-            "id",
-            "collectionId",
-            "collectionName"
+            "updated"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "upload": {
@@ -828,26 +901,11 @@ export const contract = {
               "type": "string"
             }
           },
-          "required": [
-            "title",
-            "authors",
-            "edition",
-            "size",
-            "languages",
-            "extension",
-            "isbn",
-            "publisher",
-            "year_published"
-          ],
           "additionalProperties": false
         }
       },
       "output": {
         "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "string"
-        },
-        "BAD_REQUEST": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "string"
         }
@@ -886,28 +944,22 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "name": {
               "type": "string"
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
-            "name",
-            "icon",
             "id",
-            "collectionId",
-            "collectionName"
+            "name",
+            "icon"
           ],
           "additionalProperties": false
         }
@@ -928,6 +980,9 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
+              "id": {
+                "type": "string"
+              },
               "name": {
                 "type": "string"
               },
@@ -936,24 +991,13 @@ export const contract = {
               },
               "amount": {
                 "type": "number"
-              },
-              "id": {
-                "type": "string"
-              },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
               }
             },
             "required": [
+              "id",
               "name",
               "icon",
-              "amount",
-              "id",
-              "collectionId",
-              "collectionName"
+              "amount"
             ],
             "additionalProperties": false
           }
@@ -983,8 +1027,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "update": {
@@ -1031,32 +1074,25 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "name": {
               "type": "string"
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
-            "name",
-            "icon",
             "id",
-            "collectionId",
-            "collectionName"
+            "name",
+            "icon"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     }
   },
@@ -1092,28 +1128,22 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "name": {
               "type": "string"
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
-            "name",
-            "icon",
             "id",
-            "collectionId",
-            "collectionName"
+            "name",
+            "icon"
           ],
           "additionalProperties": false
         }
@@ -1134,6 +1164,9 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
+              "id": {
+                "type": "string"
+              },
               "name": {
                 "type": "string"
               },
@@ -1142,24 +1175,13 @@ export const contract = {
               },
               "amount": {
                 "type": "number"
-              },
-              "id": {
-                "type": "string"
-              },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
               }
             },
             "required": [
+              "id",
               "name",
               "icon",
-              "amount",
-              "id",
-              "collectionId",
-              "collectionName"
+              "amount"
             ],
             "additionalProperties": false
           }
@@ -1189,8 +1211,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "update": {
@@ -1237,32 +1258,25 @@ export const contract = {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
             "name": {
               "type": "string"
             },
             "icon": {
               "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
             }
           },
           "required": [
-            "name",
-            "icon",
             "id",
-            "collectionId",
-            "collectionName"
+            "name",
+            "icon"
           ],
           "additionalProperties": false
-        },
-        "NOT_FOUND": true
+        }
       }
     }
   },
@@ -1282,28 +1296,20 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
+              "id": {
+                "type": "string"
+              },
               "name": {
                 "type": "string"
               },
               "amount": {
                 "type": "number"
-              },
-              "id": {
-                "type": "string"
-              },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
               }
             },
             "required": [
-              "name",
-              "amount",
               "id",
-              "collectionId",
-              "collectionName"
+              "name",
+              "amount"
             ],
             "additionalProperties": false
           }
@@ -1327,30 +1333,28 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
-              "name": {},
-              "icon": {},
-              "color": {},
-              "amount": {
-                "type": "number"
-              },
               "id": {
                 "type": "string"
               },
-              "collectionId": {
+              "name": {
                 "type": "string"
               },
-              "collectionName": {
+              "icon": {
                 "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
               }
             },
             "required": [
+              "id",
               "name",
               "icon",
               "color",
-              "amount",
-              "id",
-              "collectionId",
-              "collectionName"
+              "amount"
             ],
             "additionalProperties": false
           }

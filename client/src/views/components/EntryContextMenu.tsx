@@ -46,11 +46,7 @@ export default function EntryContextMenu({
 
     const a = document.createElement('a')
 
-    a.href = forgeAPI.getMedia({
-      collectionId: item.collectionId,
-      recordId: item.id,
-      fieldId: item.file
-    })
+    a.href = forgeAPI.getMedia({ key: item.file, download: 'true' })
     a.download = `${item.title}.${item.extension}`
     a.click()
     setDownloadLoading(false)
@@ -84,8 +80,15 @@ export default function EntryContextMenu({
 
   const handleUpdateEntry = useCallback(() => {
     open(ModifyBookModal, {
-      type: 'update',
-      initialData: item
+      initialData: {
+        ...item,
+        collection: item.collection ?? '',
+        file: {
+          type: 'existing',
+          id: item.file,
+          filename: `${item.title}.${item.extension}`
+        }
+      }
     })
   }, [item])
 

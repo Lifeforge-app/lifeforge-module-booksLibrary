@@ -1,3 +1,5 @@
+import { and, eq, ilike, sql } from 'drizzle-orm'
+import { createSelectSchema } from 'drizzle-orm/zod'
 import dayjs from 'dayjs'
 import { EPub } from 'epub2'
 import { countWords } from 'epub-wordcount'
@@ -8,8 +10,42 @@ import pdfPageCounter from 'pdf-page-counter'
 import z from 'zod'
 
 import forge from '../forge'
-import schema from '../schema'
+import { bookEntries } from '../schema.drizzle'
 import getEpubThumbnail from '../utils/getThumbnail'
+
+const entryDto = createSelectSchema(bookEntries).extend({
+  languages: z.array(z.string())
+})
+
+const READ_STATUS_MAP: Record<string, string> = {
+  '1': 'read',
+  '2': 'reading',
+  '3': 'unread'
+}
+
+const uploadInputDto = z.object({
+  title: z.string().optional(),
+  authors: z.string().optional(),
+  edition: z.string().optional(),
+  size: z.number().optional(),
+  languages: z.array(z.string()).optional(),
+  extension: z.string().optional(),
+  isbn: z.string().optional(),
+  publisher: z.string().optional(),
+  year_published: z.number().optional(),
+  collection: z.string().optional()
+})
+
+const updateInputDto = z.object({
+  title: z.string().optional(),
+  authors: z.string().optional(),
+  edition: z.string().optional(),
+  languages: z.array(z.string()).optional(),
+  isbn: z.string().optional(),
+  publisher: z.string().optional(),
+  year_published: z.number().optional(),
+  collection: z.string().optional()
+})
 
 export const list = forge
   .query({
@@ -29,26 +65,18 @@ export const list = forge
         query: z.string().optional()
       })
     },
-    existenceCheck: {
-      query: {
-        collection: '[collections]',
-        language: '[languages]',
-        fileType: '[file_types]'
-      }
-    },
     output: {
       OK: z.object({
         page: z.number(),
         totalPages: z.number(),
         totalItems: z.number(),
-        items: z.array(schema.entries)
-      }),
-      NOT_FOUND: true
+        items: z.array(entryDto)
+      })
     }
   })
   .callback(
     async ({
-      pb,
+      db,
       query: {
         collection,
         language,
@@ -63,59 +91,46 @@ export const list = forge
       const parsedPage = parseInt(page, 10)
       const PER_PAGE = 20
 
-      const fileTypeRecord = fileType
-        ? await pb.getOne.collection('file_types').id(fileType).execute()
-        : undefined
+      const conditions = []
 
-      const results = await pb.getFullList
-        .collection('entries')
-        .filter([
-          collection
-            ? {
-                field: 'collection',
-                operator: '=',
-                value: collection
-              }
-            : undefined,
-          language
-            ? {
-                field: 'languages',
-                operator: '~',
-                value: language
-              }
-            : undefined,
-          favourite === 'true'
-            ? {
-                field: 'is_favourite',
-                operator: '=',
-                value: true
-              }
-            : undefined,
-          readStatus
-            ? {
-                field: 'read_status',
-                operator: '=',
-                value: {
-                  '1': 'read',
-                  '2': 'reading',
-                  '3': 'unread'
-                }[readStatus]
-              }
-            : undefined,
-          fileTypeRecord && {
-            field: 'extension',
-            operator: '=',
-            value: fileTypeRecord.name
-          },
-          query
-            ? {
-                field: 'title',
-                operator: '~',
-                value: query
-              }
-            : undefined
-        ])
-        .execute()
+      if (collection) {
+        conditions.push(eq(bookEntries.collection, collection))
+      }
+
+      if (language) {
+        conditions.push(
+          sql`jsonb_exists(${bookEntries.languages}, ${language})`
+        )
+      }
+
+      if (favourite === 'true') {
+        conditions.push(eq(bookEntries.is_favourite, true))
+      }
+
+      if (readStatus) {
+        conditions.push(
+          eq(bookEntries.read_status, READ_STATUS_MAP[readStatus])
+        )
+      }
+
+      if (fileType) {
+        const fileTypeRecord = await db.query.file_types.findFirst({
+          where: { id: fileType }
+        })
+
+        if (fileTypeRecord) {
+          conditions.push(eq(bookEntries.extension, fileTypeRecord.name))
+        }
+      }
+
+      if (query) {
+        conditions.push(ilike(bookEntries.title, `%${query}%`))
+      }
+
+      const results = await db
+        .select()
+        .from(bookEntries)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
 
       return response.ok({
         page: parsedPage,
@@ -123,7 +138,7 @@ export const list = forge
         totalItems: results.length,
         items: results
           .sort((a, b) => {
-            const readStatusOrder = {
+            const readStatusOrder: Record<string, number> = {
               reading: 1,
               unread: 2,
               read: 3
@@ -131,14 +146,15 @@ export const list = forge
 
             if (a.read_status !== b.read_status) {
               return (
-                readStatusOrder[a.read_status] - readStatusOrder[b.read_status]
+                readStatusOrder[a.read_status] -
+                readStatusOrder[b.read_status]
               )
             }
 
             if (a.read_status === 'reading') {
               return (
-                new Date(b.time_started).getTime() -
-                new Date(a.time_started).getTime()
+                new Date(b.time_started ?? 0).getTime() -
+                new Date(a.time_started ?? 0).getTime()
               )
             }
 
@@ -156,21 +172,7 @@ export const upload = forge
   .mutation({
     description: 'Upload a new book to the library',
     input: {
-      body: schema.entries
-        .pick({
-          title: true,
-          authors: true,
-          edition: true,
-          size: true,
-          languages: true,
-          extension: true,
-          isbn: true,
-          publisher: true,
-          year_published: true
-        })
-        .extend({
-          collection: z.string().optional()
-        })
+      body: uploadInputDto
     },
     media: {
       file: {
@@ -179,17 +181,17 @@ export const upload = forge
       }
     },
     output: {
-      OK: z.string(),
-      BAD_REQUEST: z.string()
+      OK: z.string()
     }
   })
   .callback(
     async ({
-      pb,
+      db,
       body,
       media: { file },
       core: {
-        media: { retrieveMedia, convertPDFToImage }
+        media: { convertPDFToImage },
+        storage
       },
       response
     }) => {
@@ -197,31 +199,50 @@ export const upload = forge
         return response.badRequest('Invalid file')
       }
 
-      let thumbnail: File | undefined = undefined
+      let thumbnailFile: File | undefined = undefined
       let word_count: number | undefined = undefined
       let page_count: number | undefined = undefined
 
-      if (file.mimetype === 'application/epub+zip') {
+      if (file.mimeType === 'application/epub+zip') {
         const epubInstance = await EPub.createAsync(file.path)
-        thumbnail = await getEpubThumbnail(epubInstance)
+        thumbnailFile = await getEpubThumbnail(epubInstance)
         word_count = await countWords(file.path)
-      } else if (file.mimetype === 'application/pdf') {
-        thumbnail = await convertPDFToImage(file.path)
+      } else if (file.mimeType === 'application/pdf') {
+        thumbnailFile = await convertPDFToImage(file.path)
         const buffer = fs.readFileSync(file.path)
         page_count = (await pdfPageCounter(buffer)).numpages
       }
 
-      await pb.create
-        .collection('entries')
-        .data({
-          ...body,
-          ...(await retrieveMedia('file', file)),
-          thumbnail,
-          word_count,
-          page_count,
-          read_status: 'unread'
-        })
-        .execute()
+      const fileRef = await storage.save({ file })
+
+      const thumbnailRef = thumbnailFile
+        ? await storage.save({
+            file: {
+              buffer: Buffer.from(await thumbnailFile.arrayBuffer()),
+              originalName: thumbnailFile.name,
+              mimeType: thumbnailFile.type
+            },
+            thumbs: ['200x0']
+          })
+        : null
+
+      await db.insert(bookEntries).values({
+        title: body.title ?? '',
+        authors: body.authors ?? '',
+        edition: body.edition ?? '',
+        size: body.size ?? 0,
+        languages: body.languages ?? [],
+        extension: body.extension ?? '',
+        isbn: body.isbn ?? '',
+        publisher: body.publisher ?? '',
+        year_published: body.year_published ?? 0,
+        collection: body.collection || null,
+        file: fileRef?.key ?? '',
+        thumbnail: thumbnailRef?.key ?? '',
+        word_count: word_count ?? 0,
+        page_count: page_count ?? 0,
+        read_status: 'unread'
+      })
 
       if (fs.existsSync(file.path)) {
         fs.unlinkSync(file.path)
@@ -235,69 +256,53 @@ export const update = forge
   .mutation({
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), bookEntries)
       }),
-      body: schema.entries
-        .pick({
-          title: true,
-          authors: true,
-          edition: true,
-          languages: true,
-          isbn: true,
-          publisher: true,
-          year_published: true
-        })
-        .extend({
-          collection: z.string().optional()
-        })
+      body: updateInputDto
     },
     description: 'Update an existing book entry',
-    existenceCheck: {
-      query: { id: 'entries' },
-      body: {
-        collection: '[collections]',
-        languages: '[languages]'
-      }
-    },
     output: {
-      OK: schema.entries,
-      NOT_FOUND: true
+      OK: entryDto
     }
   })
-  .callback(async ({ pb, query: { id }, body, response }) =>
-    response.ok(
-      await pb.update.collection('entries').id(id).data(body).execute()
-    )
-  )
+  .callback(async ({ db, query: { id }, body, response }) => {
+    const [updated] = await db
+      .update(bookEntries)
+      .set({
+        ...body,
+        ...(body.collection !== undefined
+          ? { collection: body.collection || null }
+          : {}),
+        updated: new Date()
+      })
+      .where(eq(bookEntries.id, id))
+      .returning()
+
+    return response.ok(updated)
+  })
 
 export const toggleFavouriteStatus = forge
   .mutation({
     description: 'Toggle book favorite status',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), bookEntries)
       })
     },
-    existenceCheck: {
-      query: { id: 'entries' }
-    },
     output: {
-      OK: schema.entries,
-      NOT_FOUND: true
+      OK: entryDto
     }
   })
-  .callback(async ({ pb, query: { id }, response }) => {
-    const book = await pb.getOne.collection('entries').id(id).execute()
+  .callback(async ({ db, query: { id }, response }) => {
+    const book = (await db.query.entries.findFirst({ where: { id } }))!
 
-    return response.ok(
-      await pb.update
-        .collection('entries')
-        .id(id)
-        .data({
-          is_favourite: !book.is_favourite
-        })
-        .execute()
-    )
+    const [updated] = await db
+      .update(bookEntries)
+      .set({ is_favourite: !book.is_favourite, updated: new Date() })
+      .where(eq(bookEntries.id, id))
+      .returning()
+
+    return response.ok(updated)
   })
 
 export const toggleReadStatus = forge
@@ -305,43 +310,47 @@ export const toggleReadStatus = forge
     description: 'Toggle book read status',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), bookEntries)
       })
     },
-    existenceCheck: {
-      query: { id: 'entries' }
-    },
     output: {
-      OK: schema.entries,
-      NOT_FOUND: true
+      OK: entryDto
     }
   })
-  .callback(async ({ pb, query: { id }, response }) => {
-    const book = await pb.getOne.collection('entries').id(id).execute()
+  .callback(async ({ db, query: { id }, response }) => {
+    const book = (await db.query.entries.findFirst({ where: { id } }))!
 
-    return response.ok(
-      await pb.update
-        .collection('entries')
-        .id(id)
-        .data({
-          read_status: {
-            unread: 'reading',
-            read: 'unread',
-            reading: 'read'
-          }[book.read_status],
-          time_finished: {
-            unread: undefined,
-            read: '',
-            reading: new Date().toISOString()
-          }[book.read_status],
-          time_started: {
-            unread: new Date().toISOString(),
-            read: '',
-            reading: undefined
-          }[book.read_status]
-        })
-        .execute()
-    )
+    const newStatus = {
+      unread: 'reading',
+      read: 'unread',
+      reading: 'read'
+    }[book.read_status] as string
+
+    const set: Record<string, unknown> = {
+      read_status: newStatus,
+      updated: new Date()
+    }
+
+    if (book.read_status === 'unread') {
+      set.time_started = new Date()
+    }
+
+    if (book.read_status === 'read') {
+      set.time_started = null
+      set.time_finished = null
+    }
+
+    if (book.read_status === 'reading') {
+      set.time_finished = new Date()
+    }
+
+    const [updated] = await db
+      .update(bookEntries)
+      .set(set)
+      .where(eq(bookEntries.id, id))
+      .returning()
+
+    return response.ok(updated)
   })
 
 export const sendToKindle = forge
@@ -349,36 +358,32 @@ export const sendToKindle = forge
     description: 'Send book to Kindle email',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), bookEntries)
       }),
       body: z.object({
         target: z.string().email()
       })
     },
-    existenceCheck: {
-      query: { id: 'entries' }
-    },
     output: {
-      OK: z.string(),
-      BAD_REQUEST: z.string(),
-      NOT_FOUND: true
+      OK: z.string()
     }
   })
   .callback(
     async ({
-      pb,
+      db,
       io,
       query: { id },
       body: { target },
       core: {
         api: { getAPIKey },
-        tasks
+        tasks,
+        storage
       },
       response
     }) => {
-      const smtpUser = await getAPIKey('smtp-user', pb)
+      const smtpUser = await getAPIKey('smtp-user')
 
-      const smtpPassword = await getAPIKey('smtp-pass', pb)
+      const smtpPassword = await getAPIKey('smtp-pass')
 
       if (!smtpUser || !smtpPassword) {
         return response.badRequest(
@@ -409,11 +414,29 @@ export const sendToKindle = forge
       })
 
       ;(async () => {
-        const entry = await pb.getOne.collection('entries').id(id).execute()
+        const entry = await db.query.entries.findFirst({ where: { id } })
 
-        const fileLink = pb.instance.files.getURL(entry, entry.file)
+        if (!entry) {
+          tasks.update(io, taskid, { status: 'failed' })
 
-        const content = await fetch(fileLink).then(res => res.arrayBuffer())
+          return
+        }
+
+        const fileStream = await storage.get(entry.file)
+
+        if (!fileStream) {
+          tasks.update(io, taskid, { status: 'failed' })
+
+          return
+        }
+
+        const chunks: Buffer[] = []
+
+        for await (const chunk of fileStream.stream) {
+          chunks.push(Buffer.from(chunk))
+        }
+
+        const content = Buffer.concat(chunks)
 
         const fileName = `${entry.title}.${entry.extension}`
 
@@ -425,7 +448,7 @@ export const sendToKindle = forge
           attachments: [
             {
               filename: fileName,
-              content: Buffer.from(content)
+              content
             }
           ],
           headers: {
@@ -467,9 +490,8 @@ export const getEpubMetadata = forge
         title: z.string(),
         authors: z.string(),
         publisher: z.string(),
-        year_published: z.string()
-      }),
-      BAD_REQUEST: z.string()
+        year_published: z.number()
+      })
     }
   })
   .callback(async ({ media: { document }, response }) => {
@@ -490,7 +512,7 @@ export const getEpubMetadata = forge
       title: metadata.title,
       authors: metadata.creator,
       publisher: metadata.publisher,
-      year_published: dayjs(metadata.date).year().toString()
+      year_published: dayjs(metadata.date).year()
     })
   })
 
@@ -499,19 +521,25 @@ export const remove = forge
     description: 'Delete a book entry',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), bookEntries)
       })
     },
-    existenceCheck: {
-      query: { id: 'entries' }
-    },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
-  .callback(async ({ pb, query: { id }, response }) => {
-    await pb.delete.collection('entries').id(id).execute()
+  .callback(async ({ db, query: { id }, core, response }) => {
+    const entry = await db.query.entries.findFirst({ where: { id } })
+
+    if (entry) {
+      for (const key of [entry.file, entry.thumbnail]) {
+        if (key) {
+          await core.storage.delete(key)
+        }
+      }
+    }
+
+    await db.delete(bookEntries).where(eq(bookEntries.id, id))
 
     return response.noContent()
   })
