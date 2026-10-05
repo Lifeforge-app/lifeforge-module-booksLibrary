@@ -1,26 +1,6 @@
 {
   "title": "圖書館",
   "description": "您的個人圖書館，無逾期費用。",
-  "libgen": {
-    "results": {
-      "title": "未找到圖書",
-      "description": "在 Library Genesis 中未找到符合的圖書。"
-    },
-    "searchQuery": {
-      "title": "無搜尋查詢",
-      "description": "開始探索 Library Genesis。嘗試搜尋一本書來開始。"
-    }
-  },
-  "annas": {
-    "results": {
-      "title": "未找到圖書",
-      "description": "在 Anna's Archive 中未找到符合的圖書。"
-    },
-    "searchQuery": {
-      "title": "無搜尋查詢",
-      "description": "開始探索 Anna's Archive。嘗試搜尋一本書來開始。"
-    }
-  },
   "results": {
     "title": "未找到圖書",
     "description": "未找到符合項目。請嘗試搜尋其他內容。"
@@ -39,8 +19,6 @@
     "readStatus": "閱讀狀態"
   },
   "modals": {
-    "libraryGenesis": "Library Genesis",
-    "annasArchive": "Anna's Archive",
     "addToLibrary": "新增至圖書館",
     "modifyBookData": "更新圖書資訊",
     "language": {
@@ -59,22 +37,16 @@
     "alreadyInLibrary": "已在圖書館中",
     "viewDetails": "檢視詳情",
     "uploadFromDevice": "從裝置上傳",
-    "downloadFromLibgen": "從 Library Genesis 下載",
-    "searchAnnas": "搜尋 Anna's Archive",
     "downloading": "下載中",
     "sendToKindle": "傳送至 Kindle",
     "markAsRead": "標記為已讀",
     "markAsUnread": "標記為未讀",
     "markAsReading": "標記為閱讀中",
     "addToFavourites": "新增至我的最愛",
-    "removeFromFavourites": "從我的最愛移除",
-    "openDownloadPage": "打開下載頁面",
-    "bookmark": "添加書籤",
-    "removeBookmark": "移除書籤"
+    "removeFromFavourites": "從我的最愛移除"
   },
   "inputs": {
     "isbn": "ISBN",
-    "libgenId": "圖書館 ID",
     "publisher": "出版社",
     "bookTitle": "書名",
     "publicationYear": "出版年份",
@@ -93,9 +65,7 @@
     "uploadBookFile": "上傳圖書檔案"
   },
   "items": {
-    "book": "圖書",
-    "libgenBook": "數百萬圖書",
-    "annasBook": ""
+    "book": "圖書"
   },
   "empty": {
     "book": {
@@ -105,18 +75,6 @@
     "result": {
       "title": "無結果",
       "description": "未找到項目，請嘗試其他關鍵字。"
-    },
-    "libgenResult": {
-      "title": "無結果",
-      "description": "在 Library Genesis 中未找到符合的圖書。請嘗試其他搜尋查詢。"
-    },
-    "annasResult": {
-      "title": "無結果",
-      "description": "在 Anna's Archive 中未找到符合的圖書。請嘗試其他搜尋查詢。"
-    },
-    "annas": {
-      "title": "由 Anna's Archive 提供支援",
-      "description": "瀏覽 Anna's Archive 中的圖書並將它們新增到您的圖書館。"
     },
     "noSMTPKeys": {
       "title": "未找到 SMTP API 金鑰",
@@ -133,10 +91,6 @@
     "fileTypes": {
       "title": "未找到檔案類型",
       "description": "沒有可用檔案類型。"
-    },
-    "libgenOffline": {
-      "title": "Libgen 離線",
-      "description": "無法連線到目前的 Libgen 提供商。請嘗試其他提供商。"
     }
   },
   "checkingKeys": "正在檢查 SMTP API 金鑰...",
@@ -144,7 +98,5 @@
   "viewModes": {
     "grid": "網格",
     "list": "列表"
-  },
-  "bookmarkedBooks": "已書籤的書籍",
-  "bookmarkedBooksDesc": "您有 {{number}} 本書已加書籤"
+  }
 }

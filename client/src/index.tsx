@@ -19,7 +19,6 @@ import { forgeAPI } from '@/manifest'
 
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import AnnasModal from './components/modals/AnnasModal'
 import UploadFromDeviceModal from './components/modals/UploadFromDeviceModal'
 import useFilter from './hooks/useFilter'
 import BookListing, { ViewMode } from './views'
@@ -99,11 +98,6 @@ function BooksLibrary() {
                 label="Upload from device"
                 onClick={() => open(UploadFromDeviceModal, {})}
               />
-              <ContextMenuItem
-                icon="tabler:archive"
-                label="Search Annas"
-                onClick={() => open(AnnasModal, {})}
-              />
             </ContextMenu>
             <ContextMenu display={{ base: 'block', md: 'none' }}>
               <ViewMode.ContextMenuSelector />
@@ -132,11 +126,6 @@ function BooksLibrary() {
           icon="tabler:upload"
           label="Upload from device"
           onClick={() => open(UploadFromDeviceModal, {})}
-        />
-        <ContextMenuItem
-          icon="tabler:archive"
-          label="Search Annas"
-          onClick={() => open(AnnasModal, {})}
         />
       </FAB>
     </ViewMode.Root>

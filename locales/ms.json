@@ -1,26 +1,6 @@
 {
   "title": "Perpustakaan",
   "description": "Perpustakaan peribadi anda, tiada yuran lewat.",
-  "libgen": {
-    "results": {
-      "title": "Tiada buku dijumpai",
-      "description": "Tiada buku yang sepadan dijumpai dalam Library Genesis."
-    },
-    "searchQuery": {
-      "title": "Tiada pertanyaan carian",
-      "description": "Mula meneroka Library Genesis. Cuba cari buku untuk bermula."
-    }
-  },
-  "annas": {
-    "results": {
-      "title": "Tiada buku dijumpai",
-      "description": "Tiada buku yang sepadan dijumpai dalam Anna's Archive."
-    },
-    "searchQuery": {
-      "title": "Tiada pertanyaan carian",
-      "description": "Mula meneroka Anna's Archive. Cuba cari buku untuk bermula."
-    }
-  },
   "results": {
     "title": "Tiada buku dijumpai",
     "description": "Tiada padanan dijumpai. Cuba cari sesuatu yang lain."
@@ -39,8 +19,6 @@
     "readStatus": "Status Bacaan"
   },
   "modals": {
-    "libraryGenesis": "Library Genesis",
-    "annasArchive": "Anna's Archive",
     "addToLibrary": "Tambah ke Perpustakaan",
     "modifyBookData": "Kemas Kini Maklumat Buku",
     "language": {
@@ -59,22 +37,16 @@
     "alreadyInLibrary": "Sudah dalam Perpustakaan",
     "viewDetails": "Lihat Butiran",
     "uploadFromDevice": "Muat Naik dari Peranti",
-    "downloadFromLibgen": "Muat Turun dari Library Genesis",
-    "searchAnnas": "Cari di Anna's Archive",
     "downloading": "Memuat Turun",
     "sendToKindle": "Hantar ke Kindle",
     "markAsRead": "Tandakan sebagai Telah Baca",
     "markAsUnread": "Tandakan sebagai Belum Baca",
     "markAsReading": "Tandakan sebagai Sedang Membaca",
     "addToFavourites": "Tambah ke Kegemaran",
-    "removeFromFavourites": "Buang dari Kegemaran",
-    "openDownloadPage": "Buka Halaman Muat Turun",
-    "bookmark": "Tandakan",
-    "removeBookmark": "Buang Penanda Buku"
+    "removeFromFavourites": "Buang dari Kegemaran"
   },
   "inputs": {
     "isbn": "ISBN",
-    "libgenId": "ID Perpustakaan",
     "publisher": "Penerbit",
     "bookTitle": "Tajuk Buku",
     "publicationYear": "Tahun Penerbitan",
@@ -93,9 +65,7 @@
     "uploadBookFile": "Muat Naik Fail Buku"
   },
   "items": {
-    "book": "Buku",
-    "libgenBook": "Jutaan Buku",
-    "annasBook": ""
+    "book": "Buku"
   },
   "empty": {
     "book": {
@@ -105,18 +75,6 @@
     "result": {
       "title": "Tiada Keputusan",
       "description": "Tiada item dijumpai, sila cuba kata kunci lain."
-    },
-    "libgenResult": {
-      "title": "Tiada Keputusan",
-      "description": "Tiada buku yang sepadan dijumpai dalam Library Genesis. Sila cuba pertanyaan carian lain."
-    },
-    "annasResult": {
-      "title": "Tiada Keputusan",
-      "description": "Tiada buku yang sepadan dijumpai dalam Anna's Archive. Sila cuba pertanyaan carian lain."
-    },
-    "annas": {
-      "title": "Dikuasakan oleh Anna's Archive",
-      "description": "Layari buku dalam Anna's Archive dan tambahkan ke perpustakaan anda."
     },
     "noSMTPKeys": {
       "title": "Tiada Kunci API SMTP Dijumpai",
@@ -133,10 +91,6 @@
     "fileTypes": {
       "title": "Tiada jenis fail dijumpai",
       "description": "Tiada jenis fail tersedia."
-    },
-    "libgenOffline": {
-      "title": "Libgen Sedang Luar Talian",
-      "description": "Tidak dapat mencapai penyedia semasa Libgen. Sila cuba yang lain."
     }
   },
   "checkingKeys": "Memeriksa kunci API SMTP...",
@@ -144,7 +98,5 @@
   "viewModes": {
     "grid": "Grid",
     "list": "Senarai"
-  },
-  "bookmarkedBooks": "Buku Yang Ditempah",
-  "bookmarkedBooksDesc": "Anda mempunyai {{number}} buku yang ditandai"
+  }
 }

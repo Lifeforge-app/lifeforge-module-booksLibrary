@@ -1,26 +1,6 @@
 {
   "title": "图书馆",
   "description": "您的个人图书馆，无逾期费用。",
-  "libgen": {
-    "results": {
-      "title": "未找到图书",
-      "description": "在 Library Genesis 中未找到匹配的图书。"
-    },
-    "searchQuery": {
-      "title": "无搜索查询",
-      "description": "开始探索 Library Genesis。尝试搜索一本书来开始。"
-    }
-  },
-  "annas": {
-    "results": {
-      "title": "未找到图书",
-      "description": "在 Anna's Archive 中未找到匹配的图书。"
-    },
-    "searchQuery": {
-      "title": "无搜索查询",
-      "description": "开始探索 Anna's Archive。尝试搜索一本书来开始。"
-    }
-  },
   "results": {
     "title": "未找到图书",
     "description": "未找到匹配项。请尝试搜索其他内容。"
@@ -39,8 +19,6 @@
     "readStatus": "阅读状态"
   },
   "modals": {
-    "libraryGenesis": "Library Genesis",
-    "annasArchive": "Anna's Archive",
     "addToLibrary": "添加到图书馆",
     "modifyBookData": "更新图书信息",
     "language": {
@@ -59,22 +37,16 @@
     "alreadyInLibrary": "已在图书馆中",
     "viewDetails": "查看详情",
     "uploadFromDevice": "从设备上传",
-    "downloadFromLibgen": "从 Library Genesis 下载",
-    "searchAnnas": "搜索 Anna's Archive",
     "downloading": "下载中",
     "sendToKindle": "发送到 Kindle",
     "markAsRead": "标记为已读",
     "markAsUnread": "标记为未读",
     "markAsReading": "标记为阅读中",
     "addToFavourites": "添加到喜爱",
-    "removeFromFavourites": "从喜爱中移除",
-    "openDownloadPage": "打开下载页面",
-    "bookmark": "添加书签",
-    "removeBookmark": "移除书签"
+    "removeFromFavourites": "从喜爱中移除"
   },
   "inputs": {
     "isbn": "ISBN",
-    "libgenId": "图书馆 ID",
     "publisher": "出版社",
     "bookTitle": "书名",
     "publicationYear": "出版年份",
@@ -93,9 +65,7 @@
     "uploadBookFile": "上传图书文件"
   },
   "items": {
-    "book": "图书",
-    "libgenBook": "数百万图书",
-    "annasBook": ""
+    "book": "图书"
   },
   "empty": {
     "book": {
@@ -105,18 +75,6 @@
     "result": {
       "title": "无结果",
       "description": "未找到项目，请尝试其他关键词。"
-    },
-    "libgenResult": {
-      "title": "无结果",
-      "description": "在 Library Genesis 中未找到匹配的图书。请尝试其他搜索查询。"
-    },
-    "annasResult": {
-      "title": "无结果",
-      "description": "在 Anna's Archive 中未找到匹配的图书。请尝试其他搜索查询。"
-    },
-    "annas": {
-      "title": "由 Anna's Archive 提供支持",
-      "description": "浏览 Anna's Archive 中的图书并将它们添加到您的图书馆。"
     },
     "noSMTPKeys": {
       "title": "未找到 SMTP API 密钥",
@@ -133,10 +91,6 @@
     "fileTypes": {
       "title": "未找到文件类型",
       "description": "没有可用文件类型。"
-    },
-    "libgenOffline": {
-      "title": "Libgen 离线",
-      "description": "无法连接到当前的 Libgen 提供商。请尝试其他提供商。"
     }
   },
   "checkingKeys": "正在检查 SMTP API 密钥...",
@@ -144,7 +98,5 @@
   "viewModes": {
     "grid": "网格",
     "list": "列表"
-  },
-  "bookmarkedBooks": "已收藏的书籍",
-  "bookmarkedBooksDesc": "您有 {{number}} 本书已添加书签"
+  }
 }

@@ -1,6 +1,5 @@
 import { forgeRouter, writeContractFileToClient } from '@lifeforge/server-utils'
 
-import * as annasRoutes from './routes/annas'
 import * as collectionsRoutes from './routes/collection'
 import * as entriesRoutes from './routes/entries'
 import * as fileTypesRoutes from './routes/fileTypes'
@@ -12,8 +11,7 @@ const routes = forgeRouter({
   collections: collectionsRoutes,
   languages: languagesRoutes,
   fileTypes: fileTypesRoutes,
-  readStatus: readStatusRoutes,
-  annas: annasRoutes
+  readStatus: readStatusRoutes
 })
 
 writeContractFileToClient(routes, import.meta.dirname)

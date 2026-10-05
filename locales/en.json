@@ -1,26 +1,6 @@
 {
   "title": "Library",
   "description": "Your personal library, no overdue fees.",
-  "libgen": {
-    "results": {
-      "title": "No books found",
-      "description": "No matching books found in Library Genesis."
-    },
-    "searchQuery": {
-      "title": "No search query",
-      "description": "Start exploring Library Genesis. Try searching for a book to begin."
-    }
-  },
-  "annas": {
-    "results": {
-      "title": "No books found",
-      "description": "No matching books found in Anna's Archive."
-    },
-    "searchQuery": {
-      "title": "No search query",
-      "description": "Start exploring Anna's Archive. Try searching for a book to begin."
-    }
-  },
   "results": {
     "title": "No books found",
     "description": "No matches found. Try searching for something else."
@@ -39,8 +19,6 @@
     "readStatus": "Read Status"
   },
   "modals": {
-    "libraryGenesis": "Library Genesis",
-    "annasArchive": "Anna's Archive",
     "addToLibrary": "Add to Library",
     "modifyBookData": "Update Book Information",
     "language": {
@@ -59,22 +37,16 @@
     "alreadyInLibrary": "Already in Library",
     "viewDetails": "View Details",
     "uploadFromDevice": "Upload from Device",
-    "downloadFromLibgen": "Download from Library Genesis",
-    "searchAnnas": "Search Anna's Archive",
     "downloading": "Downloading",
     "sendToKindle": "Send to Kindle",
     "markAsRead": "Mark as Read",
     "markAsUnread": "Mark as Unread",
     "markAsReading": "Mark as Reading",
     "addToFavourites": "Add to Favourites",
-    "removeFromFavourites": "Remove from Favourites",
-    "openDownloadPage": "Open Download Page",
-    "bookmark": "Bookmark",
-    "removeBookmark": "Remove Bookmark"
+    "removeFromFavourites": "Remove from Favourites"
   },
   "inputs": {
     "isbn": "ISBN",
-    "libgenId": "Library ID",
     "publisher": "Publisher",
     "bookTitle": "Book Title",
     "publicationYear": "Publication Year",
@@ -93,9 +65,7 @@
     "uploadBookFile": "Upload Book File"
   },
   "items": {
-    "book": "Book",
-    "libgenBook": "Millions of Books",
-    "annasBook": ""
+    "book": "Book"
   },
   "empty": {
     "book": {
@@ -105,18 +75,6 @@
     "result": {
       "title": "No Results",
       "description": "No items found, please try other keywords."
-    },
-    "libgenResult": {
-      "title": "No Results",
-      "description": "No matching books found in Library Genesis. Please try another search query."
-    },
-    "annasResult": {
-      "title": "No Results",
-      "description": "No matching books found in Anna's Archive. Please try another search query."
-    },
-    "annas": {
-      "title": "Powered by Anna's Archive",
-      "description": "Browse books in Anna's Archive and add them to your library."
     },
     "noSMTPKeys": {
       "title": "No SMTP API Keys Found",
@@ -133,10 +91,6 @@
     "fileTypes": {
       "title": "No file types found",
       "description": "No file types available."
-    },
-    "libgenOffline": {
-      "title": "Libgen is Offline",
-      "description": "Unable to reach the current provider of Libgen. Please try another one."
     }
   },
   "checkingKeys": "Checking SMTP API keys...",
@@ -144,7 +98,5 @@
   "viewModes": {
     "grid": "Grid",
     "list": "List"
-  },
-  "bookmarkedBooks": "Bookmarked Books",
-  "bookmarkedBooksDesc": "You have {{number}} bookmarked book(s)"
+  }
 }
