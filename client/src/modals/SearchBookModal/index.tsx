@@ -52,8 +52,6 @@ function SearchBookModal({ onClose }: { onClose: () => void }) {
       .query()
       .catch(() => null)
 
-    onClose()
-
     open(ModifyBookModal, {
       initialData: {
         title: detail?.title || result.title,
