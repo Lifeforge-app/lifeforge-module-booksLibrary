@@ -4,6 +4,7 @@ import {
   boolean,
   integer,
   jsonb,
+  pgEnum,
   text,
   timestamp,
   uuid
@@ -12,6 +13,11 @@ import {
 import { createModuleTable } from '@lifeforge/drizzle'
 
 const pgTable = createModuleTable()
+
+export const bookFormatEnum = pgEnum('books_library_book_format', [
+  'ebook',
+  'physical'
+])
 
 export const bookCollections = pgTable('collections', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -22,7 +28,8 @@ export const bookCollections = pgTable('collections', {
 export const bookLanguages = pgTable('languages', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull().default(''),
-  icon: text('icon').notNull().default('')
+  icon: text('icon').notNull().default(''),
+  code: text('code').notNull().default('')
 })
 
 export const bookFileTypes = pgTable('file_types', {
@@ -47,6 +54,7 @@ export const bookEntries = pgTable('entries', {
   word_count: integer('word_count').notNull().default(0),
   page_count: integer('page_count').notNull().default(0),
   isbn: text('isbn').notNull().default(''),
+  formats: bookFormatEnum('formats').array().notNull().default(['ebook']),
   file: text('file').notNull().default(''),
   thumbnail: text('thumbnail').notNull().default(''),
   is_favourite: boolean('is_favourite').notNull().default(false),

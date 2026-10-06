@@ -1,25 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
 
 import type { InferOutput } from '@lifeforge/api'
-import { useModuleTranslation } from '@lifeforge/localization'
 import {
-  Button,
   ContentWrapperWithSidebar,
   ContextMenu,
-  ContextMenuItem,
-  FAB,
   Flex,
   LayoutWithSidebar,
   ModuleHeader,
-  SearchInput,
-  useModalStore
+  SearchInput
 } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
+import BookCreationMenu from './components/BookCreationMenu'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import UploadFromDeviceModal from './components/modals/UploadFromDeviceModal'
 import useFilter from './hooks/useFilter'
 import BookListing, { ViewMode } from './views'
 
@@ -32,17 +27,18 @@ export type BooksLibraryCollection = InferOutput<
 >[number]
 
 export type BooksLibraryLanguage = InferOutput<
-  typeof forgeAPI.languages.list
+  typeof forgeAPI.count.languages
 >[number]
 
 export type BooksLibraryFileType = InferOutput<
-  typeof forgeAPI.fileTypes.list
+  typeof forgeAPI.count.fileTypes
+>[number]
+
+export type BooksLibraryFormat = InferOutput<
+  typeof forgeAPI.formats.list
 >[number]
 
 function BooksLibrary() {
-  const { t } = useModuleTranslation()
-  const { open } = useModalStore()
-
   const {
     page,
     collection,
@@ -50,6 +46,7 @@ function BooksLibrary() {
     favourite,
     fileType,
     readStatus,
+    format,
     searchQuery,
     setSearchQuery
   } = useFilter()
@@ -60,9 +57,10 @@ function BooksLibrary() {
         page: page.toString(),
         collection: collection || undefined,
         language: language || undefined,
-        favourite: (favourite.toString() as 'true' | 'false') || undefined,
+        favourite: favourite.toString() as 'true' | 'false',
         fileType: fileType || undefined,
         readStatus: readStatus || undefined,
+        format: format || undefined,
         query: searchQuery.trim() || undefined
       })
       .queryOptions()
@@ -73,32 +71,7 @@ function BooksLibrary() {
       <ModuleHeader
         trailing={
           <>
-            <ContextMenu
-              buttonComponent={
-                <Button
-                  icon="tabler:plus"
-                  tProps={{
-                    item: t('items.book')
-                  }}
-                  onClick={() => {}}
-                >
-                  new
-                </Button>
-              }
-
-              componentProps={{
-                menu: {
-                  width: '16em'
-                }
-              }}
-              display={{ base: 'none', md: 'block' }}
-            >
-              <ContextMenuItem
-                icon="tabler:upload"
-                label="Upload from device"
-                onClick={() => open(UploadFromDeviceModal, {})}
-              />
-            </ContextMenu>
+            <BookCreationMenu variant="desktop" />
             <ContextMenu display={{ base: 'block', md: 'none' }}>
               <ViewMode.ContextMenuSelector />
             </ContextMenu>
@@ -109,7 +82,7 @@ function BooksLibrary() {
         <Sidebar />
         <ContentWrapperWithSidebar>
           <Header itemCount={dataQuery.data?.totalItems || 0} />
-          <Flex align="center" gap="xs" mb="lg" mt="md">
+          <Flex align="center" gap="xs" mt="md">
             <SearchInput
               debounceMs={300}
               searchTarget="book"
@@ -121,13 +94,7 @@ function BooksLibrary() {
           <BookListing />
         </ContentWrapperWithSidebar>
       </LayoutWithSidebar>
-      <FAB menuProps={{ zIndex: '50' }} visibilityBreakpoint="md">
-        <ContextMenuItem
-          icon="tabler:upload"
-          label="Upload from device"
-          onClick={() => open(UploadFromDeviceModal, {})}
-        />
-      </FAB>
+      <BookCreationMenu variant="mobile" />
     </ViewMode.Root>
   )
 }

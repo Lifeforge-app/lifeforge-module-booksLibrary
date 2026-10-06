@@ -22,7 +22,8 @@ export default function useFilter() {
     fileType: parseAsString.withDefault(''),
     language: parseAsString.withDefault(''),
     favourite: parseAsBoolean.withDefault(false),
-    readStatus: parseAsStringEnum(['', '1', '2', '3']).withDefault('')
+    readStatus: parseAsStringEnum(['', '1', '2', '3']).withDefault(''),
+    format: parseAsStringEnum(['', 'ebook', 'physical']).withDefault('')
   })
 
   useEffect(() => {
