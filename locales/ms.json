@@ -27,7 +27,8 @@
       "create": "Tambah Buku",
       "update": "Kemas Kini Maklumat Buku",
       "search": "Cari Buku",
-      "covers": "Pilih Kulit"
+      "covers": "Pilih Kulit",
+      "addSuccess": "Buku telah ditambahkan ke pustaka anda"
     },
     "language": {
       "create": "Tambah Bahasa",
@@ -68,7 +69,7 @@
     "authors": "Pengarang",
     "edition": "Edisi",
     "extension": "Jenis Fail",
-    "collection": "Koleksi Buku",
+    "collection": "Koleksi",
     "collectionName": "Nama Koleksi",
     "collectionIcon": "Ikon Koleksi",
     "uploadBookFile": "Muat Naik Fail Buku",

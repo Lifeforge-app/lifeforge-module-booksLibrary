@@ -27,7 +27,8 @@
       "create": "Add Book",
       "update": "Update Book Information",
       "search": "Search Books",
-      "covers": "Choose a Cover"
+      "covers": "Choose a Cover",
+      "addSuccess": "Book added to your library"
     },
     "language": {
       "create": "Add Language",
@@ -68,7 +69,7 @@
     "authors": "Authors",
     "edition": "Edition",
     "extension": "File Type",
-    "collection": "Book Collection",
+    "collection": "Collection",
     "collectionName": "Collection Name",
     "collectionIcon": "Collection Icon",
     "uploadBookFile": "Upload Book File",

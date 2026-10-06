@@ -27,7 +27,8 @@
       "create": "新增圖書",
       "update": "更新圖書資訊",
       "search": "搜尋圖書",
-      "covers": "選擇封面"
+      "covers": "選擇封面",
+      "addSuccess": "圖書已加入書庫"
     },
     "language": {
       "create": "新增語言",
@@ -68,7 +69,7 @@
     "authors": "作者",
     "edition": "版本",
     "extension": "檔案類型",
-    "collection": "圖書收藏集",
+    "collection": "收藏集",
     "collectionName": "收藏集名稱",
     "collectionIcon": "收藏集圖示",
     "uploadBookFile": "上傳圖書檔案",

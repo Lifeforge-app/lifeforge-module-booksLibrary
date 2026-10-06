@@ -27,7 +27,8 @@
       "create": "添加图书",
       "update": "更新图书信息",
       "search": "搜索图书",
-      "covers": "选择封面"
+      "covers": "选择封面",
+      "addSuccess": "图书已添加到书库"
     },
     "language": {
       "create": "添加语言",
@@ -68,7 +69,7 @@
     "authors": "作者",
     "edition": "版本",
     "extension": "文件类型",
-    "collection": "图书收藏集",
+    "collection": "收藏集",
     "collectionName": "收藏集名称",
     "collectionIcon": "收藏集图标",
     "uploadBookFile": "上传图书文件",
