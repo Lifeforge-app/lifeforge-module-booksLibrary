@@ -33,6 +33,7 @@ export default function BookListing() {
     favourite,
     fileType,
     readStatus,
+    format,
     searchQuery
   } = useFilter()
 
@@ -45,6 +46,7 @@ export default function BookListing() {
         favourite: (favourite.toString() as 'true' | 'false') || undefined,
         fileType: fileType || undefined,
         readStatus: readStatus || undefined,
+        format: format || undefined,
         query: searchQuery.trim() || undefined
       })
       .queryOptions()
