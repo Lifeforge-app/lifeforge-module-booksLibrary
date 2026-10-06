@@ -8,7 +8,7 @@ import {
   useModalStore
 } from '@lifeforge/ui'
 
-import ModifyModal from '@/components/modals/ModifyModal'
+import ModifyModal from '@/modals/ModifyModal'
 
 import SidebarItem from './SidebarItem'
 
@@ -20,7 +20,7 @@ function SidebarSection({
   dataQuery,
   useNamespace = false
 }: {
-  stuff: 'collections' | 'languages' | 'fileTypes' | 'readStatus'
+  stuff: 'collections' | 'languages' | 'fileTypes' | 'formats' | 'readStatus'
   fallbackIcon?: string
   hasActionButton?: boolean
   hasContextMenu?: boolean

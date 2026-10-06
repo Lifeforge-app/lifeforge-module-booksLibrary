@@ -1,6 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { Button, Flex, TagsFilter, Text, useModuleSidebarState } from '@lifeforge/ui'
+import {
+  Button,
+  Flex,
+  TagsFilter,
+  Text,
+  useModuleSidebarState
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
@@ -9,8 +15,8 @@ import useFilter from '../hooks/useFilter'
 function Header({ itemCount }: { itemCount: number }) {
   const { setIsSidebarOpen } = useModuleSidebarState()
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
-  const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
-  const fileTypesQuery = useQuery(forgeAPI.fileTypes.list.queryOptions())
+  const languagesQuery = useQuery(forgeAPI.count.languages.queryOptions())
+  const fileTypesQuery = useQuery(forgeAPI.count.fileTypes.queryOptions())
 
   const {
     searchQuery,
@@ -22,13 +28,14 @@ function Header({ itemCount }: { itemCount: number }) {
     readStatus
   } = useFilter()
 
-  const isFiltered = !Object.values([
-    collection,
-    favourite,
-    fileType,
-    language,
-    readStatus
-  ]).every(value => !value) || !!searchQuery.trim()
+  const isFiltered =
+    !Object.values([
+      collection,
+      favourite,
+      fileType,
+      language,
+      readStatus
+    ]).every(value => !value) || !!searchQuery.trim()
 
   return (
     <Flex direction="column">
@@ -76,17 +83,14 @@ function Header({ itemCount }: { itemCount: number }) {
           }
         }}
         values={{
-          collection: collection ?? '',
-          fileType: fileType ?? '',
-          language: language ?? ''
+          collection,
+          fileType,
+          language
         }}
         onChange={{
-          collection: value =>
-            updateFilter('collection', (value || null) as string | null),
-          fileType: value =>
-            updateFilter('fileType', (value || null) as string | null),
-          language: value =>
-            updateFilter('language', (value || null) as string | null)
+          collection: value => updateFilter('collection', value || null),
+          fileType: value => updateFilter('fileType', value || null),
+          language: value => updateFilter('language', value || null)
         }}
       />
     </Flex>

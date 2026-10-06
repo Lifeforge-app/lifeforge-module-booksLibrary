@@ -8,13 +8,14 @@ import { forgeAPI } from '@/manifest'
 import SidebarSection from './components/SidebarSection'
 
 function Sidebar() {
-  const { updateFilter, collection, favourite, fileType, language } =
+  const { updateFilter, collection, favourite, fileType, language, format } =
     useFilter()
 
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
-  const languagesQuery = useQuery(forgeAPI.languages.list.queryOptions())
-  const fileTypesQuery = useQuery(forgeAPI.fileTypes.list.queryOptions())
-  const readStatusQuery = useQuery(forgeAPI.readStatus.list.queryOptions())
+  const languagesQuery = useQuery(forgeAPI.count.languages.queryOptions())
+  const fileTypesQuery = useQuery(forgeAPI.count.fileTypes.queryOptions())
+  const readStatusQuery = useQuery(forgeAPI.count.readStatus.queryOptions())
+  const formatsQuery = useQuery(forgeAPI.formats.list.queryOptions())
 
   return (
     <SidebarWrapper>
@@ -23,7 +24,8 @@ function Sidebar() {
           collection,
           favourite,
           fileType,
-          language
+          language,
+          format
         ]).every(value => !value)}
         icon="tabler:list"
         label="All books"
@@ -32,6 +34,7 @@ function Sidebar() {
           updateFilter('fileType', null)
           updateFilter('language', null)
           updateFilter('favourite', false)
+          updateFilter('format', null)
         }}
       />
       <SidebarItem
@@ -44,6 +47,15 @@ function Sidebar() {
         onClick={() => {
           updateFilter('favourite', true)
         }}
+      />
+      <SidebarDivider />
+      <SidebarSection
+        useNamespace
+        dataQuery={formatsQuery}
+        fallbackIcon="tabler:book"
+        hasActionButton={false}
+        hasContextMenu={false}
+        stuff="formats"
       />
       <SidebarDivider />
       <SidebarSection

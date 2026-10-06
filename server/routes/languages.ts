@@ -1,48 +1,65 @@
-import { asc, count, eq, sql } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
 import forge from '../forge'
-import { bookEntries, bookLanguages } from '../schema.drizzle'
+import { bookLanguages } from '../schema.drizzle'
+import { isValidMarcCode, marcCodeToName } from '../utils/languages'
 
 const languageDto = createSelectSchema(bookLanguages)
 
-const languageAggregateDto = z.object({
-  id: z.string(),
-  name: z.string(),
-  icon: z.string(),
-  amount: z.number()
-})
-
 const languageInputDto = z.object({
   name: z.string(),
-  icon: z.string()
+  icon: z.string(),
+  code: z
+    .string()
+    .refine(isValidMarcCode, 'Must be a valid MARC 21 language code')
 })
 
-export const list = forge
-  .query({
-    description: 'Get all book languages',
+export const ensure = forge
+  .mutation({
+    description:
+      'Find book languages by MARC code, creating any that do not exist yet',
+    input: {
+      body: z.object({ codes: z.array(z.string()) })
+    },
     output: {
-      OK: z.array(languageAggregateDto)
+      OK: z.array(languageDto)
     }
   })
-  .callback(async ({ db, response }) => {
-    const rows = await db
-      .select({
-        id: bookLanguages.id,
-        name: bookLanguages.name,
-        icon: bookLanguages.icon,
-        amount: count(bookEntries.id)
-      })
-      .from(bookLanguages)
-      .leftJoin(
-        bookEntries,
-        sql`jsonb_exists(${bookEntries.languages}, ${bookLanguages.id}::text)`
+  .callback(async ({ db, body: { codes }, response }) => {
+    const normalized = [
+      ...new Set(
+        codes.map(code => code.trim().toLowerCase()).filter(isValidMarcCode)
       )
-      .groupBy(bookLanguages.id)
-      .orderBy(asc(bookLanguages.name))
+    ]
 
-    return response.ok(rows)
+    const result: z.infer<typeof languageDto>[] = []
+
+    for (const code of normalized) {
+      const existing = await db
+        .select()
+        .from(bookLanguages)
+        .where(eq(bookLanguages.code, code))
+
+      if (existing.length > 0) {
+        result.push(...existing)
+        continue
+      }
+
+      const [created] = await db
+        .insert(bookLanguages)
+        .values({
+          name: marcCodeToName(code),
+          icon: 'tabler:language',
+          code
+        })
+        .returning()
+
+      result.push(created)
+    }
+
+    return response.ok(result)
   })
 
 export const create = forge

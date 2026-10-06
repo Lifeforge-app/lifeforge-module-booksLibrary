@@ -1,6 +1,7 @@
 import type {
   BooksLibraryCollection,
   BooksLibraryFileType,
+  BooksLibraryFormat,
   BooksLibraryLanguage
 } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -14,9 +15,9 @@ import {
   useModalStore
 } from '@lifeforge/ui'
 
-import ModifyModal from '@/components/modals/ModifyModal'
 import useFilter from '@/hooks/useFilter'
 import { forgeAPI } from '@/manifest'
+import ModifyModal from '@/modals/ModifyModal'
 
 function _SidebarItem({
   item,
@@ -25,8 +26,12 @@ function _SidebarItem({
   hasContextMenu = true,
   useNamespace = false
 }: {
-  item: BooksLibraryCollection | BooksLibraryLanguage | BooksLibraryFileType
-  stuff: 'collections' | 'languages' | 'fileTypes' | 'readStatus'
+  item:
+    | BooksLibraryCollection
+    | BooksLibraryLanguage
+    | BooksLibraryFileType
+    | BooksLibraryFormat
+  stuff: 'collections' | 'languages' | 'fileTypes' | 'formats' | 'readStatus'
   fallbackIcon?: string
   hasContextMenu?: boolean
   useNamespace?: boolean
@@ -34,7 +39,7 @@ function _SidebarItem({
   const queryClient = useQueryClient()
   const { open } = useModalStore()
 
-  const { updateFilter, collection, fileType, language, readStatus } =
+  const { updateFilter, collection, fileType, language, format, readStatus } =
     useFilter()
 
   const singleStuff = (
@@ -42,6 +47,7 @@ function _SidebarItem({
       collections: 'collection',
       languages: 'language',
       fileTypes: 'fileType',
+      formats: 'format',
       readStatus: 'readStatus'
     } as const
   )[stuff]
@@ -62,11 +68,15 @@ function _SidebarItem({
       .mutationOptions({
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: forgeAPI[stuff].key
+            queryKey: forgeAPI[stuff as 'collections' | 'languages'].key
           })
 
           queryClient.invalidateQueries({
             queryKey: forgeAPI.entries.key
+          })
+
+          queryClient.invalidateQueries({
+            queryKey: forgeAPI.count.key
           })
         },
         onError: () => {
@@ -94,6 +104,7 @@ function _SidebarItem({
             collection,
             fileType,
             language,
+            format,
             readStatus
           }[singleStuff] === item.id
         }

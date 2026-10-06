@@ -1,6 +1,7 @@
 {
   "extends": "@lifeforge/configs/tsconfig/module-server.json",
   "compilerOptions": {
+    "resolveJsonModule": true,
     "paths": {
       "@/*": ["./*"]
     }
