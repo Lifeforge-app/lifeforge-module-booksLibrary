@@ -34,6 +34,7 @@ function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
       open(ModifyBookModal, {
         initialData: {
           ...metadata,
+          formats: ['ebook'],
           file: {
             type: 'upload',
             file
@@ -49,6 +50,7 @@ function UploadFromDeviceModal({ onClose }: { onClose: () => void }) {
     open(ModifyBookModal, {
       initialData: {
         title: file.name,
+        formats: ['ebook'],
         file: {
           type: 'upload',
           file

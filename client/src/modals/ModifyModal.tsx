@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -12,11 +13,6 @@ import {
 } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
-
-const schema = z.object({
-  name: z.string().min(1, 'Required'),
-  icon: z.string().min(1, 'Required')
-})
 
 function ModifyModal({
   onClose,
@@ -31,6 +27,16 @@ function ModifyModal({
 }) {
   const queryClient = useQueryClient()
 
+  const schema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(1, 'Required'),
+        icon: z.string().min(1, 'Required'),
+        code: stuff === 'languages' ? z.string().min(1, 'Required') : z.string()
+      }),
+    [stuff]
+  )
+
   const mutation = useMutation(
     (type === 'create'
       ? forgeAPI[stuff].create
@@ -40,6 +46,7 @@ function ModifyModal({
     ).mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: forgeAPI[stuff].key })
+        queryClient.invalidateQueries({ queryKey: forgeAPI.count.key })
       },
       onError: () => {
         toast.error(
@@ -68,7 +75,6 @@ function ModifyModal({
       }}
       uiConfig={{
         icon: type === 'update' ? 'tabler:pencil' : 'tabler:plus',
-        namespace: 'apps.booksLibrary',
         title: `${singleStuff}.${type}`,
         onClose
       }}
@@ -87,6 +93,16 @@ function ModifyModal({
         label={`${singleStuff} icon`}
         name="icon"
       />
+      {stuff === 'languages' && (
+        <TextField
+          required
+          control={form.control}
+          icon="tabler:barcode"
+          label="language code"
+          name="code"
+          placeholder="eng"
+        />
+      )}
     </FormModal>
   )
 }
