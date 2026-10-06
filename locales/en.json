@@ -16,16 +16,23 @@
     "read": "Read",
     "reading": "Reading",
     "unread": "Unread",
-    "readStatus": "Read Status"
+    "readStatus": "Read Status",
+    "formats": "Format",
+    "ebook": "eBook",
+    "physical": "Physical"
   },
   "modals": {
     "addToLibrary": "Add to Library",
-    "modifyBookData": "Update Book Information",
+    "book": {
+      "create": "Add Book",
+      "update": "Update Book Information",
+      "search": "Search Books",
+      "covers": "Choose a Cover"
+    },
     "language": {
       "create": "Add Language",
       "update": "Update Language"
     },
-    "sendToKindle": "Send to Kindle",
     "collection": {
       "create": "Create Collection",
       "update": "Update Collection"
@@ -38,18 +45,21 @@
     "viewDetails": "View Details",
     "uploadFromDevice": "Upload from Device",
     "downloading": "Downloading",
-    "sendToKindle": "Send to Kindle",
     "markAsRead": "Mark as Read",
     "markAsUnread": "Mark as Unread",
     "markAsReading": "Mark as Reading",
     "addToFavourites": "Add to Favourites",
-    "removeFromFavourites": "Remove from Favourites"
+    "removeFromFavourites": "Remove from Favourites",
+    "searchBooks": "Search Books",
+    "addPhysicalBook": "Add Physical Book",
+    "pickCover": "Pick Cover"
   },
   "inputs": {
     "isbn": "ISBN",
     "publisher": "Publisher",
     "bookTitle": "Book Title",
     "publicationYear": "Publication Year",
+    "pageCount": "Page Count",
     "fileSize": "File Size",
     "md5": "MD5 Checksum",
     "languages": "Languages",
@@ -58,14 +68,20 @@
     "authors": "Authors",
     "edition": "Edition",
     "extension": "File Type",
-    "kindleEmail": "Kindle Email Address",
     "collection": "Book Collection",
     "collectionName": "Collection Name",
     "collectionIcon": "Collection Icon",
-    "uploadBookFile": "Upload Book File"
+    "uploadBookFile": "Upload Book File",
+    "format": "Format",
+    "cover": "Cover",
+    "languageCode": "Language Code"
   },
   "items": {
     "book": "Book"
+  },
+  "formats": {
+    "eBook": "eBook",
+    "physical": "Physical"
   },
   "empty": {
     "book": {
@@ -75,10 +91,6 @@
     "result": {
       "title": "No Results",
       "description": "No items found, please try other keywords."
-    },
-    "noSMTPKeys": {
-      "title": "No SMTP API Keys Found",
-      "description": "Proper SMTP API configurations are not found in your API key vault. Please go to the module and configure \"smtp-user\" and \"smtp-pass\"."
     },
     "collections": {
       "title": "No collections found",
@@ -91,10 +103,16 @@
     "fileTypes": {
       "title": "No file types found",
       "description": "No file types available."
+    },
+    "searchBook": {
+      "title": "Search Books",
+      "description": "Search for a book by title or author across multiple sources to prefill its details."
+    },
+    "covers": {
+      "title": "No Covers Found",
+      "description": "No cover images are available for this book."
     }
   },
-  "checkingKeys": "Checking SMTP API keys...",
-  "kindleSent": "Fired process to send the selected document to the targeted email address.",
   "viewModes": {
     "grid": "Grid",
     "list": "List"

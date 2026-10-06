@@ -16,16 +16,23 @@
     "read": "已讀",
     "reading": "閱讀中",
     "unread": "未讀",
-    "readStatus": "閱讀狀態"
+    "readStatus": "閱讀狀態",
+    "formats": "格式",
+    "ebook": "電子書",
+    "physical": "實體書"
   },
   "modals": {
     "addToLibrary": "新增至圖書館",
-    "modifyBookData": "更新圖書資訊",
+    "book": {
+      "create": "新增圖書",
+      "update": "更新圖書資訊",
+      "search": "搜尋圖書",
+      "covers": "選擇封面"
+    },
     "language": {
       "create": "新增語言",
       "update": "更新語言"
     },
-    "sendToKindle": "傳送至 Kindle",
     "collection": {
       "create": "建立收藏集",
       "update": "更新收藏集"
@@ -38,18 +45,21 @@
     "viewDetails": "檢視詳情",
     "uploadFromDevice": "從裝置上傳",
     "downloading": "下載中",
-    "sendToKindle": "傳送至 Kindle",
     "markAsRead": "標記為已讀",
     "markAsUnread": "標記為未讀",
     "markAsReading": "標記為閱讀中",
     "addToFavourites": "新增至我的最愛",
-    "removeFromFavourites": "從我的最愛移除"
+    "removeFromFavourites": "從我的最愛移除",
+    "searchBooks": "搜尋圖書",
+    "addPhysicalBook": "新增實體書",
+    "pickCover": "選擇封面"
   },
   "inputs": {
     "isbn": "ISBN",
     "publisher": "出版社",
     "bookTitle": "書名",
     "publicationYear": "出版年份",
+    "pageCount": "頁數",
     "fileSize": "檔案大小",
     "md5": "MD5 校驗值",
     "languages": "語言",
@@ -58,14 +68,20 @@
     "authors": "作者",
     "edition": "版本",
     "extension": "檔案類型",
-    "kindleEmail": "Kindle 電子郵件地址",
     "collection": "圖書收藏集",
     "collectionName": "收藏集名稱",
     "collectionIcon": "收藏集圖示",
-    "uploadBookFile": "上傳圖書檔案"
+    "uploadBookFile": "上傳圖書檔案",
+    "format": "格式",
+    "cover": "封面",
+    "languageCode": "語言代碼"
   },
   "items": {
     "book": "圖書"
+  },
+  "formats": {
+    "eBook": "電子書",
+    "physical": "實體書"
   },
   "empty": {
     "book": {
@@ -75,10 +91,6 @@
     "result": {
       "title": "無結果",
       "description": "未找到項目，請嘗試其他關鍵字。"
-    },
-    "noSMTPKeys": {
-      "title": "未找到 SMTP API 金鑰",
-      "description": "在您的 API 金鑰庫中未找到正確的 SMTP API 設定。請前往模組並設定「smtp-user」和「smtp-pass」。"
     },
     "collections": {
       "title": "未找到收藏集",
@@ -91,10 +103,16 @@
     "fileTypes": {
       "title": "未找到檔案類型",
       "description": "沒有可用檔案類型。"
+    },
+    "searchBook": {
+      "title": "搜尋圖書",
+      "description": "按書名或作者從多個來源搜尋圖書以自動填入其詳細資訊。"
+    },
+    "covers": {
+      "title": "未找到封面",
+      "description": "此圖書沒有可用的封面圖片。"
     }
   },
-  "checkingKeys": "正在檢查 SMTP API 金鑰...",
-  "kindleSent": "已啟動程序將所選文件傳送到目標電子郵件地址。",
   "viewModes": {
     "grid": "網格",
     "list": "列表"

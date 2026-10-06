@@ -16,16 +16,23 @@
     "read": "已读",
     "reading": "阅读中",
     "unread": "未读",
-    "readStatus": "阅读状态"
+    "readStatus": "阅读状态",
+    "formats": "格式",
+    "ebook": "电子书",
+    "physical": "实体书"
   },
   "modals": {
     "addToLibrary": "添加到图书馆",
-    "modifyBookData": "更新图书信息",
+    "book": {
+      "create": "添加图书",
+      "update": "更新图书信息",
+      "search": "搜索图书",
+      "covers": "选择封面"
+    },
     "language": {
       "create": "添加语言",
       "update": "更新语言"
     },
-    "sendToKindle": "发送到 Kindle",
     "collection": {
       "create": "创建收藏集",
       "update": "更新收藏集"
@@ -38,18 +45,21 @@
     "viewDetails": "查看详情",
     "uploadFromDevice": "从设备上传",
     "downloading": "下载中",
-    "sendToKindle": "发送到 Kindle",
     "markAsRead": "标记为已读",
     "markAsUnread": "标记为未读",
     "markAsReading": "标记为阅读中",
     "addToFavourites": "添加到喜爱",
-    "removeFromFavourites": "从喜爱中移除"
+    "removeFromFavourites": "从喜爱中移除",
+    "searchBooks": "搜索图书",
+    "addPhysicalBook": "添加实体书",
+    "pickCover": "选择封面"
   },
   "inputs": {
     "isbn": "ISBN",
     "publisher": "出版社",
     "bookTitle": "书名",
     "publicationYear": "出版年份",
+    "pageCount": "页数",
     "fileSize": "文件大小",
     "md5": "MD5 校验值",
     "languages": "语言",
@@ -58,14 +68,20 @@
     "authors": "作者",
     "edition": "版本",
     "extension": "文件类型",
-    "kindleEmail": "Kindle 邮箱地址",
     "collection": "图书收藏集",
     "collectionName": "收藏集名称",
     "collectionIcon": "收藏集图标",
-    "uploadBookFile": "上传图书文件"
+    "uploadBookFile": "上传图书文件",
+    "format": "格式",
+    "cover": "封面",
+    "languageCode": "语言代码"
   },
   "items": {
     "book": "图书"
+  },
+  "formats": {
+    "eBook": "电子书",
+    "physical": "实体书"
   },
   "empty": {
     "book": {
@@ -75,10 +91,6 @@
     "result": {
       "title": "无结果",
       "description": "未找到项目，请尝试其他关键词。"
-    },
-    "noSMTPKeys": {
-      "title": "未找到 SMTP API 密钥",
-      "description": "在您的 API 密钥库中未找到正确的 SMTP API 配置。请前往模块并配置\"smtp-user\"和\"smtp-pass\"。"
     },
     "collections": {
       "title": "未找到收藏集",
@@ -91,10 +103,16 @@
     "fileTypes": {
       "title": "未找到文件类型",
       "description": "没有可用文件类型。"
+    },
+    "searchBook": {
+      "title": "搜索图书",
+      "description": "按书名或作者从多个来源搜索图书以自动填充其详细信息。"
+    },
+    "covers": {
+      "title": "未找到封面",
+      "description": "此图书没有可用的封面图片。"
     }
   },
-  "checkingKeys": "正在检查 SMTP API 密钥...",
-  "kindleSent": "已启动进程将所选文档发送到目标邮箱地址。",
   "viewModes": {
     "grid": "网格",
     "list": "列表"

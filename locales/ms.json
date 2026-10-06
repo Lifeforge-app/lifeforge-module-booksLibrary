@@ -16,16 +16,23 @@
     "read": "Telah Baca",
     "reading": "Sedang Membaca",
     "unread": "Belum Baca",
-    "readStatus": "Status Bacaan"
+    "readStatus": "Status Bacaan",
+    "formats": "Format",
+    "ebook": "eBook",
+    "physical": "Fizikal"
   },
   "modals": {
     "addToLibrary": "Tambah ke Perpustakaan",
-    "modifyBookData": "Kemas Kini Maklumat Buku",
+    "book": {
+      "create": "Tambah Buku",
+      "update": "Kemas Kini Maklumat Buku",
+      "search": "Cari Buku",
+      "covers": "Pilih Kulit"
+    },
     "language": {
       "create": "Tambah Bahasa",
       "update": "Kemas Kini Bahasa"
     },
-    "sendToKindle": "Hantar ke Kindle",
     "collection": {
       "create": "Cipta Koleksi",
       "update": "Kemas Kini Koleksi"
@@ -38,18 +45,21 @@
     "viewDetails": "Lihat Butiran",
     "uploadFromDevice": "Muat Naik dari Peranti",
     "downloading": "Memuat Turun",
-    "sendToKindle": "Hantar ke Kindle",
     "markAsRead": "Tandakan sebagai Telah Baca",
     "markAsUnread": "Tandakan sebagai Belum Baca",
     "markAsReading": "Tandakan sebagai Sedang Membaca",
     "addToFavourites": "Tambah ke Kegemaran",
-    "removeFromFavourites": "Buang dari Kegemaran"
+    "removeFromFavourites": "Buang dari Kegemaran",
+    "searchBooks": "Cari Buku",
+    "addPhysicalBook": "Tambah Buku Fizikal",
+    "pickCover": "Pilih Kulit"
   },
   "inputs": {
     "isbn": "ISBN",
     "publisher": "Penerbit",
     "bookTitle": "Tajuk Buku",
     "publicationYear": "Tahun Penerbitan",
+    "pageCount": "Bilangan Halaman",
     "fileSize": "Saiz Fail",
     "md5": "Checksum MD5",
     "languages": "Bahasa",
@@ -58,14 +68,20 @@
     "authors": "Pengarang",
     "edition": "Edisi",
     "extension": "Jenis Fail",
-    "kindleEmail": "Alamat E-mel Kindle",
     "collection": "Koleksi Buku",
     "collectionName": "Nama Koleksi",
     "collectionIcon": "Ikon Koleksi",
-    "uploadBookFile": "Muat Naik Fail Buku"
+    "uploadBookFile": "Muat Naik Fail Buku",
+    "format": "Format",
+    "cover": "Kulit",
+    "languageCode": "Kod Bahasa"
   },
   "items": {
     "book": "Buku"
+  },
+  "formats": {
+    "eBook": "eBook",
+    "physical": "Fizikal"
   },
   "empty": {
     "book": {
@@ -75,10 +91,6 @@
     "result": {
       "title": "Tiada Keputusan",
       "description": "Tiada item dijumpai, sila cuba kata kunci lain."
-    },
-    "noSMTPKeys": {
-      "title": "Tiada Kunci API SMTP Dijumpai",
-      "description": "Konfigurasi API SMTP yang betul tidak dijumpai dalam peti besi kunci API anda. Sila pergi ke modul dan konfigurasikan \"smtp-user\" dan \"smtp-pass\"."
     },
     "collections": {
       "title": "Tiada koleksi dijumpai",
@@ -91,10 +103,16 @@
     "fileTypes": {
       "title": "Tiada jenis fail dijumpai",
       "description": "Tiada jenis fail tersedia."
+    },
+    "searchBook": {
+      "title": "Cari Buku",
+      "description": "Cari buku mengikut tajuk atau pengarang merentas pelbagai sumber untuk mengisi butirannya secara automatik."
+    },
+    "covers": {
+      "title": "Tiada Kulit Dijumpai",
+      "description": "Tiada imej kulit tersedia untuk buku ini."
     }
   },
-  "checkingKeys": "Memeriksa kunci API SMTP...",
-  "kindleSent": "Proses dijalankan untuk menghantar dokumen terpilih ke alamat e-mel yang disasarkan.",
   "viewModes": {
     "grid": "Grid",
     "list": "Senarai"
