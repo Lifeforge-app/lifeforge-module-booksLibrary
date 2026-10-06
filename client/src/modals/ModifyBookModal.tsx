@@ -82,12 +82,16 @@ function ModifyBookModal({
     queryClient.invalidateQueries({ queryKey: forgeAPI.entries.key })
     queryClient.invalidateQueries({ queryKey: forgeAPI.collections.key })
     queryClient.invalidateQueries({ queryKey: forgeAPI.count.key })
+    queryClient.invalidateQueries({ queryKey: forgeAPI.formats.key })
     queryClient.invalidateQueries({ queryKey: forgeAPI.providers.key })
   }
 
   const createMutation = useMutation(
     forgeAPI.entries.create.mutationOptions({
-      onSuccess: handleSuccess,
+      onSuccess: () => {
+        handleSuccess()
+        toast.success(t('modals.book.addSuccess'))
+      },
       onError: () => {
         toast.error('Failed to add book')
       }
