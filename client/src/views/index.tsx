@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import {
   EmptyStateScreen,
+  Flex,
   Pagination,
   WithQuery,
   createViewMode
@@ -68,17 +69,19 @@ export default function BookListing() {
         return (
           <>
             <Pagination
-              mb="lg"
+              my="md"
               page={page}
               totalPages={entries.totalPages}
               onPageChange={setPage}
             />
-            <ViewMode.When mode="list">
-              <ListView books={entries.items} />
-            </ViewMode.When>
-            <ViewMode.When mode="grid">
-              <GridView books={entries.items} />
-            </ViewMode.When>
+            <Flex flex="1" height="100%">
+              <ViewMode.When mode="list">
+                <ListView books={entries.items} />
+              </ViewMode.When>
+              <ViewMode.When mode="grid">
+                <GridView books={entries.items} />
+              </ViewMode.When>
+            </Flex>
           </>
         )
       }}
