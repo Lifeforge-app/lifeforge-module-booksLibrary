@@ -7,10 +7,10 @@ import {
   ContextMenu,
   Flex,
   Icon,
-  Text,
-  surface
+  Text
 } from '@lifeforge/ui'
 
+import CoverImage from '@/components/CoverImage'
 import { forgeAPI } from '@/manifest'
 
 import BookMeta from '../../components/BookMeta'
@@ -27,42 +27,12 @@ export default function EntryItem({ item }: { item: BooksLibraryEntry }) {
           <EntryContextMenu item={item} />
         </ContextMenu>
       </Box>
-      <Flex
-        centered
-        aspectRatio="10 / 12"
-        bg={surface.light}
-        height="min-content"
-        overflow="hidden"
-        p="sm"
-        position="relative"
-        r="lg"
-        style={{ isolation: 'isolate' }}
-        width="12em"
-      >
-        <img
-          alt=""
-          loading="lazy"
-          src={forgeAPI.getMedia({
-            key: item.thumbnail,
-            thumb: '200x0'
-          })}
-          style={{ height: '100%', objectFit: 'cover' }}
-        />
-        <Box
-          asChild
-          left="50%"
-          position="absolute"
-          style={{ transform: 'translate(-50%, -50%)' }}
-          top="50%"
-          zIndex="-1"
-        >
-          <Icon
-            color={{ base: 'bg-200', dark: 'bg-700' }}
-            icon="tabler:book"
-            size="3em"
-          />
-        </Box>
-      </Flex>
+      <CoverImage
+        src={forgeAPI.getMedia({
+          key: item.thumbnail,
+          thumb: '200x0'
+        })}
+      />
       <Flex direction="column" flex="1" minWidth="0" width="100%">
         <ReadStatusChip item={item} />
         {collectionsQuery.data &&

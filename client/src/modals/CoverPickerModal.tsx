@@ -9,6 +9,7 @@ import {
   WithQuery
 } from '@lifeforge/ui'
 
+import CoverImage from '@/components/CoverImage'
 import { forgeAPI } from '@/manifest'
 
 function CoverPickerModal({
@@ -46,7 +47,6 @@ function CoverPickerModal({
                 <Card
                   key={id}
                   isInteractive
-                  aspectRatio="3 / 4"
                   overflow="hidden"
                   p="none"
                   r="md"
@@ -55,18 +55,11 @@ function CoverPickerModal({
                     onClose()
                   }}
                 >
-                  <Box
-                    asChild
-                    height="100%"
-                    style={{ objectFit: 'cover' }}
+                  <CoverImage
+                    aspectRatio="148 / 210"
+                    src={`https://covers.openlibrary.org/b/id/${id}-M.jpg`}
                     width="100%"
-                  >
-                    <img
-                      alt=""
-                      loading="lazy"
-                      src={`https://covers.openlibrary.org/b/id/${id}-M.jpg`}
-                    />
-                  </Box>
+                  />
                 </Card>
               ))}
             </Grid>

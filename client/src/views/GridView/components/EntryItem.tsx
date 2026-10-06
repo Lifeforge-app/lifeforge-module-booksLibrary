@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { Box, Card, ContextMenu, Flex, Icon, Text } from '@lifeforge/ui'
 
+import CoverImage from '@/components/CoverImage'
 import { forgeAPI } from '@/manifest'
 
 import BookMeta from '../../components/BookMeta'
@@ -19,41 +20,13 @@ function EntryItem({ item }: { item: BooksLibraryEntry }) {
           <EntryContextMenu item={item} />
         </ContextMenu>
       </Box>
-      <Flex
-        centered
-        aspectRatio="9 / 12"
-        bg={{ base: 'bg-200', dark: 'bg-800' }}
-        overflow="hidden"
-        position="relative"
-        r="lg"
-        style={{ isolation: 'isolate' }}
+      <CoverImage
+        src={forgeAPI.getMedia({
+          key: item.thumbnail,
+          thumb: '200x0'
+        })}
         width="100%"
-      >
-        <Box asChild height="100%" style={{ objectFit: 'cover' }}>
-          <img
-            alt=""
-            loading="lazy"
-            src={forgeAPI.getMedia({
-              key: item.thumbnail,
-              thumb: '200x0'
-            })}
-          />
-        </Box>
-        <Box
-          asChild
-          left="50%"
-          position="absolute"
-          style={{ transform: 'translate(-50%, -50%)', zIndex: -1 }}
-          top="50%"
-          zIndex="-1"
-        >
-          <Icon
-            color={{ base: 'bg-200', dark: 'bg-700' }}
-            icon="tabler:book"
-            size="5em"
-          />
-        </Box>
-      </Flex>
+      />
       <Flex direction="column" flex="1" minWidth="0" mt="lg" width="100%">
         <ReadStatusChip item={item} />
         {collectionsQuery.data &&
