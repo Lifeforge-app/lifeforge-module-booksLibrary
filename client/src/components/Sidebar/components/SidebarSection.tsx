@@ -43,8 +43,10 @@ function SidebarSection({
         label={stuff}
         {...(hasActionButton
           ? {
-              actionButtonIcon: 'tabler:plus',
-              actionButtonOnClick: handleCreateItem
+              actionButton: {
+                icon: 'tabler:plus',
+                onClick: handleCreateItem
+              }
             }
           : {})}
       />

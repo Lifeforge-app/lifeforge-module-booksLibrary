@@ -8,8 +8,15 @@ import { forgeAPI } from '@/manifest'
 import SidebarSection from './components/SidebarSection'
 
 function Sidebar() {
-  const { updateFilter, collection, favourite, fileType, language, format } =
-    useFilter()
+  const {
+    updateFilter,
+    collection,
+    favourite,
+    fileType,
+    language,
+    format,
+    readStatus
+  } = useFilter()
 
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
   const languagesQuery = useQuery(forgeAPI.count.languages.queryOptions())
@@ -25,7 +32,8 @@ function Sidebar() {
           favourite,
           fileType,
           language,
-          format
+          format,
+          readStatus
         ]).every(value => !value)}
         icon="tabler:list"
         label="All books"
@@ -35,6 +43,7 @@ function Sidebar() {
           updateFilter('language', null)
           updateFilter('favourite', false)
           updateFilter('format', null)
+          updateFilter('readStatus', null)
         }}
       />
       <SidebarItem
