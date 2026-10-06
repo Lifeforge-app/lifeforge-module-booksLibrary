@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   Flex,
@@ -14,9 +15,12 @@ import useFilter from '../hooks/useFilter'
 
 function Header({ itemCount }: { itemCount: number }) {
   const { setIsSidebarOpen } = useModuleSidebarState()
+  const { t } = useModuleTranslation()
   const collectionsQuery = useQuery(forgeAPI.collections.list.queryOptions())
   const languagesQuery = useQuery(forgeAPI.count.languages.queryOptions())
   const fileTypesQuery = useQuery(forgeAPI.count.fileTypes.queryOptions())
+  const readStatusQuery = useQuery(forgeAPI.count.readStatus.queryOptions())
+  const formatsQuery = useQuery(forgeAPI.formats.list.queryOptions())
 
   const {
     searchQuery,
@@ -25,6 +29,7 @@ function Header({ itemCount }: { itemCount: number }) {
     favourite,
     fileType,
     language,
+    format,
     readStatus
   } = useFilter()
 
@@ -34,6 +39,7 @@ function Header({ itemCount }: { itemCount: number }) {
       favourite,
       fileType,
       language,
+      format,
       readStatus
     ]).every(value => !value) || !!searchQuery.trim()
 
@@ -80,17 +86,42 @@ function Header({ itemCount }: { itemCount: number }) {
                 label: language.name,
                 icon: 'tabler:language'
               })) ?? []
+          },
+          format: {
+            data:
+              formatsQuery.data?.map(format => ({
+                id: format.id,
+                label: t(
+                  `formats.${format.name === 'ebook' ? 'eBook' : 'physical'}`
+                ),
+                icon: format.icon
+              })) ?? []
+          },
+          readStatus: {
+            isColored: true,
+            data:
+              readStatusQuery.data?.map(status => ({
+                id: status.id,
+                label: t(`sidebar.${status.name}`),
+                icon: status.icon,
+                color: status.color
+              })) ?? []
           }
         }}
+        mt="sm"
         values={{
           collection,
           fileType,
-          language
+          language,
+          format,
+          readStatus
         }}
         onChange={{
           collection: value => updateFilter('collection', value || null),
           fileType: value => updateFilter('fileType', value || null),
-          language: value => updateFilter('language', value || null)
+          language: value => updateFilter('language', value || null),
+          format: value => updateFilter('format', value || null),
+          readStatus: value => updateFilter('readStatus', value || null)
         }}
       />
     </Flex>
