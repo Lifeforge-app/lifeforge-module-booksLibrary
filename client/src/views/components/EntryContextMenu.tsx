@@ -9,9 +9,8 @@ import {
   useModalStore
 } from '@lifeforge/ui'
 
-import ModifyBookModal from '@/components/modals/ModifyBookModal'
-import SendToKindleModal from '@/components/modals/SendToKindleModal'
 import { forgeAPI } from '@/manifest'
+import ModifyBookModal from '@/modals/ModifyBookModal'
 
 export default function EntryContextMenu({
   item
@@ -63,7 +62,7 @@ export default function EntryContextMenu({
             queryKey: forgeAPI.entries.key
           })
           queryClient.invalidateQueries({
-            queryKey: forgeAPI.readStatus.key
+            queryKey: forgeAPI.count.key
           })
         },
         onSettled: () => {
@@ -72,22 +71,22 @@ export default function EntryContextMenu({
       })
   )
 
-  const handleSendToKindle = useCallback(() => {
-    open(SendToKindleModal, {
-      bookId: item.id
-    })
-  }, [item])
-
   const handleUpdateEntry = useCallback(() => {
+    const { file, ...entryData } = item
+
     open(ModifyBookModal, {
       initialData: {
-        ...item,
+        ...entryData,
         collection: item.collection ?? '',
-        file: {
-          type: 'existing',
-          id: item.file,
-          filename: `${item.title}.${item.extension}`
-        }
+        ...(file
+          ? {
+              file: {
+                type: 'existing' as const,
+                id: file,
+                filename: `${item.title}.${item.extension}`
+              }
+            }
+          : {})
       }
     })
   }, [item])
@@ -103,7 +102,7 @@ export default function EntryContextMenu({
             queryKey: forgeAPI.entries.key
           })
           queryClient.invalidateQueries({
-            queryKey: forgeAPI.fileTypes.key
+            queryKey: forgeAPI.count.key
           })
         },
         onError: () => {
@@ -155,17 +154,16 @@ export default function EntryContextMenu({
           toggleFavouriteStatusMutation.mutate(undefined)
         }}
       />
-      <ContextMenuItem
-        icon="tabler:brand-amazon"
-        label="Send to Kindle"
-        onClick={handleSendToKindle}
-      />
-      <ContextMenuItem
-        disabled={downloadLoading}
-        icon={downloadLoading ? 'svg-spinners:ring-resize' : 'tabler:download'}
-        label="Download"
-        onClick={handleDownload}
-      />
+      {item.file !== '' && (
+        <ContextMenuItem
+          disabled={downloadLoading}
+          icon={
+            downloadLoading ? 'svg-spinners:ring-resize' : 'tabler:download'
+          }
+          label="Download"
+          onClick={handleDownload}
+        />
+      )}
       <ContextMenuItem
         icon="tabler:pencil"
         label="Edit"

@@ -20,14 +20,12 @@
     "epub-wordcount": "^2.1.3",
     "epub2": "^3.0.2",
     "human-number": "^2.0.6",
-    "nodemailer": "^7.0.9",
     "pdf-page-counter": "^1.0.3",
     "pretty-bytes": "^7.1.0",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "@types/human-number": "^1.0.2",
-    "@types/nodemailer": "^7.0.2"
+    "@types/human-number": "^1.0.2"
   },
   "author": "Melvin Chia <melvinchia623600@gmail.com>",
   "lifeforge": {
