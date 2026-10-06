@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { type SQL, and, arrayContains, eq, ilike, sql } from 'drizzle-orm'
+import { type SQL, and, arrayContains, eq, ilike, or, sql } from 'drizzle-orm'
 import { createSelectSchema } from 'drizzle-orm/zod'
 import { EPub } from 'epub2'
 import fs from 'fs'
@@ -90,7 +90,14 @@ export const list = forge
         readStatus && eq(bookEntries.read_status, READ_STATUS_MAP[readStatus]),
         fileTypeRecord && eq(bookEntries.extension, fileTypeRecord.name),
         format && arrayContains(bookEntries.formats, [format]),
-        query && ilike(bookEntries.title, `%${query}%`)
+        query &&
+          or(
+            ilike(bookEntries.title, `%${query}%`),
+            ilike(bookEntries.authors, `%${query}%`),
+            ilike(bookEntries.publisher, `%${query}%`),
+            ilike(bookEntries.isbn, `%${query}%`),
+            ilike(bookEntries.edition, `%${query}%`)
+          )
       ].filter((condition): condition is SQL => Boolean(condition))
 
       const results = await db
